@@ -3,6 +3,7 @@ import functools
 import os
 import signal
 import string
+from collections import Counter
 
 """
     Algorithmic test
@@ -39,11 +40,10 @@ The function you have to write has to determine if you can write the message
 with the letters in the bag. The function will return True if you can, 
 False otherwise.
 
-This function is implemented as is_message_in_bag_naive. Plea
-
-Implement the most efficient option for your function. Assume the message and 
-the bag of letters are well-formatted, you don't have to clean the strings or 
-do any changes to them. Here you have an input example:
+This function is implemented as is_message_in_bag_naive. Implement the
+most efficient option for your function. Assume the message and the bag of 
+letters are well-formatted, you don't have to clean the strings or do any 
+changes to them. Here you have an input example:
 
 message = "hello world"
 
@@ -53,7 +53,7 @@ bag = "oll hw or aidsj iejsjhllalelilolu r"
 
 def main():
 
-    n_times = 1000000
+    n_times = 10000000
     for message, bag in [
         ("", ""),
         ("abc", "fb"),
@@ -99,10 +99,15 @@ def timeout(seconds, error_message=os.strerror(errno.ETIME)):
 @timeout(seconds=1)
 def is_message_in_bag_naive(message: str, bag: str) -> bool:
 
-    for letter in message:
-        letter_count_in_message = message.count(letter)
-        letter_count_in_bowl = bag.count(letter)
-        if letter_count_in_message > letter_count_in_bowl:
+    message_count = Counter(message)
+    bag_count = Counter(bag)
+
+    for letter, n in message_count.items():
+        try:
+            n_bag = bag_count[letter]
+        except KeyError:
+            return False
+        if n > n_bag:
             return False
     return True
 

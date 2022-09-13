@@ -5,7 +5,7 @@ from typing import Callable
 
 import pytest
 
-from bag4message import is_message_in_bag_naive, is_message_in_bag_efficient
+from bag4message_solution import is_message_in_bag_naive, is_message_in_bag_efficient
 
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 LOGGER.info(f"pytest version {pytest.__version__}")
 
-N_TIMES = 100000
+N_TIMES = 1000000
 
 
 class TestBag4Message:
@@ -40,6 +40,7 @@ class TestBag4Message:
     def test_equal_answer(self):
         for message, bag in [
             ("", ""),
+            ("casax", "casa"),
             ("abc", "fb"),
             ("abc", "fbacbbb"),
             ("abcac", "fbacbbb"),

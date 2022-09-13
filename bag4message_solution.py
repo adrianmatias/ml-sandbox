@@ -40,11 +40,10 @@ The function you have to write has to determine if you can write the message
 with the letters in the bag. The function will return True if you can, 
 False otherwise.
 
-This function is implemented as is_message_in_bag_naive. Plea
-
-Implement the most efficient option for your function. Assume the message and 
-the bag of letters are well-formatted, you don't have to clean the strings or 
-do any changes to them. Here you have an input example:
+This function is implemented as is_message_in_bag_naive. Implement the
+most efficient option for your function. Assume the message and the bag of 
+letters are well-formatted, you don't have to clean the strings or do any 
+changes to them. Here you have an input example:
 
 message = "hello world"
 
@@ -82,30 +81,21 @@ def is_message_in_bag_efficient(message: str, bag: str) -> bool:
     letters of available letters, taking into account both the presence and
     the occurrences for the letters.
 
-    Complexity is O(m+b), given that is needed to traverse the full sequence
-    to create each Counter.
-    - Counter is implemented as a dict, so updating each count takes constant
-     time, O(1).
-    - The for loop, checking the counts of the message is within the available
-    of the bag, can be assumed constant,
-    given it is limited to the size of the alphabet. Each check performs a read
-    of the value for a given key of the
-     dict, O(1)
-    - the code is optimized by iterating along the shortest dict.
-
     :param message: string of letters
-    :param bag: string of avilable letters
+    :param bag: string of available letters
     :return: if message can be generated out of characters in bag.
     """
-    message_count = Counter(message)
-    bag_count = Counter(bag)
+    if len(message) > 0:
+        bowl_count = Counter(bag)
 
-    (short, long) = sorted([message_count, bag_count], key=len)
-
-    for letter, n in short.items():
-        if n > long[letter]:
-            return False
-    return True
+        for letter in message:
+            if bowl_count[letter] and bowl_count[letter] >= 1:
+                bowl_count[letter] -= 1
+            else:
+                return False
+        return True
+    else:
+        return True
 
 
 def timeout(seconds, error_message=os.strerror(errno.ETIME)):
@@ -131,10 +121,34 @@ def timeout(seconds, error_message=os.strerror(errno.ETIME)):
 @timeout(seconds=1)
 def is_message_in_bag_naive(message: str, bag: str) -> bool:
 
-    for letter in message:
-        letter_count_in_message = message.count(letter)
-        letter_count_in_bowl = bag.count(letter)
-        if letter_count_in_message > letter_count_in_bowl:
+    """
+    This function evaluates if possible to build the message out of a bag of
+    letters of available letters, taking into account both the presence and
+    the occurrences for the letters.
+
+    Complexity is O(m+b), given that is needed to traverse the full sequence
+    to create each Counter.
+    - Counter is implemented as a dict, so updating each count takes constant
+     time, O(1).
+    - The for loop, checking the counts of the message is within the available
+    of the bag, can be assumed constant, given it is limited to the size of the
+    alphabet. Each check performs a read of the value for a given key of the
+    dict, O(1)
+
+    :param message: string of letters
+    :param bag: string of available letters
+    :return: if message can be generated out of characters in bag.
+    """
+
+    message_count = Counter(message)
+    bag_count = Counter(bag)
+
+    for letter, n in message_count.items():
+        try:
+            n_bag = bag_count[letter]
+        except KeyError:
+            return False
+        if n > n_bag:
             return False
     return True
 
