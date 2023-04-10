@@ -1,8 +1,7 @@
 import torch
+from bigram_language_model import BigramLanguageModel
 from torch import nn
 from torch.nn import MultiheadAttention
-
-from bigram_language_model import BigramLanguageModel
 
 
 class BigramLanguageModelTorchLayers(BigramLanguageModel):

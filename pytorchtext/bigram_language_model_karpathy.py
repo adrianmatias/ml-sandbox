@@ -3,7 +3,6 @@ import time
 from typing import Tuple
 
 import torch
-
 from bigram_language_model import BigramLanguageModel
 
 
