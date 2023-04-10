@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  spacy-sagemaker:
+    build: .
+    image: spacy-sagemaker:latest
+    ports:
+      - "8080:8080"
