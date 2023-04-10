@@ -1,5 +1,4 @@
 import torch
-
 from bigram_language_model_karpathy import BigramLanguageModelKarpathy
 from bigram_language_model_torch_layers import BigramLanguageModelTorchLayers
 

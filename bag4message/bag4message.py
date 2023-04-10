@@ -52,7 +52,6 @@ bag = "oll hw or aidsj iejsjhllalelilolu r"
 
 
 def main():
-
     n_times = 10000000
     for message, bag in [
         ("", ""),
@@ -98,7 +97,6 @@ def timeout(seconds, error_message=os.strerror(errno.ETIME)):
 
 @timeout(seconds=1)
 def is_message_in_bag_naive(message: str, bag: str) -> bool:
-
     message_count = Counter(message)
     bag_count = Counter(bag)
 

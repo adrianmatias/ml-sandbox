@@ -4,8 +4,7 @@ import time
 from typing import Callable
 
 import pytest
-
-from bag4message_solution import is_message_in_bag_naive, is_message_in_bag_efficient
+from bag4message_solution import is_message_in_bag_efficient, is_message_in_bag_naive
 
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
@@ -51,7 +50,6 @@ class TestBag4Message:
             assert answer_naive == answer_efficient
 
     def test_heavy_input(self):
-
         message = string.ascii_lowercase * N_TIMES
         bag = string.ascii_lowercase * N_TIMES
         answer = True

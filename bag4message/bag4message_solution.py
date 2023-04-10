@@ -55,7 +55,6 @@ __email__ = "aadrian.mat@gmail.com"
 
 
 def main():
-
     n_times = 1000000
     for message, bag in [
         ("", ""),
@@ -120,7 +119,6 @@ def timeout(seconds, error_message=os.strerror(errno.ETIME)):
 
 @timeout(seconds=1)
 def is_message_in_bag_naive(message: str, bag: str) -> bool:
-
     """
     This function evaluates if possible to build the message out of a bag of
     letters of available letters, taking into account both the presence and

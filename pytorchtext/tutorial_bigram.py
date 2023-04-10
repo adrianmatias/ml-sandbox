@@ -1,12 +1,11 @@
 from pprint import pprint
 
+import data
 import matplotlib.pyplot as plt
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-import data
 
 """
 This script is based on the lesson
