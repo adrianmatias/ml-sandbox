@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "ragblog"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+black = "^24.4.2"
+isort = "^5.13.2"
+pydantic = "^2.8.2"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+pytest = "^8.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
