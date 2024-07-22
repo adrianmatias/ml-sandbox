@@ -3,13 +3,7 @@ from ragblog.post import Post
 
 def test_basic():
     post = Post(title="not_title", text="not_text")
-    assert (
-        str(post)
-        == """not_title
-
-not_text
-"""
-    )
+    assert str(post) == """{"title": "not_title", "text": "not_text"}"""
 
 
 def test_from_url():

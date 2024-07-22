@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 from typing import Self
 
@@ -11,7 +12,7 @@ class Post:
     text: str
 
     def __str__(self):
-        return "\n".join([self.title, "", self.text, ""])
+        return json.dumps(self.__dict__)
 
     @classmethod
     def from_url(cls, url: str) -> Self:

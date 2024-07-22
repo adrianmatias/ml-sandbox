@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 from datetime import datetime
 from typing import List
 
@@ -6,11 +7,17 @@ import requests
 from bs4 import BeautifulSoup
 
 from ragblog import conf
-from ragblog.conf import ConfCrawler
 from ragblog.logger_custom import LoggerCustom
 from ragblog.post import Post, PostEmpty
 
 LOGGER = LoggerCustom().get_logger()
+
+
+@dataclass
+class ConfCrawler:
+    url: str = "https://delightfulobservaciones.blogspot.com/"
+    post_count_min: int = 2
+    sep: str = "\n<post-sep>\n"
 
 
 class Crawler:
@@ -25,8 +32,8 @@ class Crawler:
         url_list = []
 
         while current_url:
-            if len(url_list) >= self.conf.post_count_min:
-                break
+            # if len(url_list) >= self.conf.post_count_min:
+            #     break
 
             LOGGER.info(f"Fetching {current_url}")
             response = requests.get(current_url)
@@ -61,7 +68,7 @@ class Crawler:
 
     def write(self, path: str):
         path_file = os.path.join(
-            path, f"{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.txt"
+            path, f"{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.jsonl"
         )
         LOGGER.info(f"path_file: {path_file}")
         with open(file=path_file, mode="w") as file_write:
@@ -71,7 +78,7 @@ class Crawler:
 
 def main():
 
-    crawler = Crawler(conf_crawler=ConfCrawler())
+    crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=1000))
     crawler.get_url_list()
     crawler.get_post_list()
 

@@ -3,11 +3,13 @@ from dataclasses import dataclass
 
 @dataclass
 class Path:
-    data: str = "data"
-    chroma: str = "chroma"
+    data: str
+    chroma: str
 
 
 @dataclass
-class ConfCrawler:
-    url: str = "https://delightfulobservaciones.blogspot.com/"
-    post_count_min: int = 2
+class Conf:
+    path: Path
+
+
+CONF = Conf(path=Path(data="data", chroma="chroma"))

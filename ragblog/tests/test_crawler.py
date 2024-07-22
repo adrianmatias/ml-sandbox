@@ -1,5 +1,4 @@
-from ragblog.conf import ConfCrawler
-from ragblog.crawler import Crawler
+from ragblog.crawler import ConfCrawler, Crawler
 
 CRAWLER = Crawler(conf_crawler=ConfCrawler())
 
