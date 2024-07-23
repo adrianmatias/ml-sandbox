@@ -20,3 +20,10 @@ def test_get_post_list():
     CRAWLER.get_post_list()
     assert len(CRAWLER.post_list) == 2
     assert CRAWLER.post_list[0].title == "Poco antes de Helena"
+
+
+def test_get_post_list_bellow_fold():
+
+    crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=10))
+    crawler.get_url_list()
+    assert len(crawler.url_list) >= 10

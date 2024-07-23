@@ -13,3 +13,4 @@ class Conf:
 
 
 CONF = Conf(path=Path(data="data", chroma="chroma"))
+CONF_BLOG_FULL = Conf(path=Path(data="data", chroma="chroma_full"))

@@ -4,7 +4,14 @@ import logging.config
 
 class LoggerCustom:
     def __init__(self):
-        format_string = "%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(funcName)s:%(lineno)d] %(message)s"
+        format_string = " ".join(
+            [
+                "%(asctime)s,%(msecs)d",
+                "%(levelname)-8s",
+                "[%(filename)s:%(funcName)s:%(lineno)d].",
+                "%(message)s",
+            ]
+        )
 
         logging.config.dictConfig(
             {
@@ -24,7 +31,7 @@ class LoggerCustom:
                     },
                 },
                 "loggers": {
-                    "": {  # root logger
+                    "": {
                         "level": "INFO",
                         "handlers": ["console"],
                     },

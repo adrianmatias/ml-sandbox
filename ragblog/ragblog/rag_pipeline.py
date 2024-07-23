@@ -13,7 +13,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from ragblog.conf import CONF
+from ragblog.conf import CONF_BLOG_FULL
 from ragblog.logger_custom import LoggerCustom
 
 
@@ -122,9 +122,11 @@ class RagPipeline:
 
 
 def main():
-    conf = RagPipelineConf(
+
+    conf = CONF_BLOG_FULL
+    rp_conf = RagPipelineConf(
         loader=JSONLoaderConf(
-            file_path=os.path.join(CONF.path.data, "2024-07-22_19-09-07.jsonl"),
+            file_path=os.path.join(conf.path.data, "blog_all.jsonl"),
             jq_schema=".text",
             text_content=False,
             json_lines=True,
@@ -132,14 +134,19 @@ def main():
         splitter=TextSplitterConf(chunk_size=1000, chunk_overlap=200),
         vectorstore=VectorStoreConf(
             embedding_model="shaw/dmeta-embedding-zh",
-            persist_directory=CONF.path.chroma,
+            persist_directory=conf.path.chroma,
         ),
         ragchain=RAGChainConf(prompt_model="rlm/rag-prompt", llm_model="llama3"),
         is_db_ready=False,
     )
 
-    pipeline = RagPipeline(conf=conf, logger=LoggerCustom().get_logger())
-    response = pipeline.query(question="how it is the adventure of being a father?")
+    pipeline = RagPipeline(conf=rp_conf, logger=LoggerCustom().get_logger())
+    response = pipeline.query(
+        question="""Describe the journey of fatherhood as an adventure. Consider the author's diverse experiences and 
+        multifaceted personality, reflecting on traits that are evident across their various blog posts. Provide a 
+        detailed and thoughtful response, capturing the complexities and joys of being a father. Ensure your answer 
+        is profound and sufficiently long, offering deep insights and personal reflections."""
+    )
     print(response)
 
 

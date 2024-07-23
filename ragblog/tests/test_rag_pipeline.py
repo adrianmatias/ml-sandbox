@@ -1,3 +1,4 @@
+import os
 from unittest.mock import MagicMock
 
 import pytest
@@ -43,7 +44,7 @@ def mock_vectorstore():
 def rag_pipeline_conf():
     return RagPipelineConf(
         loader=JSONLoaderConf(
-            file_path="data/2024-07-22_17-12-41.jsonl",
+            file_path=os.path.join(CONF.path.data, "2024-07-22_19-09-07.jsonl"),
             jq_schema=".text",
             text_content=False,
             json_lines=True,
@@ -67,7 +68,7 @@ def logger():
 def rag_pipeline():
     conf = RagPipelineConf(
         loader=JSONLoaderConf(
-            file_path="data/2024-07-22_17-12-41.jsonl",
+            file_path="data/2024-07-22_19-09-07.jsonl",
             jq_schema=".text",
             text_content=False,
             json_lines=True,

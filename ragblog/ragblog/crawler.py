@@ -6,7 +6,7 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 
-from ragblog import conf
+from ragblog.conf import CONF
 from ragblog.logger_custom import LoggerCustom
 from ragblog.post import Post, PostEmpty
 
@@ -32,8 +32,8 @@ class Crawler:
         url_list = []
 
         while current_url:
-            # if len(url_list) >= self.conf.post_count_min:
-            #     break
+            if len(url_list) >= self.conf.post_count_min:
+                break
 
             LOGGER.info(f"Fetching {current_url}")
             response = requests.get(current_url)
@@ -47,13 +47,17 @@ class Crawler:
             posts = soup.find_all("h3", class_="post-title entry-title")
             for post in posts:
                 url = post.find("a")["href"]
+                LOGGER.info(f"url: {url}")
                 url_list.append(url)
 
-            # Find the URL for the next page
-            next_button = soup.find("a", class_="blog-pager-older-url")
+            next_button = soup.find(
+                "a", class_="blog-pager-older-link flat-button ripple"
+            )
             if next_button:
                 current_url = next_button["href"]
+                LOGGER.info(f"Next page URL: {current_url}")
             else:
+                LOGGER.info("No more pages found.")
                 current_url = None
 
         self.url_list = sorted(list(set(url_list)))
@@ -82,7 +86,7 @@ def main():
     crawler.get_url_list()
     crawler.get_post_list()
 
-    crawler.write(path=conf.Path().data)
+    crawler.write(path=CONF.path.data)
 
 
 if __name__ == "__main__":
