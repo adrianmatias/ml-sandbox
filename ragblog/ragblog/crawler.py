@@ -17,7 +17,6 @@ LOGGER = LoggerCustom().get_logger()
 class ConfCrawler:
     url: str = "https://delightfulobservaciones.blogspot.com/"
     post_count_min: int = 2
-    sep: str = "\n<post-sep>\n"
 
 
 class Crawler:
