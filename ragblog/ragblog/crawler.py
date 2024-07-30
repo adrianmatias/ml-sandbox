@@ -70,23 +70,8 @@ class Crawler:
         )
 
     def write(self, path: str):
-        path_file = os.path.join(
-            path, f"{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.jsonl"
-        )
+        path_file = os.path.join(path, "blog.jsonl")
         LOGGER.info(f"path_file: {path_file}")
         with open(file=path_file, mode="w") as file_write:
             content = "\n".join(map(str, self.post_list))
             file_write.write(content)
-
-
-def main():
-
-    crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=1000))
-    crawler.get_url_list()
-    crawler.get_post_list()
-
-    crawler.write(path=CONF.path.data)
-
-
-if __name__ == "__main__":
-    main()

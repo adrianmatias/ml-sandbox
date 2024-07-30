@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import json
 from dataclasses import dataclass
-from typing import Self
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +16,7 @@ class Post:
         return json.dumps(self.__dict__)
 
     @classmethod
-    def from_url(cls, url: str) -> Self:
+    def from_url(cls, url: str) -> Post:
         post_response = requests.get(url)
         if post_response.status_code != 200:
             print(f"Failed to load post {url}")

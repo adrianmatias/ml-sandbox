@@ -6,9 +6,9 @@ This project perfomrs Retrieval Augmented Generation on from a crawled blog.
 
 ### Install poetry environment
 ```
-sudo apt install pipx
-https://python-poetry.org/docs/#installation
-poetry shell
+curl -sSL https://install.python-poetry.org | python3 -
+export PATH="/root/.local/bin:$PATH"
+poetry install
 ```
 ### Lint
 ```
