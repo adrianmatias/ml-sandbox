@@ -22,7 +22,7 @@ def main():
 
     rp_conf = RagPipelineConf(
         loader=JSONLoaderConf(
-            file_path=os.path.join(CONF.path.data, "blog_all.jsonl"),
+            file_path=os.path.join(CONF.path.data, "blog.jsonl"),
             jq_schema=".text",
             text_content=False,
             json_lines=True,
