@@ -13,8 +13,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-set_debug(True)
-
 
 @dataclass
 class JSONLoaderConf:
@@ -49,29 +47,31 @@ class RagPipelineConf:
     vectorstore: VectorStoreConf
     ragchain: RAGChainConf
     is_db_ready: bool
+    is_debug: bool
 
 
 class RagPipeline:
     def __init__(self, conf: RagPipelineConf, logger: Logger):
-        self.Conf = conf
+        self.conf = conf
         self.logger = logger
 
-        self.logger.info(f"{self.Conf}")
+        self.logger.info(f"{self.conf}")
+        set_debug(self.conf.is_debug)
 
     def load_documents(self) -> List[Document]:
 
         loader = JSONLoader(
-            file_path=self.Conf.loader.file_path,
-            jq_schema=self.Conf.loader.jq_schema,
-            text_content=self.Conf.loader.text_content,
-            json_lines=self.Conf.loader.json_lines,
+            file_path=self.conf.loader.file_path,
+            jq_schema=self.conf.loader.jq_schema,
+            text_content=self.conf.loader.text_content,
+            json_lines=self.conf.loader.json_lines,
         )
         return loader.load()
 
     def split_documents(self, documents: List[Document]) -> List[Document]:
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.Conf.splitter.chunk_size,
-            chunk_overlap=self.Conf.splitter.chunk_overlap,
+            chunk_size=self.conf.splitter.chunk_size,
+            chunk_overlap=self.conf.splitter.chunk_overlap,
         )
         return splitter.split_documents(documents)
 
@@ -80,20 +80,20 @@ class RagPipeline:
         self.logger.info(f"split_count: {split_count}")
         return Chroma.from_documents(
             documents=splits,
-            embedding=OllamaEmbeddings(model=self.Conf.vectorstore.embedding_model),
-            persist_directory=self.Conf.vectorstore.persist_directory,
+            embedding=OllamaEmbeddings(model=self.conf.vectorstore.embedding_model),
+            persist_directory=self.conf.vectorstore.persist_directory,
         )
 
     def load_vectorstore(self):
         return Chroma(
-            persist_directory=self.Conf.vectorstore.persist_directory,
+            persist_directory=self.conf.vectorstore.persist_directory,
             embedding_function=OllamaEmbeddings(
-                model=self.Conf.vectorstore.embedding_model
+                model=self.conf.vectorstore.embedding_model
             ),
         )
 
     def create_rag_chain(self, retriever, prompt) -> Any:
-        llm = Ollama(model=self.Conf.ragchain.llm_model)
+        llm = Ollama(model=self.conf.ragchain.llm_model)
         return (
             {"context": retriever | self.format_docs, "question": RunnablePassthrough()}
             | prompt
@@ -102,7 +102,7 @@ class RagPipeline:
         )
 
     def get_vectorstore(self):
-        if self.Conf.is_db_ready:
+        if self.conf.is_db_ready:
             return self.load_vectorstore()
 
         else:

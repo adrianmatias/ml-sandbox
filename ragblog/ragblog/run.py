@@ -20,23 +20,23 @@ def main():
     crawler.get_post_list()
     crawler.write(path=CONF.path.data)
 
-    conf = CONF
     rp_conf = RagPipelineConf(
         loader=JSONLoaderConf(
-            file_path=os.path.join(conf.path.data, "blog_all.jsonl"),
+            file_path=os.path.join(CONF.path.data, "blog_all.jsonl"),
             jq_schema=".text",
             text_content=False,
             json_lines=True,
         ),
-        splitter=TextSplitterConf(chunk_size=100, chunk_overlap=20),
+        splitter=TextSplitterConf(chunk_size=1000, chunk_overlap=10),
         vectorstore=VectorStoreConf(
             embedding_model="nomic-embed-text",
-            persist_directory=conf.path.chroma,
+            persist_directory=CONF.path.chroma,
         ),
         ragchain=RAGChainConf(
             prompt_model="rlm/rag-prompt-llama", llm_model="llama3.1"
         ),
         is_db_ready=False,
+        is_debug=False,
     )
 
     pipeline = RagPipeline(conf=rp_conf, logger=LoggerCustom().get_logger())

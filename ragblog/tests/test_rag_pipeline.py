@@ -80,6 +80,7 @@ def rag_pipeline():
         ),
         ragchain=RAGChainConf(prompt_model="rlm/rag-prompt", llm_model="llama3"),
         is_db_ready=False,
+        is_debug=False,
     )
 
     return RagPipeline(conf=conf, logger=LoggerCustom().get_logger())
