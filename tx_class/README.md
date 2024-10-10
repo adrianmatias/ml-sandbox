@@ -1,4 +1,4 @@
-# fraud
+# tx_class
 
 This module implements a generic classifier for card transactions.
 A rest api exposes the classifier predict. The restapi defines request and response to enable prediction.
@@ -8,9 +8,13 @@ The data consists on a set generated out of random transactions.
 
 ## install
 
-pro
+pred
 ```
 pip install -r requirements.txt
+```
+train
+```
+pip install -r requirements_train.txt
 ```
 dev
 ```
@@ -24,6 +28,10 @@ docker-python36$ docker build -t python36-env .
 docker-python36$ docker exec -it python36-container bash
 ```
 
+## lint
+```
+(.venv_dev)$ sh scripts/lint.sh
+```
 ## test
 ```
 (.venv_dev)$ sh scripts/test.sh
@@ -31,8 +39,8 @@ docker-python36$ docker exec -it python36-container bash
 
 ## launch dockerized api
 ```
-docker build -t fraud-api .
-docker run -d -p 8000:8000 --env ENV=<env> fraud-api
+docker build -t tx_class-api .
+docker run -d -p 8000:8000 --env ENV=<env> tx_class-api
 ```
 
 ## request prediction

@@ -1,7 +1,7 @@
 import shutil
 
-from fraud.app.model import ModelClassification
-from fraud.app.train.data import Data, TransactionRandom
+from src.app.model import ModelClassification
+from src.app.train.data import Data, TransactionRandom
 from tests.fixture_set import spark
 
 

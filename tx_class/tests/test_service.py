@@ -1,6 +1,5 @@
 from fastapi.testclient import TestClient
-
-from fraud.app.service import app
+from src.app.service import app
 
 client = TestClient(app)
 

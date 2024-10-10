@@ -3,7 +3,6 @@ import time
 
 import pytest
 import requests
-
 from tests.fixture_set import conf
 
 
