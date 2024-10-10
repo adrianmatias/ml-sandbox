@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from fraud.app.model import ModelClassification
-from fraud.app.prediction import Prediction
-from fraud.app.schema_pydantic import Request, Response
+from src.app.model import ModelClassification
+from src.app.prediction import Prediction
+from src.app.schema_pydantic import Request, Response
 
 app = FastAPI()
 

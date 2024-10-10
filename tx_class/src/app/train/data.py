@@ -6,16 +6,16 @@ from pyspark import RDD
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, concat, lit, to_date
 
-from fraud.app.date_time import DateTime
-from fraud.app.model import ModelClassification
-from fraud.app.schema_pydantic import TransactionLabeled
+from src.app.date_time import DateTime
+from src.app.model import ModelClassification
+from src.app.schema_pydantic import TransactionLabeled
 
 
 class TransactionRandom(TransactionLabeled):
     def __init__(self):
         super().__init__(
             id=uuid.uuid4().hex,
-            is_fraud=random.random() < 0.1,
+            is_fraud=int(random.random() < 0.1),
             amount=round(random.uniform(10.0, 1000.0), 2),
             transaction_type=random.choice(["credit", "debit"]),
             code=random.choice(["ab1", "ab2", "ac1", "ba1"]),

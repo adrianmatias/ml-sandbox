@@ -1,5 +1,5 @@
-from fraud.app.model import ModelClassification
-from fraud.app.schema_pydantic import Request, Response
+from src.app.model import ModelClassification
+from src.app.schema_pydantic import Request, Response
 
 
 class Prediction:

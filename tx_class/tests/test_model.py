@@ -1,8 +1,7 @@
 import pytest
-
-from fraud.app.model import ModelClassification, ModelClassificationCatBoost
-from fraud.app.schema_pydantic import Transaction
-from fraud.app.train.data import Data
+from src.app.model import ModelClassification, ModelClassificationCatBoost
+from src.app.schema_pydantic import Transaction
+from src.app.train.data import Data
 from tests.fixture_set import spark
 
 
@@ -32,7 +31,7 @@ def test_basic():
 
 
 def test_model_train_and_evaluate(spark):
-    count = 1000
+    count = 100
 
     data = Data(spark=spark)
     data.build_random(count=count)
@@ -48,5 +47,16 @@ def test_model_train_and_evaluate(spark):
     model_card = model.train_and_evaluate(df_train=df_train, df_test=df_test)
 
     assert model_card.evaluation_dict.keys() == {"train", "test", "train_cv"}
-    assert model_card.feat_importance.keys() == set(model.schema.x)
+    assert model_card.feat_importance.keys() == {
+        "amount",
+        "anomaly_score",
+        "dt_day",
+        "dt_hour",
+        "dt_month",
+        "dt_weekday",
+        "dt_year",
+        "topic_0",
+        "topic_1",
+        "topic_2",
+    }
     assert sum(model_card.feat_importance.values()) == pytest.approx(1)

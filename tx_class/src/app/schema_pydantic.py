@@ -10,7 +10,7 @@ class Transaction(BaseModel):
 
 
 class TransactionLabeled(Transaction):
-    is_fraud: bool
+    is_fraud: int
 
 
 class Request(BaseModel):

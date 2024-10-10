@@ -11,4 +11,4 @@ RUN pip install "ray[serve]"
 
 COPY . /app
 
-CMD ["python", "fraud/app/main.py"]
+CMD ["python", "src/app/main.py"]
