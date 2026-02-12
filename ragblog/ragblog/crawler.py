@@ -1,12 +1,10 @@
 import os
 from dataclasses import dataclass
-from datetime import datetime
 from typing import List
 
 import requests
 from bs4 import BeautifulSoup
 
-from ragblog.conf import CONF
 from ragblog.logger_custom import LoggerCustom
 from ragblog.post import Post, PostEmpty
 

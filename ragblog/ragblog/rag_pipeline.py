@@ -2,12 +2,12 @@ from dataclasses import dataclass
 from logging import Logger
 from typing import Any, List
 
-from langchain.globals import set_debug
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import JSONLoader
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.llms.ollama import Ollama
 from langchain_core.documents import Document
+from langchain_core.globals import set_debug
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -117,7 +117,9 @@ class RagPipeline:
             prompt=PromptTemplate.from_template(
                 """human
 
-[INST]<<SYS>> You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know.<</SYS>> 
+[INST]<<SYS>> You are an assistant for question-answering tasks. 
+Use the following pieces of retrieved context to answer the question. 
+If you don't know the answer, just say that you don't know.<</SYS>> 
 
 Question: {question} 
 

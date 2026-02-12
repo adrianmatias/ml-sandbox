@@ -1,0 +1,2 @@
+ruff check .
+ruff format .

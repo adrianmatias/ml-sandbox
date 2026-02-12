@@ -41,10 +41,12 @@ def main():
 
     pipeline = RagPipeline(conf=rp_conf, logger=LoggerCustom().get_logger())
     response = pipeline.query(
-        question="""Describe the relation between Helena and Alejandra. Consider the author's diverse experiences and 
-        multifaceted personality, reflecting on traits that are evident across their various blog posts. Provide a 
-        detailed and thoughtful response. Ensure your answer 
-        is profound and sufficiently long, offering deep insights and personal reflections."""
+        question="""Describe the relation between Helena and Alejandra.
+        Consider the author's diverse experiences and multifaceted personality,
+        reflecting on traits that are evident across their various blog posts.
+        Provide a detailed and thoughtful response.
+        Ensure your answer is profound and sufficiently long, 
+        offering deep insights and personal reflections."""
     )
     print(response)
 
