@@ -1,2 +1,2 @@
-black .
-isort .
+ruff check .
+ruff format .

@@ -1,31 +1,43 @@
-[tool.poetry]
+[project]
 name = "ragblog"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Retrieval Augmented Generation for blog content"
 readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.8.2",
+    "beautifulsoup4>=4.12.3",
+    "requests>=2.32.3",
+    "langchain>=0.2.10",
+    "langchain-community>=0.2.9",
+    "langchain-chroma>=0.1.2",
+    "jq>=1.7.0",
+    "langchainhub>=0.1.20",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-black = "^24.4.2"
-isort = "^5.13.2"
-pydantic = "^2.8.2"
-beautifulsoup4 = "^4.12.3"
-requests = "^2.32.3"
-pytest = "^8.2.2"
-langchain = "^0.2.10"
-langchain-community = "^0.2.9"
-langchain-chroma = "^0.1.2"
-jq = "^1.7.0"
-langchainhub = "^0.1.20"
-
+[dependency-groups]
+dev = [
+    "ruff>=0.6.0",
+    "pytest>=8.2.2",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 [tool.pytest.ini_options]
 log_cli = true
