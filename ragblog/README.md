@@ -23,9 +23,20 @@ Uses dataclass-based configuration, modular pipeline components, and functional 
 
 ## Setup
 
+### module
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
+```
+
+### ollama
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen3-embedding
+ollama pull ministral-3:8b
+ollama serve
 ```
 
 ## CI

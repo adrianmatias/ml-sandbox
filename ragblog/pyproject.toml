@@ -13,6 +13,7 @@ dependencies = [
     "langchain-chroma>=0.1.2",
     "jq>=1.7.0",
     "langchainhub>=0.1.20",
+    "langchain-ollama>=0.1.0",
 ]
 
 [dependency-groups]
