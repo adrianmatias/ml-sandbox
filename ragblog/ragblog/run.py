@@ -14,6 +14,8 @@ from ragblog.rag_pipeline import (
 
 
 def main():
+    logger = LoggerCustom().get_logger()
+
 
     crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=1000))
     crawler.get_url_list()
@@ -29,17 +31,17 @@ def main():
         ),
         splitter=TextSplitterConf(chunk_size=1000, chunk_overlap=10),
         vectorstore=VectorStoreConf(
-            embedding_model="nomic-embed-text",
+            embedding_model="qwen3-embedding",
             persist_directory=CONF.path.chroma,
         ),
         ragchain=RAGChainConf(
-            prompt_model="rlm/rag-prompt-llama", llm_model="llama3.1"
+            prompt_model="rlm/rag-prompt-llama", llm_model="ministral-3:8b"
         ),
         is_db_ready=False,
         is_debug=False,
     )
 
-    pipeline = RagPipeline(conf=rp_conf, logger=LoggerCustom().get_logger())
+    pipeline = RagPipeline(conf=rp_conf, logger=logger)
     response = pipeline.query(
         question="""Describe the relation between Helena and Alejandra.
         Consider the author's diverse experiences and multifaceted personality,
@@ -50,6 +52,11 @@ def main():
     )
     print(response)
 
+    output_path = os.path.join(CONF.path.data, "output.md")
+    logger.info(f"{output_path}")
+    os.makedirs(CONF.path.data, exist_ok=True)
+    with open(output_path, "w") as f:
+        f.write(f"# Response\n\n{response}")
 
 if __name__ == "__main__":
     main()
