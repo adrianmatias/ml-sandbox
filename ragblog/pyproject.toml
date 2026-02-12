@@ -41,6 +41,6 @@ indent-style = "space"
 
 [tool.pytest.ini_options]
 log_cli = true
-log_cli_level = "INFO"
+log_cli_level = "WARN"
 log_cli_format = "%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
