@@ -3,7 +3,7 @@ name = "ragblog"
 version = "0.1.0"
 description = "Retrieval Augmented Generation for blog content"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = "==3.12.*"
 dependencies = [
     "pydantic>=2.8.2",
     "beautifulsoup4>=4.12.3",

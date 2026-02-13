@@ -16,7 +16,6 @@ from ragblog.rag_pipeline import (
 def main():
     logger = LoggerCustom().get_logger()
 
-
     crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=1000))
     crawler.get_url_list()
     crawler.get_post_list()
@@ -57,6 +56,7 @@ def main():
     os.makedirs(CONF.path.data, exist_ok=True)
     with open(output_path, "w") as f:
         f.write(f"# Response\n\n{response}")
+
 
 if __name__ == "__main__":
     main()
