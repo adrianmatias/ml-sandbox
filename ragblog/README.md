@@ -36,7 +36,6 @@ uv sync
 curl -fsSL https://ollama.com/install.sh | sh
 ollama pull qwen3-embedding
 ollama pull ministral-3:8b
-ollama serve
 ```
 
 ## CI
