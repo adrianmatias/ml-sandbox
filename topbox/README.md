@@ -63,7 +63,7 @@ sh ci/test.sh
 - naming
   - self tabulated
   - promote 3 char naming
-  - avoid plural naming
+  - avoid plural naming: element_list instead of elements
   - self documenting naming
   - any code needing comments for clarification should be refactored into a named entity
 

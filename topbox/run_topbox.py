@@ -11,12 +11,17 @@ from topbox.pagerank import compute_ranks
 
 
 def main() -> None:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
     Path("data").mkdir(exist_ok=True)
 
-    conf_c = ConfCrawler(max_pages=2)
+    boxer_count = 250
+    conf_c = ConfCrawler(max_pages=boxer_count)
     conf_d = ConfDataset()
-    conf_p = ConfPagerank(top_n=10)
+    conf_p = ConfPagerank(top_n=boxer_count)
 
     matches = get_matches(conf_c)
     df = create_dataset(matches, conf_d)

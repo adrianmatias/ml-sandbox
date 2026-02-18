@@ -6,9 +6,12 @@ from topbox.conf import ConfCrawler, ConfDataset, ConfPagerank
 class TestConfCrawler:
     def test_defaults(self) -> None:
         conf = ConfCrawler()
-        assert conf.base_url == "https://boxrec.com"
+        assert conf.base_url == "https://box.live"
         assert conf.max_pages == 10
-        assert conf.user_agent == "Mozilla/5.0 (compatible; topbox/1.0)"
+        assert (
+            conf.user_agent
+            == "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0"
+        )
 
     def test_override(self) -> None:
         conf = ConfCrawler(base_url="https://test.com", max_pages=5)

@@ -21,6 +21,7 @@ dependencies = [
     "isort",
     "pyarrow>=23.0.1",
     "scipy>=1.15.3",
+    "playwright>=1.58.0",
 ]
 
 [dependency-groups]

@@ -21,6 +21,10 @@ def create_dataset(matches: list[Match], conf: ConfDataset) -> pd.DataFrame:
     Returns:
         Filtered DataFrame saved as parquet.
     """
+    if len(matches) == 0:
+        LOGGER.warning("No matches, returning empty df")
+        return pd.DataFrame(columns=["boxer_a", "boxer_b", "is_a_win", "date"])
+
     LOGGER.info(f"Creating dataset from {len(matches)} matches")
     df = pd.DataFrame([vars(m) for m in matches])
     df["date"] = pd.to_datetime(df["date"], errors="coerce")

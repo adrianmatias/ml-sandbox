@@ -15,9 +15,11 @@ class ConfCrawler:
         user_agent: User agent string.
     """
 
-    base_url: str = "https://boxrec.com"
+    base_url: str = "https://box.live"
     max_pages: int = 10
-    user_agent: str = "Mozilla/5.0 (compatible; topbox/1.0)"
+    user_agent: str = (
+        "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0"
+    )
 
 
 @dataclass(frozen=True)

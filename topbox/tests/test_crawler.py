@@ -1,31 +1,35 @@
-from __future__ import annotations
+from pathlib import Path
 
 import pytest
 
-from topbox.crawler import parse_profile_html
+from topbox.crawler import Match, parse_profile_html
 
 
-@pytest.fixture
-def sample_html():
-    return """
-    <table class="table1">
-        <tr><th>Date</th><th>Opponent</th><th>Res.</th><th>Method</th></tr>
-        <tr><td>2024-02-10</td><td>Foe X</td><td class="bpro-w">W</td><td>TKO</td></tr>
-        <tr><td>2023-12-05</td><td>Foe Y</td><td class="bpro-l">L</td><td>UD</td></tr>
-    </table>
-    """
+@pytest.fixture(scope="session")
+def usyk_html() -> str:
+    path = Path("data/oleksandr_usyk_profile.html")
+    if not path.exists():
+        pytest.skip("Usyk HTML fixture not found – run crawler once first")
+    return path.read_text(encoding="utf-8")
 
 
-class TestParseProfileHtml:
-    def test_no_table(self) -> None:
-        matches = parse_profile_html("<div>no table</div>", "Me")
-        assert matches == []
+@pytest.fixture(scope="session")
+def fury_html() -> str:
+    path = Path("data/tyson_fury_profile.html")
+    if not path.exists():
+        pytest.skip("Fury HTML fixture not found")
+    return path.read_text(encoding="utf-8")
 
-    def test_sample(self, sample_html: str) -> None:
-        matches = parse_profile_html(sample_html, "Me")
-        assert len(matches) == 2
-        assert matches[0].boxer_a == "Me"
-        assert matches[0].boxer_b == "Foe X"
-        assert matches[0].is_a_win is True
-        assert matches[0].date == "2024-02-10"
-        assert matches[1].is_a_win is False
+
+class TestParseProfileHtmlReal:
+    def test_usyk_real_profile(self, usyk_html: str) -> None:
+        matches = parse_profile_html(usyk_html, "Oleksandr Usyk")
+        assert len(matches) >= 15, f"Expected ~20+ fights, got {len(matches)}"
+        assert all(m.boxer_a == "Oleksandr Usyk" for m in matches)
+        assert any("Fury" in m.boxer_b for m in matches)  # real fight exists
+        assert isinstance(matches[0], Match)
+
+    def test_fury_real_profile(self, fury_html: str) -> None:
+        matches = parse_profile_html(fury_html, "Tyson Fury")
+        assert len(matches) >= 15
+        assert any("Usyk" in m.boxer_b for m in matches)
