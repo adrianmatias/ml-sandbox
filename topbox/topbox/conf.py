@@ -1,0 +1,50 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+"""Configuration dataclasses."""
+
+
+@dataclass(frozen=True)
+class ConfCrawler:
+    """Crawler configuration.
+
+    Args:
+        base_url: Base URL for crawling.
+        max_pages: Maximum number of pages to crawl.
+        user_agent: User agent string.
+    """
+
+    base_url: str = "https://boxrec.com"
+    max_pages: int = 10
+    user_agent: str = "Mozilla/5.0 (compatible; topbox/1.0)"
+
+
+@dataclass(frozen=True)
+class ConfDataset:
+    """Dataset configuration.
+
+    Args:
+        min_date: Minimum date filter (YYYY-MM-DD).
+        save_path: Path to save dataset.
+    """
+
+    min_date: str | None = None
+    save_path: str = "data/matches.parquet"
+
+
+@dataclass(frozen=True)
+class ConfPagerank:
+    """PageRank configuration.
+
+    Args:
+        alpha: Damping factor.
+        max_iter: Maximum iterations.
+        tol: Tolerance for convergence.
+        top_n: Number of top boxers to return.
+    """
+
+    alpha: float = 0.85
+    max_iter: int = 100
+    tol: float = 1.0e-6
+    top_n: int = 10
