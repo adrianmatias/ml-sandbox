@@ -21,10 +21,9 @@ def main() -> None:
     )
     Path("data").mkdir(exist_ok=True)
 
-    boxer_count = 250
     conf_c = ConfCrawler()
     conf_d = ConfDataset()
-    conf_p = ConfPagerank(top_n=boxer_count)
+    conf_p = ConfPagerank(top_n=5000)
 
     if Path(conf_d.save_path).exists():
         df = pd.read_parquet(conf_d.save_path)

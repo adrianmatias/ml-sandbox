@@ -12,7 +12,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 def create_dataset(matches: list[Match], conf: ConfDataset) -> pd.DataFrame:
-    """Create dataset from matches.
+    """Create dataset from matches and persist as parquet.
+
+    Stores raw rows exactly as crawled — one row per boxer-profile parse.
+    Deduplication happens at graph construction time, not here.
 
     Args:
         matches: List of Match objects.

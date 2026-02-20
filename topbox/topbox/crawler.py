@@ -7,7 +7,8 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-from topbox.conf import ConfCrawler
+from topbox.conf import ConfCrawler, ConfWikipedia
+from topbox.wikipedia import get_boxer_names
 
 LOGGER = logging.getLogger(__name__)
 
@@ -20,111 +21,82 @@ class Match:
     date: str
 
 
-# Curated list of high-value boxers (edit this freely — names only!)
-# The crawler will automatically find the correct box.live URL for each.
-CURATED_BOXERS = [
-    "Gennady Golovkin",
-    "George Groves",
-    "Muhammad Ali",
-    "Mike Tyson",
-    "Sugar Ray Robinson",
-    "Manny Pacquiao",
-    "Joe Louis",
-    "George Foreman",
-    "Marvin Hagler",
-    "Sugar Ray Leonard",
-    "Roberto Duran",
-    "Floyd Mayweather Jr",
-    "Lennox Lewis",
-    "Evander Holyfield",
-    "Oscar De La Hoya",
-    "Rocky Marciano",
-    "Henry Armstrong",
-    "Jack Dempsey",
-    "Harry Greb",
-    "Carlos Monzon",
-    "Roy Jones Jr",
-    "Bernard Hopkins",
-    "Canelo Alvarez",  # will resolve to saul-canelo-alvarez
-    "Oleksandr Usyk",
-    "Tyson Fury",
-    "Anthony Joshua",
-    "Terence Crawford",
-    "Errol Spence Jr",
-    "Daniel Dubois",
-    "Jake Paul",
-    "Vasyl Lomachenko",
-    "Naoya Inoue",
-    "Devin Haney",
-    "Gervonta Davis",
-    "Shakur Stevenson",
-    "Teofimo Lopez",
-    "Dmitry Bivol",
-    "Artur Beterbiev",
-    "Janibek Alimkhanuly",  # will resolve to zhanibek-alimkhanuly
-    "Jermell Charlo",
-    "Jermall Charlo",
-    "David Benavidez",
-    "Caleb Plant",
-    "Jesse Rodriguez",
-    "Leo Santa Cruz",
-    "Marco Antonio Barrera",
-    "Juan Manuel Marquez",
-    "Guillermo Rigondeaux",
-    "Nonito Donaire",
-    "Wladimir Klitschko",
-    "Vitali Klitschko",
-    "Joe Frazier",
-    "Sonny Liston",
-    "Larry Holmes",
-    "Thomas Hearns",
-    "Julio Cesar Chavez",
-    "Pernell Whitaker",
-    "Shane Mosley",
-    "Erik Morales",
-    "Azumah Nelson",
-    "Alexis Arguello",
-    "Wilfred Benitez",
-    "Aaron Pryor",
-    "Ricardo Lopez",
-    "Eusebio Pedroza",
-    "Kosei Tanaka",
-    "Roman Gonzalez",
-    "Juan Francisco Estrada",
-    "Kazuto Ioka",
-    "Srisaket Sor Rungvisai",  # will resolve to the long correct slug
-    "Andy Ruiz Jr",
-    "Deontay Wilder",
-    "Luis Ortiz",
-    "Joe Joyce",
-    "Filip Hrgovic",
-    "Conor Benn",
-    "Chris Eubank Jr",
-    "Liam Smith",
-    "Kell Brook",
-    "Amir Khan",
-    "Carl Frampton",
-    "Josh Warrington",
-]
+@dataclass
+class BoxerCrawler:
+    conf: ConfCrawler
+    wiki_conf: ConfWikipedia | None = None
+
+    def boxer_list(self) -> list[str]:
+        return get_boxer_names(self.wiki_conf)
+
+    def top_boxers(self) -> list[tuple[str, str]]:
+        name_list = self.boxer_list()
+        directory_url = "https://box.live/boxers/"
+        LOGGER.info(f"Fetching {directory_url} to match {len(name_list)} names")
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page(user_agent=self.conf.user_agent)
+            page.goto(directory_url, wait_until="networkidle")
+            html = page.content()
+            browser.close()
+
+        name_to_url = self.name_to_url(html)
+        boxer_list = self.match_names_to_urls(name_list, name_to_url)
+
+        LOGGER.info(f"Mapped {len(boxer_list)}/{len(name_list)} boxers")
+        return boxer_list
+
+    def name_to_url(self, html: str) -> dict[str, str]:
+        from bs4 import BeautifulSoup
+
+        soup = BeautifulSoup(html, "html.parser")
+        name_to_url = {}
+        for a in soup.find_all("a", href=True):
+            href = a["href"].strip()
+            if "/boxers/" in href and href.endswith("/"):
+                full_url = (
+                    f"https://box.live{href}" if not href.startswith("http") else href
+                )
+                name = a.get_text(strip=True).split("(")[0].strip()
+                if name and len(name) > 2:
+                    self.add_keys(name, full_url, name_to_url)
+        return name_to_url
+
+    def add_keys(self, name: str, url: str, name_to_url: dict[str, str]) -> None:
+        key1 = name.lower()
+        key2 = (
+            key1.replace(" ", "-").replace("'", "").replace(".", "").replace("jr", "jr")
+        )
+        name_to_url[key1] = url
+        name_to_url[key2] = url
+
+    def match_names_to_urls(
+        self, name_list: list[str], name_to_url: dict[str, str]
+    ) -> list[tuple[str, str]]:
+        boxer_list = []
+        for name in name_list:
+            key = name.lower()
+            url = name_to_url.get(key) or name_to_url.get(key.replace(" ", "-"))
+            if url:
+                boxer_list.append((name, url))
+            else:
+                LOGGER.warning(f"No URL for '{name}' on box.live — skipping")
+        return boxer_list
 
 
-def get_top_boxers(conf: ConfCrawler) -> list[tuple[str, str]]:
-    """Scrape the boxer directory once and return correct URLs for our curated names."""
-    directory_url = "https://box.live/boxers/"
-    LOGGER.info(f"Fetching boxer directory from {directory_url} to get correct URLs...")
+def get_top_boxers(
+    conf: ConfCrawler, wiki_conf: ConfWikipedia | None = None
+) -> list[tuple[str, str]]:
+    crawler = BoxerCrawler(conf, wiki_conf)
+    return crawler.top_boxers()
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page(user_agent=conf.user_agent)
-        page.goto(directory_url, wait_until="networkidle")
-        html = page.content()
-        browser.close()
 
+def _build_name_to_url(html: str) -> dict[str, str]:
+    """Extract name-to-URL mappings from box.live directory HTML."""
     from bs4 import BeautifulSoup
 
     soup = BeautifulSoup(html, "html.parser")
-
-    # Build lookup table: normalized name → correct full URL
     name_to_url = {}
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
@@ -134,34 +106,30 @@ def get_top_boxers(conf: ConfCrawler) -> list[tuple[str, str]]:
             )
             name = a.get_text(strip=True).split("(")[0].strip()
             if name and len(name) > 2:
-                # Multiple lookup keys for robustness
-                key1 = name.lower()
-                key2 = (
-                    name.lower()
-                    .replace(" ", "-")
-                    .replace("'", "")
-                    .replace(".", "")
-                    .replace("jr", "jr")
-                )
-                name_to_url[key1] = full_url
-                name_to_url[key2] = full_url
+                _add_keys(name, full_url, name_to_url)
+    return name_to_url
 
-    # Match our curated names to real URLs
+
+def _add_keys(name: str, url: str, name_to_url: dict[str, str]) -> None:
+    """Add normalized keys for name matching."""
+    key1 = name.lower()
+    key2 = key1.replace(" ", "-").replace("'", "").replace(".", "").replace("jr", "jr")
+    name_to_url[key1] = url
+    name_to_url[key2] = url
+
+
+def _match_names_to_urls(
+    names: list[str], name_to_url: dict[str, str]
+) -> list[tuple[str, str]]:
+    """Match display names to URLs, logging misses."""
     boxers = []
-    for display_name in CURATED_BOXERS:
-        key = display_name.lower()
+    for name in names:
+        key = name.lower()
         url = name_to_url.get(key) or name_to_url.get(key.replace(" ", "-"))
-
         if url:
-            boxers.append((display_name, url))
+            boxers.append((name, url))
         else:
-            LOGGER.warning(
-                f"Could not find URL for '{display_name}' on box.live — skipping"
-            )
-
-    LOGGER.info(
-        f"✅ Mapped {len(boxers)}/{len(CURATED_BOXERS)} boxers with correct URLs."
-    )
+            LOGGER.warning(f"No URL for '{name}' on box.live — skipping")
     return boxers
 
 

@@ -1,251 +1,2215 @@
 Rank,Boxer,Score
-1,Dmitry Bivol,0.0660
-2,Artur Beterbiev,0.0627
-3,Daniel Dubois,0.0292
-4,Canelo Alvarez,0.0291
-5,Oleksandr Usyk,0.0289
-6,Terence Crawford,0.0211
-7,Joe Joyce,0.0200
-8,Filip Hrgovic,0.0193
-9,Chris Eubank Jr,0.0163
-10,Kazuto Ioka,0.0162
-11,Floyd Mayweather Jr,0.0150
-12,Shakur Stevenson,0.0138
-13,Gennady Golovkin,0.0126
-14,Anthony Joshua,0.0126
-15,Naoya Inoue,0.0115
-16,Juan Francisco Estrada,0.0108
-17,Devin Haney,0.0108
-18,Conor Benn,0.0106
-19,Tyson Fury,0.0105
-20,Srisaket Sor Rungvisai,0.0100
-21,Andy Ruiz Jr,0.0098
-22,Ryan Garcia,0.0096
-23,Jermell Charlo,0.0092
-24,Vasyl Lomachenko,0.0090
-25,Deontay Wilder,0.0089
-26,Zhilei Zhang,0.0087
-27,Teofimo Lopez,0.0084
-28,Liam Smith,0.0083
-29,Jesse ‘Bam’ Rodriguez,0.0078
-30,David Benavidez,0.0072
-31,George Groves,0.0064
-32,Josh Warrington,0.0063
-33,Carl Frampton,0.0062
-34,Derek Chisora,0.0061
-35,Errol Spence Jr,0.0061
-36,Joseph Parker,0.0058
-37,Jermall Charlo,0.0058
-38,Manny Pacquiao,0.0058
-39,Janibek Alimkhanuly,0.0054
-40,Fernando Martinez,0.0051
-41,Joshua Franco,0.0051
-42,Donnie Nietes,0.0051
-43,Leo Santa Cruz,0.0051
-44,Nonito Donaire,0.0050
-45,Kosei Tanaka,0.0050
-46,Kell Brook,0.0049
-47,Jake Paul,0.0048
-48,Caleb Plant,0.0046
-49,Wladimir Klitschko,0.0043
-50,Roy Jones Jr,0.0042
-51,Luis Ortiz,0.0041
-52,George Kambosos,0.0041
-53,Guillermo Rigondeaux,0.0040
-54,Billy Joe Saunders,0.0039
-55,Oscar De La Hoya,0.0038
-56,John Gotti III,0.0037
-57,Aaron Chalmers,0.0037
-58,Don Moore,0.0037
-59,Logan Paul,0.0037
-60,Roman ‘Chocolatito’ Gonzalez,0.0035
-61,Amir Khan,0.0035
-62,Jarrell Miller,0.0033
-63,Brian Carlos Castano,0.0031
-64,Tony Harrison,0.0031
-65,Orlando Salido,0.0030
-66,Gervonta ‘Tank’ Davis,0.0026
-67,Phumelele Cafu,0.0026
-68,Bernard Hopkins,0.0026
-69,Marco Antonio Barrera,0.0026
-70,Tommy Fury,0.0025
-71,Mike Tyson,0.0025
-72,Callum Smith,0.0023
-73,Badou Jack,0.0023
-74,Carl Froch,0.0023
-75,Jamel Herring,0.0022
-76,Jaime Munguia,0.0019
-77,Aaron McKenna,0.0019
-78,Magomed Kurbanov,0.0019
-79,Anthony Cacace,0.0018
-80,Leigh Wood,0.0018
-81,Luis Alberto Lopez,0.0018
-82,Mauricio Lara,0.0018
-83,Jose Armando Resendiz,0.0018
-84,Anthony Pettis,0.0017
-85,Enzo Maccarinelli,0.0017
-86,Lateef Kayode,0.0016
-87,Vincent Astrolabio,0.0013
-88,John Riel Casimero,0.0013
-89,Moises Flores,0.0013
-90,Vitor Belfort,0.0012
-91,Ricky Hatton,0.0012
-92,Nicholas Walters,0.0012
-93,Seiya Tsutsumi,0.0012
-94,Alejandro Santiago,0.0012
-95,Jessie Magdaleno,0.0012
-96,Shane Mosley,0.0011
-97,Felix Trinidad,0.0011
-98,Mario Barrios,0.0011
-99,Rukiya Anpo,0.0011
-100,DK Yoo,0.0011
-101,Yordenis Ugas,0.0011
-102,Jeff Horn,0.0011
-103,Juan Manuel Marquez,0.0011
-104,Agapito Sanchez,0.0011
-105,Joe Smith Jr,0.0010
-106,Sergey Kovalev,0.0010
-107,Chad Dawson,0.0010
-108,Joe Calzaghe,0.0010
-109,Kevin McBride,0.0009
-110,Danny Williams,0.0009
-111,Lennox Lewis,0.0009
-112,Evander Holyfield,0.0009
-113,Ryota Murata,0.0005
-114,Kamil Szeremeta,0.0005
-115,Sergiy Derevyanchenko,0.0005
-116,Steve Rolls,0.0005
-117,Vanes Martirosyan,0.0005
-118,Daniel Jacobs,0.0005
-119,Dominic Wade,0.0005
-120,David Lemieux,0.0005
-121,Willie Monroe Jr,0.0005
-122,Martin Murray,0.0005
-123,Marco Antonio Rubio,0.0005
-124,Curtis Stevens,0.0005
-125,Matthew Macklin,0.0005
-126,Gabriel Rosado,0.0005
-127,Jamie Cox,0.0005
-128,Fedor Chudinov,0.0005
-129,Eduard Gutknecht,0.0005
-130,David Brophy,0.0005
-131,Andrea Di Luisa,0.0005
-132,Denis Douglin,0.0005
-133,Clifford Etienne,0.0005
-134,Brian Nielsen,0.0005
-135,Keith Thurman,0.0005
-136,Adrien Broner,0.0005
-137,Lucas Martin Matthysse,0.0005
-138,Jessie Vargas,0.0005
-139,Tim Bradley,0.0005
-140,Chris Algieri,0.0005
-141,Brandon Rios,0.0005
-142,Miguel Cotto,0.0005
-143,David Diaz,0.0005
-144,Deji,0.0005
-145,Mikuru Asakura,0.0005
-146,Tenshin Nasukawa,0.0005
-147,Conor McGregor,0.0005
-148,Andre Berto,0.0005
-149,Marcos Maidana,0.0005
-150,Robert Guerrero,0.0005
-151,Zab Judah,0.0005
-152,DeMarcus Corley,0.0005
-153,Phillip Ndou,0.0005
-154,Jose Luis Castillo,0.0005
-155,Carlos Hernandez,0.0005
-156,Diego Corrales,0.0005
-157,Emanuel Augustus,0.0005
-158,Genaro Hernandez,0.0005
-159,Larry Holmes,0.0005
-160,Steve Forbes,0.0005
-161,Ricardo Mayorga,0.0005
-162,Fernando Vargas,0.0005
-163,Ike Quartey,0.0005
-164,Hector Camacho,0.0005
-165,Pernell Whitaker,0.0005
-166,Julio Cesar Chavez,0.0005
-167,Jorge Paez,0.0005
-168,Scott Sigmon,0.0005
-169,Bobby Gunn,0.0005
-170,Rodney Moore,0.0005
-171,Vyron Phillips,0.0005
-172,Julio Cesar Gonzalez,0.0005
-173,James Toney,0.0005
-174,Thulani Malinga,0.0005
-175,Percy Harris,0.0005
-176,Beibut Shumenov,0.0005
-177,Karo Murat,0.0005
-178,Tavoris Cloud,0.0005
-179,Kelly Pavlik,0.0005
-180,William Scull,0.0005
-181,Edgar Berlanga,0.0005
-182,John Ryder,0.0005
-183,Avni Yildirim,0.0005
-184,Rocky Fielding,0.0005
-185,Julio Cesar Chavez Jr,0.0005
-186,James Kirkland,0.0005
-187,Erislandy Lara,0.0005
-188,Alfredo Angulo,0.0005
-189,Austin Trout,0.0005
-190,Chazz Witherspoon,0.0005
-191,Tony Bellew,0.0005
-192,Murat Gassiev,0.0005
-193,Mairis Briedis,0.0005
-194,Marco Huck,0.0005
-195,Michael Hunter,0.0005
-196,Thabiso Mchunu,0.0005
-197,Krzysztof Glowacki,0.0005
-198,Pedro Rodriguez,0.0005
-199,Johnny Muller,0.0005
-200,Andrey Knyazev,0.0005
-201,Danie Venter,0.0005
-202,Daniel Bruwer,0.0005
-203,Francis Ngannou,0.0005
-204,Dillian Whyte,0.0005
-205,Otto Wallin,0.0005
-206,Tom Schwarz,0.0005
-207,Francesco Pianeta,0.0005
-208,Sefer Seferi,0.0005
-209,Christian Hammer,0.0005
-210,Joey Abell,0.0005
-211,Steve Cunningham,0.0005
-212,Hans Joerg Blasko,0.0005
-213,Robert Helenius,0.0005
-214,Jermaine Franklin,0.0005
-215,Kubrat Pulev,0.0005
-216,Alexander Povetkin,0.0005
-217,Carlos Takam,0.0005
-218,Eric Molina,0.0005
-219,Dominic Breazeale,0.0005
-220,Charles Martin,0.0005
-221,Gary Cornish,0.0005
-222,Kevin Johnson,0.0005
-223,Israil Madrimov,0.0005
-224,David Avanesyan,0.0005
-225,Shawn Porter,0.0005
-226,Egidijus Kavaliauskas,0.0005
-227,Jose Benavidez,0.0005
-228,Julius Indongo,0.0005
-229,Felix Diaz,0.0005
-230,John Molina Jr,0.0005
-231,Viktor Postol,0.0005
-232,Henry Lundy,0.0005
-233,Dierry Jean,0.0005
-234,Thomas Dulorme,0.0005
-235,Raymundo Beltran,0.0005
-236,Yuriorkis Gamboa,0.0005
-237,Ricky Burns,0.0005
-238,Andrey Klimov,0.0005
-239,Danny Garcia,0.0005
-240,Mikey Garcia,0.0005
-241,Carlos Ocampo,0.0005
-242,Lamont Peterson,0.0005
-243,Leonard Bundu,0.0005
-244,Alejandro Barrera,0.0005
-245,Chris Van Heerden,0.0005
-246,Phil Lo Greco,0.0005
-247,Samuel Vargas,0.0005
-248,Kevin Lerena,0.0005
-249,Trevor Bryan,0.0005
-250,Joe Cusumano,0.0005
+1,Dmitry Bivol,0.0351
+2,Artur Beterbiev,0.0330
+3,Canelo Alvarez,0.0135
+4,Terence Crawford,0.0095
+5,Oleksandr Usyk,0.0094
+6,Kenshiro Teraji,0.0092
+7,Shakur Stevenson,0.0082
+8,Naoya Inoue,0.0079
+9,Teofimo Lopez,0.0060
+10,Ryan Garcia,0.0059
+11,Robson Conceicao,0.0058
+12,O'Shaquie Foster,0.0058
+13,Masamichi Yabuki,0.0052
+14,Jesse ‘Bam’ Rodriguez,0.0052
+15,Gennady Golovkin,0.0052
+16,Chris Billam-Smith,0.0052
+17,Devin Haney,0.0051
+18,Junto Nakatani,0.0051
+19,Floyd Mayweather Jr,0.0048
+20,Jack Catterall,0.0048
+21,Josh Taylor,0.0047
+22,Stephen Fulton,0.0047
+23,Brandon Figueroa,0.0046
+24,David Benavidez,0.0046
+25,Kazuto Ioka,0.0044
+26,Gervonta ‘Tank’ Davis,0.0044
+27,Manny Pacquiao,0.0042
+28,Nonito Donaire,0.0042
+29,Jermell Charlo,0.0041
+30,Anthony Joshua,0.0041
+31,Anthony Cacace,0.0041
+32,Ricardo Rafael Sandoval,0.0041
+33,Gilberto ‘Zurdo’ Ramirez,0.0040
+34,John Riel Casimero,0.0040
+35,Richardson Hitchins,0.0038
+36,Daniel Dubois,0.0037
+37,Juan Francisco Estrada,0.0037
+38,Srisaket Sor Rungvisai,0.0037
+39,Martin Joseph Ward,0.0036
+40,Donnie Nietes,0.0036
+41,Vasyl Lomachenko,0.0036
+42,Rey Vargas,0.0035
+43,Nick Ball,0.0032
+44,George Kambosos,0.0032
+45,Josh Kelly,0.0032
+46,Leigh Wood,0.0032
+47,Oscar Collazo,0.0032
+48,Rolando ‘Rolly’ Romero,0.0030
+49,O’Shaquie Foster,0.0030
+50,Keyshawn Davis,0.0029
+51,Tim Tszyu,0.0029
+52,Sebastian Fundora,0.0029
+53,Wanheng Menayothin,0.0029
+54,Sunny Edwards,0.0029
+55,Fernando Martinez,0.0027
+56,Emanuel Navarrete,0.0027
+57,Dalton Smith,0.0026
+58,Nahir Albright,0.0026
+59,Tyson Fury,0.0026
+60,Joseph Parker,0.0026
+61,Jazza Dickens,0.0025
+62,Subriel Matias,0.0025
+63,Julio Ceja,0.0025
+64,Joe Joyce,0.0025
+65,David Avanesyan,0.0025
+66,Badou Jack,0.0024
+67,Michael Hunter,0.0024
+68,Abdullah Mason,0.0024
+69,Alberto Puello,0.0024
+70,Jerwin Ancajas,0.0024
+71,Errol Spence Jr,0.0024
+72,Josh Warrington,0.0023
+73,Panya Pradabsri,0.0023
+74,Regis Prograis,0.0023
+75,Richard Riakporhe,0.0023
+76,Melvin Jerusalem,0.0023
+77,Joe Cordina,0.0023
+78,Carl Frampton,0.0023
+79,Luis Nery,0.0023
+80,Seiya Tsutsumi,0.0023
+81,Lawrence Okolie,0.0023
+82,Roman ‘Chocolatito’ Gonzalez,0.0023
+83,Raymond Ford,0.0022
+84,Mikey Garcia,0.0022
+85,Liam Paro,0.0022
+86,Miguel Berchelt,0.0022
+87,Brian Carlos Castano,0.0022
+88,Ryosuke Iwasa,0.0022
+89,Galal Yafai,0.0022
+90,Arnold Barboza Jr,0.0022
+91,Murodjon Akhmadaliev,0.0021
+92,Marlon Tapales,0.0021
+93,Takuma Inoue,0.0021
+94,Mauricio Lara,0.0021
+95,Murat Gassiev,0.0020
+96,Sergey Kovalev,0.0020
+97,Janibek Alimkhanuly,0.0020
+98,Guillermo Rigondeaux,0.0020
+99,Callum Smith,0.0020
+100,Francisco Rodriguez Jr,0.0020
+101,Bakhram Murtazaliev,0.0020
+102,Jesus Ramos,0.0020
+103,Kubrat Pulev,0.0019
+104,Ryan Burnett,0.0019
+105,Keith Thurman,0.0019
+106,Erickson Lubin,0.0019
+107,Charlie Edwards,0.0019
+108,Liam Smith,0.0019
+109,Jai Opetaia,0.0019
+110,Mark Magsayo,0.0019
+111,Jason Moloney,0.0019
+112,Wladimir Klitschko,0.0019
+113,Andrew Moloney,0.0019
+114,Ryosuke Nishida,0.0019
+115,Billy Joe Saunders,0.0019
+116,Tony Harrison,0.0018
+117,Mario Barrios,0.0018
+118,Andre Ward,0.0018
+119,Mairis Briedis,0.0018
+120,Magomed Kurbanov,0.0018
+121,Israil Madrimov,0.0018
+122,Norbelto Jimenez,0.0018
+123,Chris Eubank Jr,0.0018
+124,Bruce Carrington,0.0017
+125,Xander Zayas,0.0017
+126,Jermall Charlo,0.0017
+127,Oleksandr Gvozdyk,0.0017
+128,Seigo Yuri Akui,0.0017
+129,Sergey Lipinets,0.0017
+130,Daniel Jacobs,0.0016
+131,Kell Brook,0.0016
+132,Kal Yafai,0.0016
+133,Jessie Magdaleno,0.0016
+134,Leo Santa Cruz,0.0016
+135,Raymond Muratalla,0.0016
+136,Yudai Shigeoka,0.0016
+137,Nordine Oubaali,0.0016
+138,Daniel Roman,0.0016
+139,Jamel Herring,0.0016
+140,Angelo Leo,0.0016
+141,Jarrett Hurd,0.0016
+142,Lewis Crocker,0.0015
+143,Yuriorkis Gamboa,0.0015
+144,Kid Galahad,0.0015
+145,Ray Robinson,0.0015
+146,James DeGale,0.0015
+147,Brian Mendoza,0.0015
+148,Jamontay Clark,0.0015
+149,Ekow Essuman,0.0015
+150,Jeff Horn,0.0015
+151,Agit Kabayel,0.0015
+152,Yukinori Oguni,0.0014
+153,Denys Berinchyk,0.0014
+154,Hiroto Kyoguchi,0.0014
+155,Pedro Taduran,0.0014
+156,TJ Doheny,0.0014
+157,Orlando Salido,0.0014
+158,Carlos Canizales,0.0014
+159,Ruben Villa,0.0014
+160,Alejandro Santiago,0.0014
+161,Kevin Lerena,0.0014
+162,Amir Khan,0.0014
+163,George Groves,0.0014
+164,Christian Medina,0.0014
+165,Jezreel Corrales,0.0014
+166,Rances Barthelemy,0.0014
+167,Kosei Tanaka,0.0014
+168,Jaron ‘Boots’ Ennis,0.0014
+169,Jorge Linares,0.0014
+170,Thammanoon Niyomtrong,0.0013
+171,Andy Ruiz Jr,0.0013
+172,Shawn Porter,0.0013
+173,Kiryl Relikh,0.0013
+174,Artem Dalakian,0.0013
+175,Deontay Wilder,0.0013
+176,Jose Carlos Ramirez,0.0013
+177,Tevin Farmer,0.0013
+178,Luis Alberto Lopez,0.0013
+179,Anthony Olascuaga,0.0013
+180,Jean Pascal,0.0013
+181,Jose Zepeda,0.0013
+182,Andrew Tabiti,0.0013
+183,Yuniel Dorticos,0.0013
+184,Fedor Chudinov,0.0013
+185,Erislandy Lara,0.0013
+186,Oscar Valdez,0.0013
+187,Yoshiki Takei,0.0013
+188,Richard Commey,0.0013
+189,Gary Antuanne Russell,0.0012
+190,Amnat Ruenroeng,0.0012
+191,Michel Soro,0.0012
+192,Caleb Plant,0.0012
+193,Sergiy Derevyanchenko,0.0012
+194,Maurice Hooker,0.0012
+195,David Morrell,0.0012
+196,Demetrius Andrade,0.0012
+197,Lee Haskins,0.0012
+198,Daigo Higa,0.0012
+199,Carlos Adames,0.0012
+200,Luis Collazo,0.0012
+201,David Lemieux,0.0012
+202,Jerry Forrest,0.0012
+203,Hugo Ruiz,0.0012
+204,Anthony Yigit,0.0011
+205,Arsen Goulamirian,0.0011
+206,Zelfa Barrett,0.0011
+207,Danny Garcia,0.0011
+208,Otabek Kholmatov,0.0011
+209,Moruti Mthalane,0.0011
+210,Nicholas Walters,0.0011
+211,Miguel Cotto,0.0011
+212,Lee Selby,0.0011
+213,Rafael Espinoza,0.0011
+214,Tony Bellew,0.0011
+215,Phumelele Cafu,0.0011
+216,Caleb Truax,0.0011
+217,Ivan Baranchyk,0.0011
+218,Sandor Martin,0.0011
+219,Rob Brant,0.0011
+220,Vladimir Shishkin,0.0011
+221,Zolani Tete,0.0011
+222,Kiko Martinez,0.0011
+223,Justis Huni,0.0011
+224,Ilunga Makabu,0.0011
+225,Jeremia Nakathila,0.0011
+226,Ricky Burns,0.0010
+227,Julius Indongo,0.0010
+228,Isaac Dogboe,0.0010
+229,Dillian Whyte,0.0010
+230,Bernard Hopkins,0.0010
+231,Terry Flanagan,0.0010
+232,Hamzah Sheeraz,0.0010
+233,Pedro Guevara,0.0010
+234,Yordenis Ugas,0.0010
+235,Daniel Lugo,0.0010
+236,Paul Butler,0.0010
+237,Joshua Franco,0.0010
+238,Tyron Zeuge,0.0010
+239,Vergil Ortiz Jr,0.0010
+240,Charles Martin,0.0010
+241,Robert Guerrero,0.0010
+242,Alberto Machado,0.0010
+243,Rocky Fielding,0.0010
+244,Jonas Sultan,0.0010
+245,Kyonosuke Kameda,0.0010
+246,Luke Campbell,0.0010
+247,Julian Williams,0.0009
+248,Patrick Teixeira,0.0009
+249,Felix Alvarado,0.0009
+250,Ryad Merhy,0.0009
+251,Alexander Povetkin,0.0009
+252,Sam Noakes,0.0009
+253,Oscar De La Hoya,0.0009
+254,Elwin Soto,0.0009
+255,Felix Sturm,0.0009
+256,Austin Trout,0.0009
+257,Ginjiro Shigeoka,0.0009
+258,Tenshin Nasukawa,0.0009
+259,Cristofer Rosales,0.0009
+260,Jaime Munguia,0.0009
+261,Denis Shafikov,0.0009
+262,Kenichi Ogawa,0.0009
+263,Eleider Alvarez,0.0009
+264,Jessie Vargas,0.0009
+265,Edgar Berlanga,0.0009
+266,Radzhab Butaev,0.0009
+267,Anthony Dirrell,0.0009
+268,Pavel Sosulin,0.0009
+269,Charly Suarez,0.0009
+270,Adrien Broner,0.0009
+271,Juan Manuel Marquez,0.0009
+272,Robert Easter Jr,0.0009
+273,Eimantas Stanionis,0.0009
+274,Lamont Peterson,0.0009
+275,Julio Cesar Martinez,0.0009
+276,Abass Baraou,0.0009
+277,Arthur Abraham,0.0009
+278,Noel ‘Gevor’ Mikaelyan,0.0008
+279,Javier Fortuna,0.0008
+280,Avni Yildirim,0.0008
+281,Eduard Troyanovsky,0.0008
+282,Nathan Cleverly,0.0008
+283,Francisco Vargas,0.0008
+284,Jonathan Javier Rodriguez,0.0008
+285,Anthony Crolla,0.0008
+286,Emmanuel Rodriguez,0.0008
+287,William Scull,0.0008
+288,Sivenathi Nontshinga,0.0008
+289,Lucas Browne,0.0008
+290,Shun Kubo,0.0008
+291,Ladarius Miller,0.0008
+292,Adonis Stevenson,0.0008
+293,Juan Carlos Payano,0.0008
+294,Andre Dirrell,0.0008
+295,Daniel Valladares,0.0008
+296,Jamal James,0.0008
+297,Peter Quillin,0.0008
+298,Radivoje Kalajdzic,0.0008
+299,Marcus Browne,0.0008
+300,Gavin McDonnell,0.0008
+301,Thomas Dulorme,0.0008
+302,Mahmoud Charr,0.0007
+303,Fillipus Nghitumbwa,0.0007
+304,Jose Armando Resendiz,0.0007
+305,Rene Mark Cuarto,0.0007
+306,Takashi Miura,0.0007
+307,Carlos Cuadras,0.0007
+308,Joseph ‘Jo Jo’ Diaz,0.0007
+309,Sulaiman Segawa,0.0007
+310,Rene Santiago,0.0007
+311,Otto Wallin,0.0007
+312,Isiah Thomas,0.0007
+313,Zhanat Zhakiyanov,0.0007
+314,Lucian Bute,0.0007
+315,Masayuki Ito,0.0007
+316,Sho Kimura,0.0007
+317,Scott Quigg,0.0007
+318,Esteban Bermudez,0.0007
+319,Jeison Rosario,0.0007
+320,Trevor Bryan,0.0007
+321,Jacob Bank,0.0007
+322,Andrew Cancio,0.0007
+323,Viktor Postol,0.0007
+324,Diego De La Hoya,0.0007
+325,Billy Dib,0.0007
+326,Marco Antonio Barrera,0.0007
+327,Ellis Zorro,0.0007
+328,Vincenzo Gualtieri,0.0007
+329,Kohei Kono,0.0007
+330,Jonathan Victor Barros,0.0007
+331,Shannon Briggs,0.0007
+332,Fabio Wardley,0.0007
+333,Carl Froch,0.0007
+334,Andrew Cain,0.0007
+335,Hector Andres Sosa,0.0007
+336,Thomas Patrick Ward,0.0007
+337,Matt Korobov,0.0007
+338,Tomoki Kameda,0.0007
+339,Jason Sosa,0.0007
+340,Egidijus Kavaliauskas,0.0006
+341,Sadam Ali,0.0006
+342,Abel Ramos,0.0006
+343,Randy Caballero,0.0006
+344,David Haye,0.0006
+345,David Oliver Joyce,0.0006
+346,Edwin De Los Santos,0.0006
+347,Muhammad Waseem,0.0006
+348,Brian Viloria,0.0006
+349,Shavkatdzhon Rakhimov,0.0006
+350,Batyr Akhmedov,0.0006
+351,Luis Torres,0.0006
+352,Rene Alvarado,0.0006
+353,Rau'shee Warren,0.0006
+354,Hozumi Hasegawa,0.0006
+355,Michael Zerafa,0.0006
+356,Ricky Hatton,0.0006
+357,Osleys Iglesias,0.0006
+358,Denis Lebedev,0.0006
+359,Joet Gonzalez,0.0006
+360,Rukiya Anpo,0.0006
+361,DK Yoo,0.0006
+362,Agapito Sanchez,0.0006
+363,Adrian Curiel,0.0006
+364,Andy Lee,0.0006
+365,Kyosuke Takami,0.0006
+366,Jared Anderson,0.0006
+367,Alexander Ustinov,0.0006
+368,Amir Imam,0.0006
+369,Steve Cunningham,0.0006
+370,Takashi Uchiyama,0.0006
+371,Pungluang Sor Singyu,0.0006
+372,Darleys Perez,0.0006
+373,Robin Sirwan Safar,0.0006
+374,Isaac ‘Pitbull’ Cruz,0.0006
+375,Oscar Negrete,0.0006
+376,Maxi Hughes,0.0006
+377,Moises Flores,0.0006
+378,Vincent Astrolabio,0.0006
+379,Beibut Shumenov,0.0005
+380,Shinsuke Yamanaka,0.0005
+381,Derek Chisora,0.0005
+382,Mickey Bey,0.0005
+383,Vince Paras,0.0005
+384,Chris Algieri,0.0005
+385,Bryant Perrella,0.0005
+386,McJoe Arroyo,0.0005
+387,Chris Colbert,0.0005
+388,Jamie McDonnell,0.0005
+389,Ismael Barroso,0.0005
+390,Blair Cobbs,0.0005
+391,Aston Palicte,0.0005
+392,Joe Noynay,0.0005
+393,Zhilei Zhang,0.0005
+394,Jonathan Gonzalez,0.0005
+395,Abner Mares,0.0005
+396,Simpiwe Vetyeka,0.0005
+397,Isaac Chilemba,0.0005
+398,Yoshihiro Kamegai,0.0005
+399,Grigory Drozd,0.0005
+400,John Ryder,0.0005
+401,Shane Mosley Jr,0.0005
+402,Antonio Vargas,0.0005
+403,Kudratillo Abdukakhorov,0.0005
+404,Can Xu,0.0005
+405,Jose Uzcategui,0.0005
+406,Ashley Theophane,0.0005
+407,Andrey Klimov,0.0005
+408,John Jackson,0.0005
+409,Ruslan Provodnikov,0.0005
+410,Paddy Donovan,0.0005
+411,Mirco Cuello,0.0005
+412,Erick Rosa,0.0005
+413,Andre Berto,0.0005
+414,Juan Carlos Reveco,0.0005
+415,Alfredo Angulo,0.0005
+416,Aaron McKenna,0.0005
+417,Victor Ortiz,0.0004
+418,Gustavo Lemos,0.0004
+419,Ruslan Chagaev,0.0004
+420,Marco Huck,0.0004
+421,Masataka Taniguchi,0.0004
+422,Montana Love,0.0004
+423,Jose Pedraza,0.0004
+424,Ryota Murata,0.0004
+425,Juergen Braehmer,0.0004
+426,Miguel Roman,0.0004
+427,Roman Martinez,0.0004
+428,Robeisy Ramirez,0.0004
+429,Omar Figueroa Jr,0.0004
+430,Carlos Castro,0.0004
+431,Jarrell Miller,0.0004
+432,Cassius Chaney,0.0004
+433,Lucas Martin Matthysse,0.0004
+434,Steve Claggett,0.0004
+435,Angel Fierro,0.0004
+436,Dan Azeez,0.0004
+437,Jeremias Ponce,0.0004
+438,William Foster III,0.0004
+439,Marcos Maidana,0.0004
+440,Jackson Jon England,0.0004
+441,Jamaine Ortiz,0.0004
+442,Luis Arias,0.0004
+443,Johan Gonzalez,0.0004
+444,Erick Badillo,0.0004
+445,Hekkie Budler,0.0004
+446,Robert Stieglitz,0.0004
+447,Sam Soliman,0.0004
+448,Robinson Castellanos,0.0004
+449,Stuart Hall,0.0004
+450,Serhii Bohachuk,0.0004
+451,Alexander Besputin,0.0004
+452,Adrian Granados,0.0004
+453,Tim Bradley,0.0004
+454,Milan Prat,0.0004
+455,Jack Culcay,0.0004
+456,Sam Eggington,0.0004
+457,Thanongsak Simsri,0.0004
+458,Fres Oquendo,0.0004
+459,Movladdin Biyarslanov,0.0004
+460,Adam Azim,0.0004
+461,Michel Rivera,0.0004
+462,Custio Clayton,0.0004
+463,Chris Jenkins,0.0004
+464,Daniyar Yeleussinov,0.0004
+465,William Zepeda,0.0004
+466,Floyd Schofield,0.0004
+467,Rau’shee Warren,0.0003
+468,Liborio Solis,0.0003
+469,Mario Gutierrez Gomez,0.0003
+470,Paulie Malignaggi,0.0003
+471,Jadier Herrera,0.0003
+472,Mike Tyson,0.0003
+473,Chad Dawson,0.0003
+474,Joe Smith Jr,0.0003
+475,Joe Calzaghe,0.0003
+476,Yu Kimura,0.0003
+477,Krzysztof Glowacki,0.0003
+478,Zach Parker,0.0003
+479,Giovanni De Carolis,0.0003
+480,Michael Conlan,0.0003
+481,Sam Goodman,0.0003
+482,Ionut Baluta,0.0003
+483,Yvan Mendy,0.0003
+484,Vitor Belfort,0.0003
+485,Francisco Pedroza,0.0003
+486,Jesus Soto Karass,0.0003
+487,Shuichiro Yoshino,0.0003
+488,Hironori Mishiro,0.0003
+489,Jono Carroll,0.0003
+490,Luis Manuel Macias,0.0003
+491,Hugo Rosendo Guarneros,0.0003
+492,Adam Kownacki,0.0003
+493,Devon Alexander,0.0003
+494,Zaur Abdullaev,0.0003
+495,Zhora Hamazaryan,0.0003
+496,Pablo Cesar Cano,0.0003
+497,Andrew Selby,0.0003
+498,Jaime Arboleda,0.0003
+499,Anselmo Moreno,0.0003
+500,Miguel Vazquez,0.0003
+501,Michal Cieslak,0.0003
+502,Michael Eifert,0.0003
+503,Roberto Feliciano Bolonti,0.0003
+504,Eleazar Valenzuela,0.0003
+505,Jack Cullen,0.0003
+506,Andrzej Fonfara,0.0003
+507,Jose Valenzuela,0.0003
+508,Gamaliel Diaz,0.0003
+509,Christian Mbilli,0.0003
+510,Bermane Stiverne,0.0003
+511,Efe Ajagba,0.0003
+512,Luis Ortiz,0.0003
+513,David Emanuel Peralta,0.0003
+514,Paul Gallen,0.0003
+515,Dave Allen,0.0003
+516,Vyacheslav Senchenko,0.0003
+517,Thabiso Mchunu,0.0003
+518,Guillermo Jones,0.0003
+519,Anthony Mundine,0.0003
+520,Tomasz Adamek,0.0003
+521,Julio Cesar Chavez Jr,0.0003
+522,Yoenis Tellez,0.0003
+523,Vladimir Hernandez,0.0003
+524,Curtis Stevens,0.0003
+525,Paul Valenzuela Jr,0.0003
+526,Angel Ayala Lardizabal,0.0003
+527,Randy Petalcorin,0.0003
+528,Andoni Gago,0.0003
+529,Josh Wale,0.0003
+530,Javier Molina,0.0003
+531,Johann Duhaupas,0.0003
+532,Shane Mosley,0.0003
+533,Felix Trinidad,0.0003
+534,Terrell Gausha,0.0003
+535,Burley Brooks,0.0003
+536,Sakio Bika,0.0003
+537,Kyrone Davis,0.0003
+538,John Hedges,0.0003
+539,Aloys Youmbi,0.0003
+540,Cheavon Clarke,0.0003
+541,Ronald Ellis,0.0003
+542,Lerato Dlamini,0.0003
+543,Miguel Flores,0.0003
+544,Jhonny Gonzalez,0.0003
+545,Oscar Duarte,0.0003
+546,Kenneth Sims Jr,0.0003
+547,Liam Walsh,0.0003
+548,Dejan Zlaticanin,0.0003
+549,Raymundo Beltran,0.0003
+550,McWilliams Arroyo,0.0003
+551,Tomoya Tsuboi,0.0003
+552,Eric Molina,0.0003
+553,Vyacheslav Glazkov,0.0002
+554,Vanes Martirosyan,0.0002
+555,Elvis Rodriguez,0.0002
+556,Luis Concepcion,0.0002
+557,Rex Tso,0.0002
+558,Conor Benn,0.0002
+559,Gary Antonio Russell,0.0002
+560,Evander Holyfield,0.0002
+561,Shokichi Iwata,0.0002
+562,Katsuma Akitsugi,0.0002
+563,Alfonso Gomez,0.0002
+564,John Molina Jr,0.0002
+565,Nick Guivas,0.0002
+566,Alfredo Santiago Alvarez,0.0002
+567,Rashidi Ellis,0.0002
+568,Robbie Davies Jnr,0.0002
+569,Isa Chaniev,0.0002
+570,Andy Hiraoka,0.0002
+571,Ohara Davies,0.0002
+572,Jose Ramirez Armenta,0.0002
+573,Arnulfo Salvador Rodriguez,0.0002
+574,Maximino Flores,0.0002
+575,Yamil Alberto Peralta,0.0002
+576,Oscar Rivas,0.0002
+577,Hayato Tsutsumi,0.0002
+578,Jonathan Guidry,0.0002
+579,Jake Paul,0.0002
+580,Roy Jones Jr,0.0002
+581,Kevin McBride,0.0002
+582,Danny Williams,0.0002
+583,Lennox Lewis,0.0002
+584,Danny Green,0.0002
+585,Charles Hatley,0.0002
+586,Joshua Clottey,0.0002
+587,Ivan Redkach,0.0002
+588,Lucas Santamaria,0.0002
+589,Aaron Martinez,0.0002
+590,Ryan Rozicki,0.0002
+591,Macaulay McGowan,0.0001
+592,Hugo Noriega,0.0001
+593,Ferenc Katona,0.0001
+594,Carlos Ornelas,0.0001
+595,Manuel Jaimes,0.0001
+596,Yohan Vasquez,0.0001
+597,Mike Ohan Jr,0.0001
+598,Luis Lebron,0.0001
+599,Ronal Ron,0.0001
+600,Benjamin Gurment,0.0001
+601,Jose Cardenas,0.0001
+602,Cesar Villarraga,0.0001
+603,Alex de Oliveira,0.0001
+604,Angel Barrera,0.0001
+605,Andres Gutierrez,0.0001
+606,Jesus Andres Cuellar,0.0001
+607,Arturo Santos Reyes,0.0001
+608,Jose Ramirez,0.0001
+609,Jonathan Oquendo,0.0001
+610,Thomas Williams Jr,0.0001
+611,Tommy Karpency,0.0001
+612,Dmitry Sukhotsky,0.0001
+613,Ivan Garcia Carrillo,0.0001
+614,Bill Hutchinson,0.0001
+615,Jovanie Santiago,0.0001
+616,Khabib Allakhverdiev,0.0001
+617,Emmanuel Taylor,0.0001
+618,Damian Knyba,0.0001
+619,Frank Sanchez,0.0001
+620,Arslanbek Makhmudov,0.0001
+621,Agron Smakici,0.0001
+622,Kevin Johnson,0.0001
+623,Evgenios Lazaridis,0.0001
+624,Andriy Rudenko,0.0001
+625,Miljan Rovcanin,0.0001
+626,Herve Hubeaux,0.0001
+627,Christian Lewandowski,0.0001
+628,Lawrence Tauasa,0.0001
+629,Luis Porozo,0.0001
+630,Yuandale Evans,0.0001
+631,Rafael Mensah,0.0001
+632,Carlos Morales,0.0001
+633,Juan Jose Martinez,0.0001
+634,Orlando Rizo,0.0001
+635,Ector Madera,0.0001
+636,Ve Shawn Owens,0.0001
+637,Jesus Antonio Rubio,0.0001
+638,Cristian Rafael Coria,0.0001
+639,Jonathan Alonso,0.0001
+640,David Bency,0.0001
+641,Erick Lopez,0.0001
+642,Hughie Fury,0.0001
+643,David Price,0.0001
+644,Christian Hammer,0.0001
+645,Mariusz Wach,0.0001
+646,Mike Perez,0.0001
+647,Carlos Takam,0.0001
+648,Konstantin Airich,0.0001
+649,Maurice Harris,0.0001
+650,Travis Walker,0.0001
+651,Chauncy Welliver,0.0001
+652,David Tua,0.0001
+653,Marcos Mojica,0.0001
+654,Johnny Garcia,0.0001
+655,Jose Vidal Soto,0.0001
+656,Wilfredo Acuna,0.0001
+657,Samuel Vargas,0.0001
+658,Phil Lo Greco,0.0001
+659,Julio Diaz,0.0001
+660,Myung Ho Lee,0.0001
+661,Shiming Zou,0.0001
+662,Josesito Lopez,0.0001
+663,Steve Upsher Chambers,0.0001
+664,Christopher Brooker,0.0001
+665,Blake Caparello,0.0001
+666,Derek Edwards,0.0001
+667,Nick Brinson,0.0001
+668,Vladine Biosse,0.0001
+669,Alexander Brand,0.0001
+670,Sullivan Barrera,0.0001
+671,Paul Smith,0.0001
+672,Edwin Rodriguez,0.0001
+673,Mikkel Kessler,0.0001
+674,Dardan Zenunaj,0.0001
+675,Aidar Sharibayev,0.0001
+676,Hugo Fidel Cazares,0.0001
+677,Judy Flores,0.0001
+678,Alexander Espinoza,0.0001
+679,Gilberto Mendoza,0.0001
+680,Froilan Saludar,0.0001
+681,Elton Dharry,0.0001
+682,Selemani Bangaiza,0.0001
+683,Miguel Gonzalez,0.0001
+684,Richard Claveras,0.0001
+685,Hashimu Zuberi,0.0001
+686,Raymond Tabugon,0.0001
+687,Aramis Solis,0.0001
+688,Jacob Dickson,0.0001
+689,James Wilson,0.0001
+690,Ruslan Fayfer,0.0001
+691,Lateef Kayode,0.0001
+692,Quantis Graves,0.0001
+693,Keith Tapia,0.0001
+694,Tamas Lodi,0.0001
+695,Roberto Santos,0.0001
+696,Thomas Hanshaw,0.0001
+697,Ernest Reyna,0.0001
+698,Gabino Cota,0.0001
+699,Guillermo Avila,0.0001
+700,Francisco Contreras,0.0001
+701,Frank Haroche Horta,0.0001
+702,Eduardo Baez,0.0001
+703,Mike Plania,0.0001
+704,Nicolas Polanco,0.0001
+705,Aaron Alameda,0.0001
+706,Tramaine Williams,0.0001
+707,Cesar Juarez,0.0001
+708,Mark John Yap,0.0001
+709,Neil John Tabanao,0.0001
+710,Alberto Torres,0.0001
+711,Erik Ruiz,0.0001
+712,Suriyan Kaikanha,0.0001
+713,Javier Nicolas Chacon,0.0001
+714,William Urina,0.0001
+715,Damian Wrzesinski,0.0001
+716,Michael Magnesi,0.0001
+717,Leon Woodstock,0.0001
+718,Sam Bowen,0.0001
+719,Alan Isaias Luques Castillo,0.0001
+720,Reynaldo Mora,0.0001
+721,Leonel Hernandez,0.0001
+722,Frank Urquiaga,0.0001
+723,Daud Yordan,0.0001
+724,Gyorgy Mizsei Jr,0.0001
+725,Mark Anthony Hernandez,0.0001
+726,Abraham Han,0.0001
+727,Denis Douglin,0.0001
+728,Norbert Nemesapati,0.0001
+729,Marco Antonio Rubio,0.0001
+730,Francis Ngannou,0.0001
+731,Robert Helenius,0.0001
+732,Jermaine Franklin,0.0001
+733,Dominic Breazeale,0.0001
+734,Gary Cornish,0.0001
+735,Tommy Browne,0.0001
+736,Sergey Rabchenko,0.0001
+737,Taku Kuwahara,0.0001
+738,Juan Carlos Camacho,0.0001
+739,Riku Kano,0.0001
+740,Giemel Magramo,0.0001
+741,Marco Sustaita,0.0001
+742,Gustavo Perez Alvarez,0.0001
+743,Siar Ozgul,0.0001
+744,Sandro Hernandez,0.0001
+745,Joe Hughes,0.0001
+746,Lenny Daws,0.0001
+747,Armando Robles,0.0001
+748,Philip Sutcliffe Jnr,0.0001
+749,DeMarcus Corley,0.0001
+750,Antonio Tarver,0.0001
+751,Winston Guerrero,0.0001
+752,Jonathan Rodriguez,0.0001
+753,Hernan Marquez,0.0001
+754,Michell Banquez,0.0001
+755,Jesus Martinez,0.0001
+756,Alexey Egorov,0.0001
+757,Constantin Bejenaru,0.0001
+758,Kane Watts,0.0001
+759,Mark Flanagan,0.0001
+760,Hamilton Ventura,0.0001
+761,Mitch Williams,0.0001
+762,Alexander Kubich,0.0001
+763,Arturs Kulikauskis,0.0001
+764,David Jimenez,0.0001
+765,Josber Perez,0.0001
+766,Sarawut Thawornkham,0.0001
+767,Gregorio Lebron,0.0001
+768,Sirichai Thaiyen,0.0001
+769,Jozsef Ajtai,0.0001
+770,Silvio Olteanu,0.0001
+771,Robert Kanalas,0.0001
+772,Patrick Nielsen,0.0001
+773,Robin Krasniqi,0.0001
+774,Tim Robin Lihaug,0.0001
+775,Martin Murray,0.0001
+776,Anthony Yarde,0.0001
+777,Adam Deines,0.0001
+778,Callum Johnson,0.0001
+779,Enrico Koelling,0.0001
+780,Isidro Ranoni Prieto,0.0001
+781,Ezequiel Osvaldo Maderna,0.0001
+782,Alexander Johnson,0.0001
+783,Gabriel Campillo,0.0001
+784,Jeff Page Jr,0.0001
+785,Tavoris Cloud,0.0001
+786,Mahonri Montes,0.0001
+787,Miguel Zuniga,0.0001
+788,Daniel Calzada,0.0001
+789,Jose Martinez,0.0001
+790,Jose Alfredo Rodriguez,0.0001
+791,John Mark Apolinario,0.0001
+792,Oscar Cantu,0.0001
+793,Alejandro Davila,0.0001
+794,Juan Armando Garcia,0.0001
+795,Joey Hernandez,0.0001
+796,Luis Galarza,0.0001
+797,Luis Grajeda,0.0001
+798,Daniel Dawson,0.0001
+799,Lolenga Mock,0.0001
+800,Marco Antonio Periban,0.0001
+801,Aliaksandr Sushchyts,0.0001
+802,Schiller Hyppolite,0.0001
+803,Aaron Pryor Jr,0.0001
+804,Timur Nikarkhoev,0.0001
+805,Zoltan Sera,0.0001
+806,Richard Rivera,0.0001
+807,Samuel Crossed,0.0001
+808,Dervin Colina,0.0001
+809,Blake McKernan,0.0001
+810,Francisco Sierra,0.0001
+811,Jason Escalera,0.0001
+812,Ahmad Cheikho,0.0001
+813,Khiary Gray,0.0001
+814,Manny Woods,0.0001
+815,Jorge Fortea,0.0001
+816,Bruno Leonardo Romay,0.0001
+817,Argenis Mendez,0.0001
+818,Francisco Gabriel Pina,0.0001
+819,Viktor Plotnykov,0.0001
+820,Oscar Barajas,0.0001
+821,Ricky Sismundo,0.0001
+822,Hizni Altunkaya,0.0001
+823,Junior Anthony Wright,0.0001
+824,BJ Flores,0.0001
+825,Bobby Thomas Jr,0.0001
+826,Tamas Kovacs,0.0001
+827,Derric Rossy,0.0001
+828,Chris Arreola,0.0001
+829,Willie Herring,0.0001
+830,Karo Murat,0.0001
+831,Kelly Pavlik,0.0001
+832,Jacob Ng,0.0001
+833,Amphon Suriyo,0.0001
+834,Sukpraserd Ponpitak,0.0001
+835,Isaias Santos Sampaio,0.0001
+836,Ruben Manakane,0.0001
+837,Marcelo Esteban Coceres,0.0001
+838,Shefat Isufi,0.0001
+839,Charles Adamu,0.0001
+840,Willie Monroe Jr,0.0001
+841,Artur Akavov,0.0001
+842,Yoann Bloyer,0.0001
+843,Emanuele Blandamura,0.0001
+844,Damien Vazquez,0.0001
+845,Yonfrez Parejo,0.0001
+846,Oscar Escandon,0.0001
+847,Luis Roy Suarez Cruz,0.0001
+848,Giovanni Delgado,0.0001
+849,Victor Proa,0.0001
+850,Miguel Cartagena,0.0001
+851,Omar Soto,0.0001
+852,Armando Vazquez,0.0001
+853,Jose Alfredo Zuniga,0.0001
+854,Juan Carlos Herrera,0.0001
+855,Mateus Heita,0.0001
+856,Jose Enrique Durantes Vivas,0.0001
+857,Dana Coolwell,0.0001
+858,Bryan De Gracia,0.0001
+859,Bernard Angelo Torres,0.0001
+860,Jason Sanchez,0.0001
+861,Angel Antonio Contreras,0.0001
+862,Brandon Chambers,0.0001
+863,Juan Antonio Lopez,0.0001
+864,Trevor McCumby,0.0001
+865,Vincent Feigenbutz,0.0001
+866,Mike Lee,0.0001
+867,Rogelio Medina,0.0001
+868,Andrew Hernandez,0.0001
+869,Thomas Awimbono,0.0001
+870,Juan De Angel,0.0001
+871,Carlos Galvan,0.0001
+872,KeAndrae Leatherwood,0.0001
+873,Zachariah Kelley,0.0001
+874,Melvin Betancourt,0.0001
+875,Joshua Buatsi,0.0001
+876,Mathieu Bauderlique,0.0001
+877,Lenin Castillo,0.0001
+878,Hassan N’Dam,0.0001
+879,Nieky Holzken,0.0001
+880,Erik Skoglund,0.0001
+881,Luke Blackledge,0.0001
+882,Cesar Hernan Reynoso,0.0001
+883,Hadillah Mohoumadi,0.0001
+884,Christopher Rebrasse,0.0001
+885,Olegs Fedotovs,0.0001
+886,James Kirkland,0.0001
+887,Darren Traynor,0.0001
+888,Tyler McCreary,0.0001
+889,Luke Jackson,0.0001
+890,Horacio Garcia,0.0001
+891,Alejandro Gonzalez Jr,0.0001
+892,Chris Avalos,0.0001
+893,Juan Macias Montiel,0.0001
+894,Alexis Salazar,0.0001
+895,Patrick Day,0.0001
+896,Frank Galarza,0.0001
+897,Juan Ruiz,0.0001
+898,Joshua Conley,0.0001
+899,Alejandro Barrera,0.0001
+900,Adrian Jose Perez Aparicio,0.0001
+901,Carlos Molina,0.0001
+902,Jesus Ruiz,0.0001
+903,Daniel Lozano,0.0001
+904,Mario Diaz,0.0001
+905,David Carmona,0.0001
+906,Richie Mepranum,0.0001
+907,Koki Eto,0.0001
+908,Dixon Flores,0.0001
+909,Marvin Mabait,0.0001
+910,Devin Vargas,0.0001
+911,Gerald Washington,0.0001
+912,Daniel Martz,0.0001
+913,Gregory Corbin,0.0001
+914,Vicente Sandez,0.0001
+915,Tom Dallas,0.0001
+916,Raphael Zumbano Love,0.0001
+917,Salvador Juarez,0.0001
+918,Thomas Essomba,0.0001
+919,Georges Ory,0.0001
+920,Jacob Barreto,0.0001
+921,Kyle Williams,0.0001
+922,Angel Moreno,0.0001
+923,Anthony Nelson,0.0001
+924,Ricky Little,0.0001
+925,Craig Derbyshire,0.0001
+926,Iain Butcher,0.0001
+927,Georgi Georgiev,0.0001
+928,Jose Aguilar,0.0001
+929,Luke Wilton,0.0001
+930,Phil Smith,0.0001
+931,Louis Norman,0.0001
+932,Juan Hinostroza,0.0001
+933,Mikkel LesPierre,0.0001
+934,Tommy Coyle,0.0001
+935,Daniel Gonzalez,0.0001
+936,Angel Hernandez,0.0001
+937,Erick Bone,0.0001
+938,Brandon Glanton,0.0001
+939,Mateusz Masternak,0.0001
+940,Armend Xhoxhaj,0.0001
+941,Isaac Chamberlain,0.0001
+942,Tommy McCarthy,0.0001
+943,Dylan Bregeon,0.0001
+944,Vasil Ducar,0.0001
+945,Nathan Thorley,0.0001
+946,Craig Glover,0.0001
+947,Yassine Habachi,0.0001
+948,Kent Kauppinen,0.0001
+949,Robin Dupre,0.0001
+950,Juan Ramirez Marquez,0.0001
+951,Joselito Velasquez,0.0001
+952,Paddy Barnes,0.0001
+953,Alexander Taylor,0.0001
+954,Martin Tecuapetla,0.0001
+955,Nawaphon Kaikanha,0.0001
+956,Yuki Strong Kobayashi,0.0001
+957,Moises Fuentes,0.0001
+958,Thomas Masson,0.0001
+959,Juan Hernandez Navarrete,0.0001
+960,Diomel Diocos,0.0001
+961,Felipe Cagubcob Jr,0.0001
+962,Ardin Diale,0.0001
+963,Romel Oliveros,0.0001
+964,Mathieu Germain,0.0001
+965,Walid Ouizza,0.0001
+966,Sam Maxwell,0.0001
+967,Billy Allington,0.0001
+968,Kaisee Benjamin,0.0001
+969,Sam O’Maison,0.0001
+970,Ray Moylette,0.0001
+971,Lee Appleyard,0.0001
+972,Ishmael Ellis,0.0001
+973,Nathan Bennett,0.0001
+974,Benson Nyilawila,0.0001
+975,Michael Isaac Carrero,0.0001
+976,Filip Hrgovic,0.0001
+977,Joe Cusumano,0.0001
+978,Bogdan Dinu,0.0001
+979,Ricardo Snijders,0.0001
+980,Kyotaro Fujimoto,0.0001
+981,Ebenezer Tetteh,0.0001
+982,Nathan Gorman,0.0001
+983,Richard Lartey,0.0001
+984,Razvan Cojanu,0.0001
+985,Tom Little,0.0001
+986,DL Jones,0.0001
+987,Dorian Darch,0.0001
+988,AJ Carter,0.0001
+989,Mauricio Barragan,0.0001
+990,Gabriel Rosado,0.0001
+991,Maciej Sulecki,0.0001
+992,Sergio Mora,0.0001
+993,Jarrod Fletcher,0.0001
+994,Milton Nunez,0.0001
+995,Ricardo Espinoza,0.0001
+996,Ryo Matsumoto,0.0001
+997,Adam Lopez,0.0001
+998,Marlon Olea,0.0001
+999,Enrique Quevedo,0.0001
+1000,Christian Esquivel,0.0001
+1001,Jose Javier Torres,0.0001
+1002,Julian Yedras,0.0001
+1003,Abraham Manriquez Gonzalez,0.0001
+1004,Jose Benavidez,0.0001
+1005,Brandon Rios,0.0001
+1006,Rod Salka,0.0001
+1007,Mauricio Herrera,0.0001
+1008,Sadudee Srimueang,0.0001
+1009,Oskari Metz,0.0001
+1010,Liam Taylor,0.0001
+1011,Jose Del Rio,0.0001
+1012,Kerman Lejarraga,0.0001
+1013,Charlie Navarro,0.0001
+1014,Dean Byrne,0.0001
+1015,Laszlo Fazekas,0.0001
+1016,Ramon de la Cruz Sena,0.0001
+1017,Roamer Alexis Angulo,0.0001
+1018,J’Leon Love,0.0001
+1019,Ronald Gavril,0.0001
+1020,Sherali Mamajonov,0.0001
+1021,Francy Ntetu,0.0001
+1022,Phillip Jackson Benson,0.0001
+1023,Joe Fournier,0.0001
+1024,Arnold Gjergjaj,0.0001
+1025,Mark de Mori,0.0001
+1026,Audley Harrison,0.0001
+1027,David Zegarra,0.0001
+1028,Max Bursak,0.0001
+1029,Gary ‘Spike’ O’Sullivan,0.0001
+1030,Karim Achour,0.0001
+1031,Marcos Reyes,0.0001
+1032,Cristian Fabian Rios,0.0001
+1033,Glen Tapia,0.0001
+1034,Fernando Guerrero,0.0001
+1035,Imam Khataev,0.0001
+1036,Sena Agbeko,0.0001
+1037,Yamaguchi Falcao,0.0001
+1038,Aidos Yerbossynuly,0.0001
+1039,Kalvin Henderson,0.0001
+1040,Alantez Fox,0.0001
+1041,Mario Abel Cazares,0.0001
+1042,Mike Gavronski,0.0001
+1043,Lennox Allen,0.0001
+1044,Demond Nicholson,0.0001
+1045,Jason Quigley,0.0001
+1046,Liam Williams,0.0001
+1047,Luke Keeler,0.0001
+1048,Walter Kautondokwa,0.0001
+1049,Willie Nelson,0.0001
+1050,Dario Fabian Pucheta,0.0001
+1051,Brian Rose,0.0001
+1052,Freddy Hernandez,0.0001
+1053,Mike Wilson,0.0001
+1054,Victor Emilio Ramirez,0.0001
+1055,Youri Kayembre Kalenga,0.0001
+1056,Pawel Kolodziej,0.0001
+1057,Roy Mukhlis,0.0001
+1058,Miguel Angel Mendoza,0.0001
+1059,Rustam Nugaev,0.0001
+1060,Jose Sanchez,0.0001
+1061,Viorel Simion,0.0001
+1062,Tyrrell Anthony Herndon,0.0001
+1063,Artur Szpilka,0.0001
+1064,Malik Scott,0.0001
+1065,Brian Norman Jr,0.0001
+1066,Antonio Moran,0.0001
+1067,Xolisani Ndongeni,0.0001
+1068,Juan Carlos Burgos,0.0001
+1069,Mason Menard,0.0001
+1070,Hamza Sempewo,0.0001
+1071,Enrique Tinoco,0.0001
+1072,Angel Aispuro,0.0001
+1073,Hector Garcia,0.0001
+1074,Walter Castillo,0.0001
+1075,Malik Zinad,0.0001
+1076,Lyndon Arthur,0.0001
+1077,Umar Salamov,0.0001
+1078,Craig Richards,0.0001
+1079,Trent Broadhurst,0.0001
+1080,Cedric Agnew,0.0001
+1081,Samuel Clarkson,0.0001
+1082,Robert Berridge,0.0001
+1083,Yevgeni Makhteienko,0.0001
+1084,Pablo Carrillo,0.0001
+1085,Komgrich Nantapech,0.0001
+1086,Edgar Sosa,0.0001
+1087,Raul Garcia,0.0001
+1088,Juan Alejo,0.0001
+1089,Gilberto Parra,0.0001
+1090,Carlos Velarde,0.0001
+1091,Jonathan Gonzalez Ortiz,0.0001
+1092,Padraig McCrory,0.0001
+1093,Steve Rolls,0.0001
+1094,Ulises Sierra,0.0001
+1095,Lanell Bellows,0.0001
+1096,Eric Moon,0.0001
+1097,Carlos Manuel Portillo,0.0001
+1098,Michele Di Rocco,0.0001
+1099,Keita Obara,0.0001
+1100,Cesar Rene Cuenca,0.0001
+1101,Ronald Pontillas,0.0001
+1102,Aik Shakhnazaryan,0.0001
+1103,Jose Agustin Feria,0.0001
+1104,Eliot Chavez,0.0001
+1105,Joseph Adorno,0.0001
+1106,Luis Acosta,0.0001
+1107,Marco Acevedo,0.0001
+1108,Jabulani Makhense,0.0001
+1109,Gabriel Maestre,0.0001
+1110,Janer Gonzalez,0.0001
+1111,Justin DeLoach,0.0001
+1112,Luca D’Ortenzi,0.0001
+1113,Hosea Burton,0.0001
+1114,Dec Spelman,0.0001
+1115,James Farrell,0.0001
+1116,Ricky Reeves,0.0001
+1117,Moises Caro,0.0001
+1118,Katsunari Takayama,0.0001
+1119,Carlos Buitrago,0.0001
+1120,Javier Alejandro Rendon,0.0001
+1121,Edward Heno,0.0001
+1122,Angel Acosta,0.0001
+1123,Joel Castro Cano,0.0001
+1124,Edgar Ornelas,0.0001
+1125,Liam Wilson,0.0001
+1126,Christopher Diaz,0.0001
+1127,Victor Uriel Lopez,0.0001
+1128,Jeo Santisima,0.0001
+1129,Francisco Horta,0.0001
+1130,Juan Miguel Elorde,0.0001
+1131,Francisco De Vaca,0.0001
+1132,Jose Sanmartin,0.0001
+1133,Breilor Teran,0.0001
+1134,Glenn Porras,0.0001
+1135,Danny Flores,0.0001
+1136,Neider Valdez Aguilar,0.0001
+1137,Yudel Reyes,0.0001
+1138,Orlando Pino,0.0001
+1139,Vic Saludar,0.0001
+1140,Thomas Lamanna,0.0001
+1141,Greg Vendetti,0.0001
+1142,Ramon Alvarez,0.0001
+1143,Yuri Foreman,0.0001
+1144,Jan Zaveck,0.0001
+1145,Delvin Rodriguez,0.0001
+1146,Ishe Smith,0.0001
+1147,Javier Marquez Clemente,0.0001
+1148,Oswaldo Novoa,0.0001
+1149,Larry Holmes,0.0001
+1150,Ronny Mittag,0.0001
+1151,Ryno Liebenberg,0.0001
+1152,Rafael Bejaran,0.0001
+1153,Nadjib Mohammedi,0.0001
+1154,Ryan Ford,0.0001
+1155,Frank Buglioni,0.0001
+1156,Ben McCulloch,0.0001
+1157,Andy Perez,0.0001
+1158,Tobias Jeremias Reyes,0.0001
+1159,Luis Cerrito Hernandez,0.0001
+1160,Israel Vazquez,0.0001
+1161,DeeJay Kriel,0.0001
+1162,Reiya Konishi,0.0001
+1163,Ivan Meneses Flores,0.0001
+1164,Eliud De los Santos,0.0001
+1165,Sebastian Sanchez,0.0001
+1166,Benjamin Blindert,0.0001
+1167,James Kraft,0.0001
+1168,Timo Rost,0.0001
+1169,Darren Barker,0.0001
+1170,Ezequiel Aviles,0.0001
+1171,Stephen Smith,0.0001
+1172,Will Tomlinson,0.0001
+1173,Genaro Camargo,0.0001
+1174,Juan Manuel Lopez,0.0001
+1175,Galen Brown,0.0001
+1176,Robert Hawkins,0.0001
+1177,Joey Abell,0.0001
+1178,Sergio Orozco Oliva,0.0001
+1179,Agustin Mauro Gauto,0.0001
+1180,Rocco Santomauro,0.0001
+1181,Tommy Frank,0.0001
+1182,Moises Calleros,0.0001
+1183,Gohan Rodriguez Garcia,0.0001
+1184,Carlos Vado Bautista,0.0001
+1185,Kent Cruz,0.0001
+1186,Jose Marrufo,0.0001
+1187,Juan Huertas,0.0001
+1188,Luis Ronaldo Castillo,0.0001
+1189,Larry Ventus,0.0001
+1190,Gamal Yafai,0.0001
+1191,Jorge Sanchez,0.0001
+1192,Jeremy Parodi,0.0001
+1193,Oleksandr Yegorov,0.0001
+1194,Vusi Malinga,0.0001
+1195,Kamil Szeremeta,0.0001
+1196,Dominic Wade,0.0001
+1197,Matthew Macklin,0.0001
+1198,Jamie Cox,0.0001
+1199,Eduard Gutknecht,0.0001
+1200,David Brophy,0.0001
+1201,Andrea Di Luisa,0.0001
+1202,Jake Amparo,0.0001
+1203,Naoya Haruguchi,0.0001
+1204,Tatsuro Nakashima,0.0001
+1205,Toshiki Kawamitsu,0.0001
+1206,Lukasz Janik,0.0001
+1207,Krzysztof Wlodarczyk,0.0001
+1208,Jeremy Ouanna,0.0001
+1209,Jean Marc Monrose,0.0001
+1210,Charlie Clemente,0.0001
+1211,Drian Francisco,0.0001
+1212,Hisashi Amagasa,0.0001
+1213,Sod Kokietgym,0.0001
+1214,Joseph Agbeko,0.0001
+1215,Jerven Mama,0.0001
+1216,Roland Jay Biendima,0.0001
+1217,Axel Aragon Vega,0.0001
+1218,Tetsuya Hisada,0.0001
+1219,Tanawat Nakoon,0.0001
+1220,Carlos Ruiz,0.0001
+1221,Alberto Guevara,0.0001
+1222,Carlos Medellin,0.0001
+1223,Ramon Maas,0.0001
+1224,Julio Cesar Miranda,0.0001
+1225,Olanrewaju Durodola,0.0001
+1226,Aleksei Papin,0.0001
+1227,Dmitry Kudryashov,0.0001
+1228,Taylor Mabika,0.0001
+1229,Tamas Bajzath,0.0001
+1230,Glen Johnson,0.0001
+1231,Ruben Angel Mino,0.0001
+1232,Dmytro Kucher,0.0001
+1233,Hidenori Otake,0.0001
+1234,Julian Evaristo Aristule,0.0001
+1235,Fernando David Saucedo,0.0001
+1236,Nestor Hugo Paniagua,0.0001
+1237,Yves Ulysse Jr,0.0001
+1238,Fidel Maldonado Jr,0.0001
+1239,Luis David Salazar,0.0001
+1240,Raphael Igbokwe,0.0001
+1241,Emmany Kalombo,0.0001
+1242,Eric Walker,0.0001
+1243,Gabriel Bracero,0.0001
+1244,Petr Petrov,0.0001
+1245,Keenan Smith,0.0001
+1246,Wilberth Lopez,0.0001
+1247,Zhimin Wang,0.0001
+1248,Harlem Eubank,0.0001
+1249,Darragh Foley,0.0001
+1250,Abderrazak Houya,0.0001
+1251,Timo Schwarzkopf,0.0001
+1252,Tyrone McKenna,0.0001
+1253,Tyrone Nurse,0.0001
+1254,Noe Nunez,0.0001
+1255,Jarkko Putkonen,0.0001
+1256,Gabriel Fernando Punalef Calfin,0.0001
+1257,Cesar David Inalef,0.0001
+1258,Ricardo Nunez,0.0001
+1259,Jose Macias Enriquez,0.0001
+1260,Huseyin Cinkara,0.0001
+1261,Claudio Squeo,0.0001
+1262,David Nyika,0.0001
+1263,Jack Massey,0.0001
+1264,Jordan Thompson,0.0001
+1265,Daniel Russell,0.0001
+1266,Benjamin Kelleher,0.0001
+1267,Nikolas Charalampous,0.0001
+1268,Alberto Ignacio Palmetta,0.0001
+1269,Antonio DeMarco,0.0001
+1270,Nicholas Molina,0.0001
+1271,Lamont Roach,0.0001
+1272,Adeilson Dos Santos,0.0001
+1273,John Vincent Moralde,0.0001
+1274,Juan Pablo Sanchez,0.0001
+1275,Art Hovhannisyan,0.0001
+1276,Fidel Monterrosa Munoz,0.0001
+1277,Brandon Gonzales,0.0001
+1278,Fernando Vargas,0.0001
+1279,Tabtimdaeng Na Rachawat,0.0001
+1280,Anauel Ngamissengue,0.0001
+1281,Andrei Mikhailovich,0.0001
+1282,Steven Butler,0.0001
+1283,Denzel Bentley,0.0001
+1284,Danny Dignum,0.0001
+1285,Gonzalo Gaston Coria,0.0001
+1286,Albert Onolunose,0.0001
+1287,Stuart McLellan,0.0001
+1288,Cristian Olivas,0.0001
+1289,Francisco Santana,0.0001
+1290,Jason Welborn,0.0001
+1291,Jorge Cota,0.0001
+1292,Oscar Molina,0.0001
+1293,Jeff Lentz,0.0001
+1294,Herlan Gomez,0.0001
+1295,Saul Sanchez,0.0001
+1296,Joshua Greer Jr,0.0001
+1297,Leonardo Baez,0.0001
+1298,Goodluck Mrema,0.0001
+1299,Cris Paulino,0.0001
+1300,Immanuel Naidjala,0.0001
+1301,Julias Kisarawe,0.0001
+1302,Lolito Sonsona,0.0001
+1303,Emanuel Armendariz,0.0001
+1304,Haskell Rhodes,0.0001
+1305,Jorge Pazos,0.0001
+1306,Jerry Belmontes,0.0001
+1307,Santiago Bustos,0.0001
+1308,Antonio Lozada Jr,0.0001
+1309,Sharif Bogere,0.0001
+1310,Omar Douglas,0.0001
+1311,Carlos Ivan Velasquez,0.0001
+1312,Bryan Vasquez,0.0001
+1313,Miguel Taveras,0.0001
+1314,Abner Cotto,0.0001
+1315,Albert Batyrgaziev,0.0001
+1316,Ryan Walsh,0.0001
+1317,Carlos Ramos,0.0001
+1318,Nathaniel May,0.0001
+1319,Reynaldo Cajina,0.0001
+1320,Martin Ward,0.0001
+1321,Arnoldo Solano,0.0001
+1322,Fanlong Meng,0.0001
+1323,Ahmed Elbiali,0.0001
+1324,Yunieski Gonzalez,0.0001
+1325,Gary Corcoran,0.0001
+1326,Ali Funeka,0.0001
+1327,Rico Mueller,0.0001
+1328,Randall Bailey,0.0001
+1329,Ahmed El Mousaoui,0.0001
+1330,Alfredo Rodolfo Blanco,0.0001
+1331,Juan Rodriguez,0.0001
+1332,Lewis Ritson,0.0001
+1333,Jonathan Jose Eniz,0.0001
+1334,Ruben Dario Lopez,0.0001
+1335,Dennis Hogan,0.0001
+1336,Brandon Adams,0.0001
+1337,Hugo Centeno Jr,0.0001
+1338,Jorge Sebastian Heiland,0.0001
+1339,Wilky Campfort,0.0001
+1340,Cornelius Bundrage,0.0001
+1341,Michael Finney,0.0001
+1342,Lenny Bottai,0.0001
+1343,Joachim Alcine,0.0001
+1344,Mario Alberto Lozano,0.0001
+1345,Charles Bellamy,0.0001
+1346,Ruben Dario Casero,0.0001
+1347,Wilner Soto,0.0001
+1348,Ryuichi Funai,0.0001
+1349,Israel Gonzalez,0.0001
+1350,Jamie Conlan,0.0001
+1351,Teiru Kinoshita,0.0001
+1352,Paul Apolinario,0.0001
+1353,Juan Purisima,0.0001
+1354,Fadhili Majiha,0.0001
+1355,Rachmat Santoso,0.0001
+1356,Luis Coria,0.0001
+1357,Yenifel Vicente,0.0001
+1358,Rafael Rivera,0.0001
+1359,Rico Ramos,0.0001
+1360,Rey Perez,0.0001
+1361,Vergel Nebran,0.0001
+1362,Raul Hirales,0.0001
+1363,Carlos Rodriguez,0.0001
+1364,Humberto Soto,0.0001
+1365,Aaron Herrera,0.0001
+1366,Anton Novikov,0.0001
+1367,Guido Emmanuel Schramm,0.0001
+1368,Joseph Spencer,0.0001
+1369,Juan Antonio Rodriguez,0.0001
+1370,Felix Sabez,0.0001
+1371,Edgar Guillen,0.0001
+1372,Walter Estrada,0.0001
+1373,Gabriel Flores Jr,0.0001
+1374,Jaret Gonzalez Quiroz,0.0001
+1375,Edward Vazquez,0.0001
+1376,Miko Khatchatryan,0.0001
+1377,Joshuah Hernandez,0.0001
+1378,Faroukh Kourbanov,0.0001
+1379,Gavin Gwynne,0.0001
+1380,Andy Townend,0.0001
+1381,Sean Dodd,0.0001
+1382,Hakim Ben Ali,0.0001
+1383,Lee Connelly,0.0001
+1384,Lesther Cantillano,0.0001
+1385,Jamie Speight,0.0001
+1386,Arnold Khegai,0.0001
+1387,Manuel Avila,0.0001
+1388,Rodrigo Guerrero,0.0001
+1389,Javier Gallo,0.0001
+1390,Rolando Magbanua,0.0001
+1391,Dennis Laurente,0.0001
+1392,Carlos Adan Jerez,0.0001
+1393,Jorge Daniel Miranda,0.0001
+1394,Tom Mizokoshi,0.0001
+1395,Duke Micah,0.0001
+1396,Cesar Ramirez,0.0001
+1397,Kenya Yamashita,0.0001
+1398,Armando Santos,0.0001
+1399,Mauricio Fuentes,0.0001
+1400,Felipe Salguero,0.0001
+1401,Satoshi Hosono,0.0001
+1402,Pablo Martin Barboza,0.0001
+1403,Sergio Eduardo Gonzalez,0.0001
+1404,Sergio Javier Escobar,0.0001
+1405,Cid Edson Bispo Ribeiro,0.0001
+1406,Al Toyogon,0.0001
+1407,Mercito Gesta,0.0001
+1408,Ivan Cano,0.0001
+1409,Kevin Mitchell,0.0001
+1410,Javier Prieto,0.0001
+1411,Ira Terry,0.0001
+1412,Nihito Arakawa,0.0001
+1413,Neeraj Goyat,0.0001
+1414,Francisco Javier Perez,0.0001
+1415,Josue Vargas,0.0001
+1416,Henry Lundy,0.0001
+1417,Kendo Castaneda,0.0001
+1418,Domicio Rondon,0.0001
+1419,Carlos Diaz Ramirez,0.0001
+1420,Martin Bakole,0.0001
+1421,Simon Kean,0.0001
+1422,Faiga Opelu,0.0001
+1423,Junior Fa,0.0001
+1424,Shawndell Terell Winters,0.0001
+1425,Alex Leapai,0.0001
+1426,Alexander Flores,0.0001
+1427,Alexander Dimitrenko,0.0001
+1428,Solomon Haumono,0.0001
+1429,Jason Bergman,0.0001
+1430,Kali Meehan,0.0001
+1431,Flavius Biea,0.0001
+1432,Ishmael Davis,0.0001
+1433,Placido Ramirez,0.0001
+1434,Gabriel Alberto Corzo,0.0001
+1435,Troy Williamson,0.0001
+1436,Lucas Brian Ariel Bastida,0.0001
+1437,Peter Kramer,0.0001
+1438,Winston Campos,0.0001
+1439,Przemyslaw Runowski,0.0001
+1440,Kris George,0.0001
+1441,Jean Michel Hamilcaro,0.0001
+1442,Jose Luis Zuniga,0.0001
+1443,Tom Whitfield,0.0001
+1444,Apinan Kongsong,0.0001
+1445,Ryan Martin,0.0001
+1446,Warren Joubert,0.0001
+1447,Alfonso Olvera,0.0001
+1448,Dave Ryan,0.0001
+1449,Evincii Dixon,0.0001
+1450,Asad Asif Khan,0.0001
+1451,Sofiane Takoucht,0.0001
+1452,Dennis Ceylan,0.0001
+1453,Patrick Hyland,0.0001
+1454,Joel Brunker,0.0001
+1455,Dennis Tubieron,0.0001
+1456,Edwin Tellez,0.0001
+1457,Jose Alejandro Burgos,0.0001
+1458,Alexis Santiago,0.0001
+1459,German Meraz,0.0001
+1460,Jundy Maraon,0.0001
+1461,Karim Arce Lugo,0.0001
+1462,Argi Cortes,0.0001
+1463,Dewayne Beamon,0.0001
+1464,Victor Mendez,0.0001
+1465,Felipe Orucuta,0.0001
+1466,Rommel Asenjo,0.0001
+1467,Joebert Alvarez,0.0001
+1468,Giovani Segura,0.0001
+1469,Nathaniel Gallimore,0.0001
+1470,Marcello Matano,0.0001
+1471,Luciano Leonel Cuello,0.0001
+1472,Arman Ovsepyan,0.0001
+1473,Jamar Freeman,0.0001
+1474,Fabian Lyimo,0.0001
+1475,Allan Kamote,0.0001
+1476,Zolani Marali,0.0001
+1477,Ibrahim Class,0.0001
+1478,Sebastian Hernandez,0.0001
+1479,David Cuellar Contreras,0.0001
+1480,Tasana Salapat,0.0001
+1481,Ryota Yamauchi,0.0001
+1482,Philip Luis Cuerdo,0.0001
+1483,Naoki Mochizuki,0.0001
+1484,Shun Kosaka,0.0001
+1485,Jerald Paclar,0.0001
+1486,Sho Ishida,0.0001
+1487,Suguru Muranaka,0.0001
+1488,Jason Cunningham,0.0001
+1489,Aron Juarez,0.0001
+1490,Isaac Quaye,0.0001
+1491,Maikel Ordosgoitti,0.0001
+1492,Ryoji Fukunaga,0.0001
+1493,Jeyvier Cintron,0.0001
+1494,Noknoi Sitthiprasert,0.0001
+1495,Keyvin Lara,0.0001
+1496,Roberto Domingo Sosa,0.0001
+1497,Jean Piero Perez,0.0001
+1498,Brock Jarvis,0.0001
+1499,Leonard Bundu,0.0001
+1500,Mark DeLuca,0.0001
+1501,Kevin Bizier,0.0001
+1502,Frankie Gavin,0.0001
+1503,Ionut Dan Ion,0.0001
+1504,Alvaro Robles,0.0001
+1505,Matthew Hatton,0.0001
+1506,Azinga Fuzile,0.0001
+1507,Hirotsugu Yamamoto,0.0001
+1508,Satoru Sugita,0.0001
+1509,Rikki Naito,0.0001
+1510,Kento Matsushita,0.0001
+1511,Jonathan Taconing,0.0001
+1512,Saul Juarez,0.0001
+1513,Milan Melindo,0.0001
+1514,Ganigan Lopez,0.0001
+1515,Gilberto Pedroza,0.0001
+1516,Serhiy Radchenko,0.0001
+1517,Senad Gashi,0.0001
+1518,Patrick Ferguson,0.0001
+1519,Firat Arslan,0.0001
+1520,Sefer Seferi,0.0001
+1521,Artur Mann,0.0001
+1522,Roman Golovashchenko,0.0001
+1523,Sergio Ramirez,0.0001
+1524,Micki Nielsen,0.0001
+1525,Miguel Madueno,0.0001
+1526,Francesco Patera,0.0001
+1527,Omar Tienda,0.0001
+1528,Esteban Sanchez,0.0001
+1529,Jose Zaragoza,0.0001
+1530,Jose Antonio Meza,0.0001
+1531,Richman Ashelley,0.0001
+1532,Lester Brown,0.0001
+1533,Claudio Marrero,0.0001
+1534,Brayan Mairena,0.0001
+1535,Toka Kahn Clary,0.0001
+1536,Irving Berry,0.0001
+1537,Jose Cayetano,0.0001
+1538,Simas Volosinas,0.0001
+1539,Fred Mundraby,0.0001
+1540,Sergio Prado,0.0001
+1541,Joaquim Carneiro,0.0001
+1542,Christian Ariel Lopez,0.0001
+1543,Lazaro Santos de Jesus,0.0001
+1544,Santos Medrano,0.0001
+1545,Giorgi Abramishvili,0.0001
+1546,Yuranan Dokrathok,0.0001
+1547,Tanawat Phonnaku,0.0001
+1548,Koki Kameda,0.0001
+1549,Sutep Wangmuk,0.0001
+1550,Thawatchai Denmanee,0.0001
+1551,Christian Eduardo Bacasegua,0.0001
+1552,Yanga Sigqibo,0.0001
+1553,Masayoshi Hashizume,0.0001
+1554,Wulan Tuolehazi,0.0001
+1555,Ryoichi Taguchi,0.0001
+1556,Ronnie Baldonado,0.0001
+1557,Andrzej Wawrzyk,0.0001
+1558,Rydell Booker,0.0001
+1559,George Arias,0.0001
+1560,Ivica Perkovic,0.0001
+1561,Felix Diaz,0.0001
+1562,Edgar Santana,0.0001
+1563,Dierry Jean,0.0001
+1564,Hussein Muhamed,0.0001
+1565,Lukasz Rozanski,0.0001
+1566,David Light,0.0001
+1567,Dilan Prasovic,0.0001
+1568,Nikodem Jezewski,0.0001
+1569,Yves Ngabu,0.0001
+1570,Mariano Angel Gudino,0.0001
+1571,Wadi Camacho,0.0001
+1572,Matty Askin,0.0001
+1573,Luke Watkins,0.0001
+1574,Antonio Sousa,0.0001
+1575,Adam Williams,0.0001
+1576,Blaise Mendouo,0.0001
+1577,Ivan Morales,0.0001
+1578,Omar Lamiri,0.0001
+1579,Willy Velazquez,0.0001
+1580,Eduardo Ramirez,0.0001
+1581,Eric Hunter,0.0001
+1582,Fernando Montiel,0.0001
+1583,Evgeny Gradovich,0.0001
+1584,Romulo Koasicha,0.0001
+1585,Reece Mould,0.0001
+1586,Ryan Doyle,0.0001
+1587,Abraham Osei Bonsu,0.0001
+1588,Rafael Castillo,0.0001
+1589,Keenan Carbajal,0.0001
+1590,Conah Walker,0.0001
+1591,Jose Felix Jr,0.0001
+1592,Greyvin Mendoza,0.0001
+1593,Octavian Gratii,0.0001
+1594,Joel Julio,0.0001
+1595,Artem Haroyan,0.0001
+1596,Deniz Ilbay,0.0001
+1597,Louis Greene,0.0001
+1598,John Thain,0.0001
+1599,David Papot,0.0001
+1600,Jonathan Navarro,0.0001
+1601,Yomar Alamo,0.0001
+1602,Terry Tzouramanis,0.0001
+1603,James Chereji,0.0001
+1604,Hwang Kil Kim,0.0001
+1605,Hassan Mwakinyo,0.0001
+1606,Anthony Fowler,0.0001
+1607,Roberto Garcia,0.0001
+1608,Predrag Radosevic,0.0001
+1609,‘Jimmy’ Kilrain Kelly,0.0001
+1610,John Thompson,0.0001
+1611,David Ezequiel Romero,0.0001
+1612,Robert Talarek,0.0001
+1613,Kamil Sokolowski,0.0001
+1614,Julius Long,0.0001
+1615,Eric Martel Bahoeli,0.0001
+1616,Denis Grachev,0.0001
+1617,Eduardo Montoya,0.0001
+1618,Reiya Abe,0.0001
+1619,Isaac Lowe,0.0001
+1620,Andy Vences,0.0001
+1621,Sammy Vasquez,0.0001
+1622,Christopher Degollado,0.0001
+1623,Sathaporn Saart,0.0001
+1624,Azat Hovhannisyan,0.0001
+1625,Renson Robles,0.0001
+1626,Jason Canoy,0.0001
+1627,Arthur Villanueva,0.0001
+1628,Adrian Young,0.0001
+1629,Jairo Lopez,0.0001
+1630,Derry Mathews,0.0001
+1631,Gary Sykes,0.0001
+1632,Aboubeker Bechelaghem,0.0001
+1633,Aslanbek Kozaev,0.0001
+1634,Dmitry Mikhaylenko,0.0001
+1635,Ilya Ochkin,0.0001
+1636,Ismail Iliev,0.0001
+1637,Charles Manyuchi,0.0001
+1638,Akinori Watanabe,0.0001
+1639,Nuri Seferi,0.0001
+1640,Nikola Milacic,0.0001
+1641,Christopher Lovejoy,0.0001
+1642,Andrei Mazanik,0.0001
+1643,Brandon Deslaurier,0.0001
+1644,Simon Vallily,0.0001
+1645,Danie Venter,0.0001
+1646,Laszlo Hubert,0.0001
+1647,Emre Altintas,0.0001
+1648,David Diaz,0.0001
+1649,Daniel Ponce De Leon,0.0001
+1650,Jose Arias,0.0001
+1651,Adailton De Jesus,0.0001
+1652,Sammy Ventura,0.0001
+1653,Erik Morales,0.0001
+1654,Ola Afolabi,0.0001
+1655,Mirko Larghetti,0.0001
+1656,Martin Angel Martinez,0.0001
+1657,Fabian Andres Maidana,0.0001
+1658,Ryan Karl,0.0001
+1659,Juan Jose Velasco,0.0001
+1660,Richard Zamora,0.0001
+1661,Jose Roman,0.0001
+1662,Eudy Bernardo,0.0001
+1663,Naim Nelson,0.0001
+1664,Jorge Mata Cuellar,0.0001
+1665,Gary Russell Jr,0.0001
+1666,Pablo Cruz,0.0001
+1667,Rigoberto Hermosillo,0.0001
+1668,Shota Hayashi,0.0001
+1669,Daniel Diaz,0.0001
+1670,Issa Nampepeche,0.0001
+1671,Ramiro Robles,0.0001
+1672,Jon Jon Jet,0.0001
+1673,Nattapong Jankaew,0.0001
+1674,Jose Estrella,0.0001
+1675,Hiroaki Teshigawara,0.0001
+1676,Roberto Castaneda,0.0001
+1677,Shohei Omori,0.0001
+1678,Jecker Buhawe,0.0001
+1679,Hayato Kimura,0.0001
+1680,Toshimasa Ouchi,0.0001
+1681,Tsuyoshi Sato,0.0001
+1682,Rikito Shiba,0.0001
+1683,Ryuto Oho,0.0001
+1684,Kai Ishizawa,0.0001
+1685,Wilfredo Mendez,0.0001
+1686,Hizuki Saso,0.0001
+1687,Evgeny Chuprakov,0.0001
+1688,Vergil Puton,0.0001
+1689,Glenn Enterina,0.0001
+1690,Lorenzo Villanueva,0.0001
+1691,Takuya Watanabe,0.0001
+1692,Immanuwel Aleem,0.0001
+1693,Jonathan Batista,0.0001
+1694,Scott Sigmon,0.0001
+1695,Brian Vera,0.0001
+1696,Josue Obando,0.0001
+1697,Uriel Perez,0.0001
+1698,Alex Saucedo,0.0001
+1699,Courtney Jackson,0.0001
+1700,Cristobal Cruz,0.0001
+1701,Ty Barnett,0.0001
+1702,Wilfrido Buelvas,0.0001
+1703,Edwing Davila,0.0001
+1704,Emilio Sanchez,0.0001
+1705,Sergio Puente,0.0001
+1706,Alejandro Palmero,0.0001
+1707,Mark Anthony Geraldo,0.0001
+1708,David Quijano,0.0001
+1709,Jairo Hernandez,0.0001
+1710,Siyakholwa Kuse,0.0001
+1711,Luis Angel Castillo,0.0001
+1712,Michael Camelion,0.0001
+1713,Ramel Antaran,0.0001
+1714,Toto Landero,0.0001
+1715,Jayson Francisco,0.0001
+1716,Eli Frankham,0.0001
+1717,Ignacio Esparza,0.0001
+1718,Sergey Kuzmin,0.0001
+1719,Fabio Maldonado,0.0001
+1720,Phil Williams,0.0001
+1721,Jason Douglas,0.0001
+1722,Mike Bissett,0.0001
+1723,Deon Elam,0.0001
+1724,Cedric Vitu,0.0001
+1725,Anderson Prestot,0.0001
+1726,John Vera,0.0001
+1727,Ivan Montero,0.0001
+1728,Javier Francisco Maciel,0.0001
+1729,Alan Herrera,0.0001
+1730,Carlos Cardenas,0.0001
+1731,Edixon Perez,0.0001
+1732,Jeremy Triana,0.0001
+1733,Diego Alberto Ruiz,0.0001
+1734,Maxwell Awuku,0.0001
+1735,Chonlatarn Piriyapinyo,0.0001
+1736,George Jupp,0.0001
+1737,Rolando Giono,0.0001
+1738,Josue Bendana,0.0001
+1739,Daniel Geale,0.0001
+1740,Sergio Martinez,0.0001
+1741,Antonio Margarito,0.0001
+1742,Zab Judah,0.0001
+1743,Ricardo Torres,0.0001
+1744,Muhammadqodir Abdullaev,0.0001
+1745,Clifford Etienne,0.0001
+1746,Brian Nielsen,0.0001
+1747,Elio Rojas,0.0001
+1748,Sergio Rios Jimenez,0.0001
+1749,Christian Olivo,0.0001
+1750,Rudy Garcia,0.0001
+1751,Akira Yaegashi,0.0001
+1752,Masayuki Kuroda,0.0001
+1753,Masahiro Sakamoto,0.0001
+1754,Genisis Libranza,0.0001
+1755,Renz Rosia,0.0001
+1756,Odilon Zaleta,0.0001
+1757,Jether Oliva,0.0001
+1758,Ricardo Adolfo Nunez,0.0001
+1759,Andrea Sarritzu,0.0001
+1760,Robert Barrera,0.0001
+1761,Conrado Tanamor,0.0001
+1762,Jose Luis Calvo,0.0001
+1763,Ivan Trejos,0.0001
+1764,Kem Ljungquist,0.0001
+1765,Mike Balogun,0.0001
+1766,Carlouse Welch,0.0001
+1767,Michael Wallisch,0.0001
+1768,Jordan Shimmell,0.0001
+1769,Rodney Moore,0.0001
+1770,Felix Cora Jr,0.0001
+1771,Terrance Smith,0.0001
+1772,Luis Gerardo Castillo,0.0001
+1773,Kevin Gonzalez,0.0001
+1774,Ronny Rios,0.0001
+1775,Jose Velasquez,0.0001
+1776,Carlos Carlson,0.0001
+1777,Isaac Zarate,0.0001
+1778,Ramon Contreras,0.0001
+1779,Alan Picasso,0.0001
+1780,Ramon Cardenas,0.0001
+1781,Ye Joon Kim,0.0001
+1782,Aran Dipaen,0.0001
+1783,Michael Dasmarinas,0.0001
+1784,Yoan Boyeaux,0.0001
+1785,Antonio Nieves,0.0001
+1786,Ricardo Rodriguez,0.0001
+1787,Karoon Jarupianlerd,0.0001
+1788,Warlito Parrenas,0.0001
+1789,Omar Andres Narvaez,0.0001
+1790,Wittawas Basapean,0.0001
+1791,Adrian Hernandez,0.0001
+1792,Tomas Man,0.0001
+1793,Alejandro Emilio Valori,0.0001
+1794,Shawn Corbin,0.0001
+1795,Miguel Marriaga,0.0001
+1796,Vic Darchinyan,0.0001
+1797,Alberto Garza,0.0001
+1798,Lodumo Lamati,0.0001
+1799,Jesus Ramirez Rubio,0.0001
+1800,Nathanael Kakololo,0.0001
+1801,Andres Campos,0.0001
+1802,Reymart Gaballo,0.0001
+1803,Stephon Young,0.0001
+1804,Zsolt Bedak,0.0001
+1805,Anthony Settoul,0.0001
+1806,William Prado,0.0001
+1807,Luis Melendez,0.0001
+1808,Alejandro Hernandez,0.0001
+1809,Iran Diaz,0.0001
+1810,Abraham Nova,0.0001
+1811,Eduardo Hernandez,0.0001
+1812,Muhammadkhuja Yaqubov,0.0001
+1813,Anthony Hollaway,0.0001
+1814,Isaac Rodrigues,0.0001
+1815,Ricards Bolotniks,0.0001
+1816,Doudou Ngumbu,0.0001
+1817,Mehdi Amar,0.0001
+1818,Craig Baker,0.0001
+1819,Mike Snider,0.0001
+1820,Cleiton Conceicao,0.0001
+1821,Chazz Witherspoon,0.0001
+1822,Pedro Rodriguez,0.0001
+1823,Johnny Muller,0.0001
+1824,Andrey Knyazev,0.0001
+1825,Daniel Bruwer,0.0001
+1826,Terdsak Kokietgym,0.0001
+1827,Jayson Vayson,0.0001
+1828,Edwin Cano,0.0001
+1829,Gerardo Zapata,0.0001
+1830,Reyneris Gutierrez,0.0001
+1831,Garen Diagan,0.0001
+1832,Pedro Villegas,0.0001
+1833,Francisco Bonilla Zambrano,0.0001
+1834,Kevin John Cruz Jusino,0.0001
+1835,Steve Forbes,0.0001
+1836,Ricardo Mayorga,0.0001
+1837,Ike Quartey,0.0001
+1838,Hector Camacho,0.0001
+1839,Pernell Whitaker,0.0001
+1840,Julio Cesar Chavez,0.0001
+1841,Jorge Paez,0.0001
+1842,Andranik Grigoryan,0.0001
+1843,Adrian Morel Solis,0.0001
+1844,Juan Carlos Pena,0.0001
+1845,Estevin Herrera,0.0001
+1846,Williams Andres Herrera,0.0001
+1847,Danny Ball,0.0001
+1848,Norihito Tanaka,0.0001
+1849,Danai Ngiabphukhiaw,0.0001
+1850,Wichet Sengprakhon,0.0001
+1851,Hector Villa,0.0001
+1852,Mehrdad Kalvandi,0.0001
+1853,Jerry Tomogdan,0.0001
+1854,Edisson Saltarin,0.0001
+1855,Davi Eliasquevici,0.0001
+1856,Willibaldo Garcia,0.0001
+1857,Hector Rolando Gusman,0.0001
+1858,Gustavo Molina,0.0001
+1859,Antonio Moscatiello,0.0001
+1860,Ruben Montoya,0.0001
+1861,Christian Balunan,0.0001
+1862,Samuel Salva,0.0001
+1863,Jeffrey Galero,0.0001
+1864,Lukas Konecny,0.0001
+1865,Enathi Stelle,0.0001
+1866,Jackson Chauke,0.0001
+1867,Lazarus Namalambo,0.0001
+1868,Jetro Pabustan,0.0001
+1869,Ryo Akaho,0.0001
+1870,Nouldy Manakane,0.0001
+1871,Petchchumphol Sor Visetkit,0.0001
+1872,Mickey Ellison,0.0001
+1873,Silverio Ortiz,0.0001
+1874,Lanardo Tyner,0.0001
+1875,Azael Cosio,0.0001
+1876,Ramses Agaton,0.0001
+1877,Sergio Chirino Sanchez,0.0001
+1878,Ally Mwerangi,0.0001
+1879,Rafael Rosas Ramirez,0.0001
+1880,Orlando Garcia Guerrero,0.0001
+1881,Gerardo Valenzuela Munoz,0.0001
+1882,Omar Juarez,0.0001
+1883,Al Rivera,0.0001
+1884,Angino Perez,0.0001
+1885,Ruben Garcia,0.0001
+1886,Kohei Oba,0.0001
+1887,Jessy Cruz,0.0001
+1888,Miguel Robles,0.0001
+1889,Jose Luis Araiza,0.0001
+1890,Thomas Mattice,0.0001
+1891,Orlando Gonzalez Ruiz,0.0001
+1892,Sakaria Lukas,0.0001
+1893,Richard Medina,0.0001
+1894,Felix Caraballo,0.0001
+1895,Reece Bellotti,0.0001
+1896,Andy Cruz,0.0001
+1897,Jesus Antonio Perez Campos,0.0001
+1898,Diego Torres,0.0001
+1899,Humberto Galindo,0.0001
+1900,Miguel Contreras,0.0001
+1901,Denilson Jair Valtierra,0.0001
+1902,Jeremy Hill,0.0001
+1903,Danielito Zorrilla,0.0001
+1904,Juan Heraldez,0.0001
+1905,Joel Diaz Jr,0.0001
+1906,Luis Eduardo Florez,0.0001
+1907,Franklin Manzanilla,0.0001
+1908,Alexis Boureima Kabore,0.0001
+1909,Lucian Gonzalez,0.0001
+1910,Edward Mansito,0.0001
+1911,Jackson Marinez,0.0001
+1912,Alejandro Luna,0.0001
+1913,Hedi Slimani,0.0001
+1914,Anzor Gamgebeli,0.0001
+1915,Kakha Avetisiani,0.0001
+1916,Bahodir Mamadjonov,0.0001
+1917,Thompson Mokwana,0.0001
+1918,Mikheil Avakyan,0.0001
+1919,Prince Ofotsu,0.0001
+1920,John Bauza,0.0001
+1921,Angel Sarinana Rodriguez,0.0001
+1922,Malik Hawkins,0.0001
+1923,Nick DeLomba,0.0001
+1924,Emiliano Dominguez Rodriguez,0.0001
+1925,Scott Cardle,0.0001
+1926,Josh King,0.0001
+1927,Alexandre Lepelley,0.0001
+1928,Juan Lazcano,0.0001
+1929,Kostya Tszyu,0.0001
+1930,Vitalii Kopylenko,0.0001
+1931,Khasan Baysangurov,0.0001
+1932,Alexis Hloros,0.0001
+1933,Chris Fitzpatrick,0.0001
+1934,Delray Raines,0.0001
+1935,Decarlo Perez,0.0001
+1936,Louis Rose,0.0001
+1937,Gerald Thomas,0.0001
+1938,Hevinson Herrera,0.0001
+1939,Adam Mate,0.0001
+1940,Emmanuel Danso,0.0001
+1941,Abdallah Paziwapazi,0.0001
+1942,Noe Gonzalez Alcoba,0.0001
+1943,Cristian Cruz Chacon,0.0001
+1944,Brandon Valdes,0.0001
+1945,Maickol Lopez Villagrana,0.0001
+1946,Alexei Collado,0.0001
+1947,Ruben Cervera,0.0001
+1948,Miguel Carrizoza,0.0001
+1949,Jose Santos Gonzalez,0.0001
+1950,Jesus Alvarez Rodriguez,0.0001
+1951,Jose Luis Castillo,0.0001
+1952,Mike Alvarado,0.0001
+1953,Andrej Pesic,0.0001
+1954,Tony Yoka,0.0001
+1955,Zhaoxin Zhang,0.0001
+1956,Imre Szello,0.0001
+1957,Cesar David Crenz,0.0001
+1958,Demetrius Banks,0.0001
+1959,Soso Abuladze,0.0001
+1960,Jelbirt Gomera,0.0001
+1961,Joseafat Reyes,0.0001
+1962,Ryan Farrag,0.0001
+1963,Jason Booth,0.0001
+1964,Csaba Kovacs,0.0001
+1965,Emmanuel Tagoe,0.0001
+1966,Francisco Fonseca,0.0001
+1967,Romero Duno,0.0001
+1968,Jose Lopez,0.0001
+1969,Braulio Rodriguez,0.0001
+1970,Jayson Velez,0.0001
+1971,Noe Martinez Raygoza,0.0001
+1972,Cesar Alan Valenzuela,0.0001
+1973,Ernesto Saulong,0.0001
+1974,Glenn Medura,0.0001
+1975,Aekkawee Kaewmanee,0.0001
+1976,Marlon Arcilla,0.0001
+1977,Bryan Mercado Vazquez,0.0001
+1978,Anuchai Donsua,0.0001
+1979,Johan Perez,0.0001
+1980,Jorge Silva,0.0001
+1981,Saul Corral,0.0001
+1982,Gianluca Ceglia,0.0001
+1983,Lewis Sylvester,0.0001
+1984,Carlos Perez,0.0001
+1985,Karthik Sathish Kumar,0.0001
+1986,Calvin McCord,0.0001
+1987,Vincenzo Finiello,0.0001
+1988,Oleg Yefimovych,0.0001
+1989,Stephane Jamoye,0.0001
+1990,Tshifhiwa Munyai,0.0001
+1991,Chordale Booker,0.0001
+1992,Carlos Ocampo,0.0001
+1993,Sergio Garcia,0.0001
+1994,Habib Ahmed,0.0001
+1995,Daniel Lewis,0.0001
+1996,Hector Manuel Zepeda,0.0001
+1997,Donnie Marshall,0.0001
+1998,Thananchai Charunphak,0.0001
+1999,Takuya Kogawa,0.0001
+2000,Seiya Fujikita,0.0001
+2001,Weerawat Noolae,0.0001
+2002,Kazuki Anaguchi,0.0001
+2003,Riku Masuda,0.0001
+2004,Tervel Pulev,0.0001
+2005,Igor Mikhalkin,0.0001
+2006,Vyacheslav Shabranskyy,0.0001
+2007,Jayar Inson,0.0001
+2008,Akihiro Kondo,0.0001
+2009,Leonardo Zappavigna,0.0001
+2010,Levan Ghvamichava,0.0001
+2011,Kendal Mena,0.0001
+2012,Cosme Rivera,0.0001
+2013,Vaughn Alexander,0.0001
+2014,Tureano Johnson,0.0001
+2015,Mike Guy,0.0001
+2016,Jessie Nicklow,0.0001
+2017,Elvin Ayala,0.0001
+2018,Alan Campa,0.0001
+2019,Josh Padley,0.0001
+2020,Artem Harutyunyan,0.0001
+2021,Jessie Cris Rosales,0.0001
+2022,Aelio Mesquita,0.0001
+2023,Roxberg Patrick Riley,0.0001
+2024,Juan Tapia,0.0001
+2025,Emilio Ezequiel Zarate,0.0001
+2026,Michael Marrone,0.0001
+2027,Zoltan Petranyi,0.0001
+2028,Richard Carmack,0.0001
+2029,Cory Phelps,0.0001
+2030,Sebastian Formella,0.0001
+2031,Diego Ricardo Santillan,0.0001
+2032,Toshiyuki Igarashi,0.0001
+2033,Wisitsak Saiwaew,0.0001
+2034,Thiraphong Phaepho,0.0001
+2035,Yamato Uchinono,0.0001
+2036,Jairo Noriega,0.0001
+2037,Hiroshige Osawa,0.0001
+2038,Nehomar Cermeno,0.0001
+2039,Jin Wook Lim,0.0001
+2040,Benjie Suganob,0.0001
+2041,Lloyd Jardeliza,0.0001
+2042,Sarawut Sujarit,0.0001
+2043,Tsuyoshi Tameda,0.0001
+2044,Rodolfo Puente,0.0001
+2045,Chris John,0.0001
+2046,Regie Suganob,0.0001
+2047,Hector Gabriel Flores,0.0001
+2048,Christian Araneta,0.0001
+2049,Ivan Soriano,0.0001
+2050,Siyabonga Siyo,0.0001
+2051,Adam Yahaya,0.0001
+2052,Guangheng Luan,0.0001
+2053,Pipat Chaiporn,0.0001
+2054,Kwanthai Sithmorseng,0.0001
+2055,Jomar Fajardo,0.0001
+2056,Young Gil Bae,0.0001
+2057,Daetcharit Sitlekpet,0.0001
+2058,Ichal Tobida,0.0001
+2059,Arega Yunian,0.0001
+2060,Frans Damur Palue,0.0001
+2061,Hendrik Barongsay,0.0001
+2062,Isaac Avelar,0.0001
+2063,Paulus Ambunda,0.0001
+2064,Jesus Ahumada,0.0001
+2065,Frank Mir,0.0001
+2066,Natu Visinia,0.0001
+2067,Amir Mansour,0.0001
+2068,Elvis Guillen,0.0001
+2069,Jayson Mama,0.0001
+2070,Marcel Braithwaite,0.0001
+2071,Hiram Gallardo,0.0001
+2072,Junior Granados,0.0001
+2073,Cristian Narvaez,0.0001
+2074,Patrik Bartos,0.0001
+2075,Ross Murray,0.0001
+2076,Bryl Bayogos,0.0001
+2077,Japhethlee Llamido,0.0001
+2078,Ryohei Takahashi,0.0001
+2079,Mike Oliver,0.0001
+2080,Espinos Sabu,0.0001
+2081,Ernesto Guerrero,0.0001
+2082,Jimmy Borbon,0.0001
+2083,Edgar Puerta,0.0001
+2084,Dante Jardon,0.0001
+2085,Oliver Flores,0.0001
+2086,Jomthong Chuwatana,0.0001
+2087,Israel Hector Enrique Perez,0.0001
+2088,Daiki Kaneko,0.0001
+2089,Gakuya Furuhashi,0.0001
+2090,Shingo Wake,0.0001
+2091,Keita Kurihara,0.0001
+2092,Waldo Sabu,0.0001
+2093,Kentaro Masuda,0.0001
+2094,Hiroyuki Kudaka,0.0001
+2095,Victor Santillan,0.0001
+2096,Gerwin Asilo,0.0001
+2097,Luis Robles Pacheco,0.0001
+2098,Pedro Campa,0.0001
+2099,Masayoshi Nakatani,0.0001
+2100,Edis Tatli,0.0001
+2101,Diego Magdaleno,0.0001
+2102,William Silva,0.0001
+2103,Vitor Jones Freitas,0.0001
+2104,Josh Ross,0.0001
+2105,Michael Ansah,0.0001
+2106,Jonas Segu,0.0001
+2107,Orlando Cruz,0.0001
+2108,Mzonke Fana,0.0001
+2109,Stephen Ormond,0.0001
+2110,Guillaume Frenois,0.0001
+2111,James Tennyson,0.0001
+2112,Terrel Williams,0.0001
+2113,Jesus Gurrola,0.0001
+2114,Karim Mayfield,0.0001
+2115,Hector Velazquez,0.0001
+2116,Anthony Velazquez,0.0001
+2117,Takeshi Inoue,0.0001
+2118,Bowyn Morgan,0.0001
+2119,Jack Brubaker,0.0001
+2120,Dwight Ritchie,0.0001
+2121,Joel Camilleri,0.0001
+2122,Denton Vassell,0.0001
+2123,Marcos Jesus Cornejo,0.0001
+2124,Stevie Ongen Ferdinandus,0.0001
+2125,Larry Siwu,0.0001
+2126,Fred Kassi,0.0001
+2127,Abigail Medina,0.0001
+2128,Ivica Bacurin,0.0001
+2129,Edward Ulloa Diaz,0.0001
+2130,George Sosa,0.0001
+2131,Francois Russell,0.0001
+2132,Sandy Antonio Soto,0.0001
+2133,Isaac Ekpo,0.0001
+2134,Ruben Eduardo Acosta,0.0001
+2135,Nikola Sjekloca,0.0001
+2136,Stjepan Bozic,0.0001
+2137,Baker Barakat,0.0001
+2138,Tom Schwarz,0.0001
+2139,Francesco Pianeta,0.0001
+2140,Hans Joerg Blasko,0.0001
+2141,Gamalier Rodriguez,0.0001
+2142,Todd Manuel,0.0001
+2143,Gilberto Sanchez Leon,0.0001
+2144,Mohamed Mimoune,0.0001
+2145,Jake Giuriceo,0.0001
+2146,Selcuk Aydin,0.0001
+2147,Behzod Nabiev,0.0001
+2148,Esquiva Falcao,0.0001
+2149,Vincenzo Bevilacqua,0.0001
+2150,Dario Socci,0.0001
+2151,Billi Facundo Godoy,0.0001
+2152,Khalil El Harraz,0.0001
+2153,Jeyson Minda,0.0001
+2154,Oscar Riojas,0.0001
+2155,DeAndre Ware,0.0001
+2156,Gasan Gasanov,0.0001
+2157,Sergey Khomitsky,0.0001
+2158,Konstantin Piternov,0.0001
+2159,Simpiwe Konkco,0.0001
+2160,Tatsuya Fukuhara,0.0001
+2161,Mektison Marganti,0.0001
+2162,Leroy Estrada,0.0001
+2163,Omari Kimweri,0.0001
+2164,Edo Anggoro,0.0001
+2165,Go Odaira,0.0001
+2166,Ardi Buyung,0.0001
+2167,Sean Hemphill,0.0001
+2168,Evgeny Shvedenko,0.0001
+2169,Bryant Jennings,0.0001
+2170,Tony Thompson,0.0001
+2171,Jean Marc Mormeck,0.0001
+2172,Samuel Peter,0.0001
+2173,Eddie Chambers,0.0001
+2174,Jorge Garcia Perez,0.0001
+2175,Slawa Spomer,0.0001
+2176,Damian Sosa,0.0001
+2177,Roberto Valenzuela Jr,0.0001
+2178,Ronald Cruz,0.0001
+2179,Elias Espadas,0.0001
+2180,Quincy LaVallais,0.0001
+2181,Alessio Mastronunzio,0.0001
+2182,Dan Karpency,0.0001
+2183,Jose Luis Sanchez,0.0001
+2184,Nelson Gulpe,0.0001
+2185,Oscar Godoy,0.0001
+2186,Yuttapong Tongdee,0.0001
+2187,Bruno Tarimo,0.0001
+2188,Pete Apolinar,0.0001
+2189,Cris Ganoza,0.0001
+2190,Tsubasa Koura,0.0001
+2191,Ryu Horikawa,0.0001
+2192,Jonathan Guzman,0.0001
+2193,JP Macadumpis,0.0001
+2194,Atikun Salaoklang,0.0001
+2195,Taiki Minamoto,0.0001
+2196,Jesse Bryan,0.0001
+2197,Fulgencio Zuniga,0.0001
+2198,Edison Miranda,0.0001
+2199,Eric Fields,0.0001
+2200,Hylon Williams Jr,0.0001
+2201,Joel Montes de Oca,0.0001
+2202,Michael Farenas,0.0001
+2203,Jorge Solis,0.0001
+2204,Liam Dillon,0.0001
+2205,Jordan Gill,0.0001
+2206,Costin Ion,0.0001
+2207,Eric Donovan,0.0001
+2208,Jordan McCorry,0.0001
+2209,Roberto Lerio,0.0001
+2210,Gagi Edisherashvili,0.0001
+2211,Mikhail Aloyan,0.0001
+2212,Siboniso Gonya,0.0001
+2213,Victor Ruiz,0.0001
+2214,Diuhl Olguin,0.0001

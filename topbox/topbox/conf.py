@@ -1,8 +1,8 @@
+"""Configuration dataclasses."""
+
 from __future__ import annotations
 
-from dataclasses import dataclass
-
-"""Configuration dataclasses."""
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
@@ -45,6 +45,31 @@ class ConfPagerank:
     """
 
     alpha: float = 0.85
-    max_iter: int = 100
+    max_iter: int = 1000
     tol: float = 1.0e-6
     top_n: int = 10
+
+
+@dataclass(frozen=True)
+class ConfWikipedia:
+    """Wikipedia boxer-list configuration.
+
+    Args:
+        pages: Wikipedia page titles to scrape for boxer names.
+        api_url: MediaWiki action API base URL.
+        user_agent: User-Agent sent with every request.
+        extra_names: Additional names appended after Wikipedia fetch.
+    """
+
+    pages: tuple[str, ...] = field(
+        default_factory=lambda: (
+            "List_of_WBA_world_champions",
+            "List_of_WBC_world_champions",
+            "List_of_IBF_world_champions",
+            "List_of_WBO_world_champions",
+            "List_of_current_world_boxing_champions",
+        )
+    )
+    api_url: str = "https://en.wikipedia.org/w/api.php"
+    user_agent: str = "topbox/1.0 (boxing pagerank project; github.com/topbox)"
+    extra_names: tuple[str, ...] = field(default_factory=tuple)
