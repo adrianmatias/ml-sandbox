@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import csv
 import logging
 from pathlib import Path
+
+import pandas as pd
 
 from topbox.conf import ConfCrawler, ConfDataset, ConfPagerank
 from topbox.crawler import get_matches
@@ -19,17 +22,25 @@ def main() -> None:
     Path("data").mkdir(exist_ok=True)
 
     boxer_count = 250
-    conf_c = ConfCrawler(max_pages=boxer_count)
+    conf_c = ConfCrawler()
     conf_d = ConfDataset()
     conf_p = ConfPagerank(top_n=boxer_count)
 
-    matches = get_matches(conf_c)
-    df = create_dataset(matches, conf_d)
-    ranks = compute_ranks(df, conf_p)
+    if Path(conf_d.save_path).exists():
+        df = pd.read_parquet(conf_d.save_path)
+        logging.info(f"Loaded existing dataset: {conf_d.save_path}")
+    else:
+        matches = get_matches(conf_c)
+        df = create_dataset(matches, conf_d)
+    ranks = compute_ranks(df, conf_p, mode="loser_to_winner")
 
-    print("Top boxers by PageRank:")
-    for boxer, score in ranks:
-        print(f"{boxer}: {score:.4f}")
+    file_out = "topbox.csv"
+    with open(file_out, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Rank", "Boxer", "Score"])
+        for rank, (boxer, score) in enumerate(ranks, 1):
+            writer.writerow([rank, boxer, f"{score:.4f}"])
+    logging.info(f"{file_out}")
 
 
 if __name__ == "__main__":

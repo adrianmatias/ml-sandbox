@@ -149,10 +149,14 @@ line-length = 88
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "Q"]
-ignore = ["E501"]
+select = ["E", "F", "I"]
+
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 ```
 
 ## Additional Patterns
@@ -162,4 +166,4 @@ convention = "google"
 - **Security**: No secrets, timeouts on requests
 - **Pipeline**: crawl -> dataset -> pagerank -> top N print
 
-Total lines: ~150. Follow for all changes!
+Total lines: ~170. Follow for all changes!

@@ -1,12 +1,14 @@
 # TopBox: Boxer Ranking Pipeline
 
-TopBox computes PageRank for top boxers from match graphs scraped from BoxRec.
+TopBox computes centrality scores for top boxers from match graphs scraped from box.live.
 
-**Graph**: Directed edge `winner → loser`.
+**Graph Representation**: Matches mapped to directed/undirected graphs with edges based on fight outcomes.
+- **Modes**: `loser_to_winner` (loser → winner, ranks dominant boxers), `winner_to_loser` (winner → loser, ranks "tough" boxers), `undirected` (mutual edges, association-based).
+- **Alternatives to Explore**: Weighted edges (by recency/significance), eigenvector centrality, bipartite (boxers/fights), time-decaying PageRank.
 **Dataset**: `boxer_a`, `boxer_b`, `is_a_win`, `date` (parquet).
-**Output**: Top N boxers by PageRank score.
+**Output**: Top N boxers by centrality score, saved to `topbox.csv`.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 git clone <repo>
@@ -15,9 +17,29 @@ uv sync
 uv run python run_topbox.py
 ```
 
-Prints top boxers (demo crawl; BoxRec blocks bots—use proxies/VPN).
+Writes top boxers to `topbox.csv` (demo crawl; box.live blocks bots—use proxies/VPN).
 
-## 📋 Pipeline
+Sample output (`head -15 topbox.csv`):
+
+```
+Rank,Boxer,Score
+1,Dmitry Bivol,0.0660
+2,Artur Beterbiev,0.0627
+3,Daniel Dubois,0.0292
+4,Canelo Alvarez,0.0291
+5,Oleksandr Usyk,0.0289
+6,Terence Crawford,0.0211
+7,Joe Joyce,0.0200
+8,Filip Hrgovic,0.0193
+9,Chris Eubank Jr,0.0163
+10,Kazuto Ioka,0.0162
+11,Floyd Mayweather Jr,0.0150
+12,Shakur Stevenson,0.0138
+13,Gennady Golovkin,0.0126
+14,Anthony Joshua,0.0126
+```
+
+## Pipeline
 
 ```python
 from topbox.conf import ConfCrawler, ConfDataset, ConfPagerank
@@ -32,10 +54,10 @@ conf_d = ConfDataset()
 df = create_dataset(matches, conf_d)  # → data/matches.parquet
 
 conf_p = ConfPagerank(top_n=10)
-ranks = compute_ranks(df, conf_p)  # → [('Usyk', 0.25), ...]
+ranks = compute_ranks(df, conf_p, mode="loser_to_winner")  # → [('Usyk', 0.25), ...]
 ```
 
-## 🛠️ Installation
+## Installation
 
 ```bash
 uv sync  # deps + editable src/topbox
@@ -43,14 +65,14 @@ uv sync  # deps + editable src/topbox
 
 **Dev**: `uv sync --extra dev` (ruff, pytest, mypy, coverage).
 
-## 🧪 CI
+## CI
 
 ```bash
 sh ci/ruff.sh
 sh ci/test.sh
 ```
 
-## 📐 Code Style
+## Code Style
 
 
 - clean code
@@ -68,12 +90,6 @@ sh ci/test.sh
   - any code needing comments for clarification should be refactored into a named entity
 
 
-- **Layout**: src-layout (`src/topbox/`)
-- **Line length**: 88 (ruff)
-- **Quotes**: Double (`"str"`)
-- **Types**: `list[str] | None`, `__future__ annotations`
-- **Imports**: `__future__` → std → 3rd → local (`isort black`)
-- **Naming**: `snake_case` funcs/vars (short/self-doc, e.g. `opp`), `PascalCase` classes
 - **Configs**: `@dataclass(frozen=True)` hierarchical
 - **Logging**: `LOGGER = logging.getLogger(__name__)` INFO/ERROR
 - **Errors**: Specific `except`, log + sentinel return (`[]`)
@@ -83,17 +99,13 @@ sh ci/test.sh
 
 See [AGENTS.md](AGENTS.md) for full guidelines (~150 lines).
 
-## 📚 Data Source
+## Data Source
 
-- **BoxRec**: Profiles (`/en/proboxer/ID`), table `.table1` (date/opp/res).
-- **Note**: Anti-bot (403); demo hardcoded. Prod: headers/rotating proxies/Selenium.
+- **box.live**: Profiles, "Recent Contests" table (date/opp/result).
+- **Note**: Anti-bot measures (403); demo hardcoded. Prod: headers/rotating proxies/Selenium. Data is incomplete (partial boxer set, recent matches only).
 - **Graph**: ~100s fights → ranks converge fast.
 
-## 🛡️ Security/Notes
 
-- Timeouts on requests
-- No secrets committed
-- Parquet efficient, date filter
 
 ## Roadmap
 

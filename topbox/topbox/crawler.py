@@ -20,28 +20,149 @@ class Match:
     date: str
 
 
-# Top ~25 active boxers across divisions (easy to expand)
-TOP_BOXERS = [
-    ("Oleksandr Usyk", "https://box.live/boxers/oleksandr-usyk/"),
-    ("Tyson Fury", "https://box.live/boxers/tyson-fury/"),
-    ("Anthony Joshua", "https://box.live/boxers/anthony-joshua/"),
-    ("Daniel Dubois", "https://box.live/boxers/daniel-dubois/"),
-    ("Deontay Wilder", "https://box.live/boxers/deontay-wilder/"),
-    ("Canelo Alvarez", "https://box.live/boxers/canelo-alvarez/"),
-    ("Dmitry Bivol", "https://box.live/boxers/dmitry-bivol/"),
-    ("Artur Beterbiev", "https://box.live/boxers/artur-beterbiev/"),
-    ("Terence Crawford", "https://box.live/boxers/terence-crawford/"),
-    ("Errol Spence Jr", "https://box.live/boxers/errol-spence-jr/"),
-    ("Jermell Charlo", "https://box.live/boxers/jermell-charlo/"),
-    ("Gennady Golovkin", "https://box.live/boxers/gennady-golovkin/"),
-    ("Jake Paul", "https://box.live/boxers/jake-paul/"),
-    # Add more as you like — format: (name, profile_url)
+# Curated list of high-value boxers (edit this freely — names only!)
+# The crawler will automatically find the correct box.live URL for each.
+CURATED_BOXERS = [
+    "Gennady Golovkin",
+    "George Groves",
+    "Muhammad Ali",
+    "Mike Tyson",
+    "Sugar Ray Robinson",
+    "Manny Pacquiao",
+    "Joe Louis",
+    "George Foreman",
+    "Marvin Hagler",
+    "Sugar Ray Leonard",
+    "Roberto Duran",
+    "Floyd Mayweather Jr",
+    "Lennox Lewis",
+    "Evander Holyfield",
+    "Oscar De La Hoya",
+    "Rocky Marciano",
+    "Henry Armstrong",
+    "Jack Dempsey",
+    "Harry Greb",
+    "Carlos Monzon",
+    "Roy Jones Jr",
+    "Bernard Hopkins",
+    "Canelo Alvarez",  # will resolve to saul-canelo-alvarez
+    "Oleksandr Usyk",
+    "Tyson Fury",
+    "Anthony Joshua",
+    "Terence Crawford",
+    "Errol Spence Jr",
+    "Daniel Dubois",
+    "Jake Paul",
+    "Vasyl Lomachenko",
+    "Naoya Inoue",
+    "Devin Haney",
+    "Gervonta Davis",
+    "Shakur Stevenson",
+    "Teofimo Lopez",
+    "Dmitry Bivol",
+    "Artur Beterbiev",
+    "Janibek Alimkhanuly",  # will resolve to zhanibek-alimkhanuly
+    "Jermell Charlo",
+    "Jermall Charlo",
+    "David Benavidez",
+    "Caleb Plant",
+    "Jesse Rodriguez",
+    "Leo Santa Cruz",
+    "Marco Antonio Barrera",
+    "Juan Manuel Marquez",
+    "Guillermo Rigondeaux",
+    "Nonito Donaire",
+    "Wladimir Klitschko",
+    "Vitali Klitschko",
+    "Joe Frazier",
+    "Sonny Liston",
+    "Larry Holmes",
+    "Thomas Hearns",
+    "Julio Cesar Chavez",
+    "Pernell Whitaker",
+    "Shane Mosley",
+    "Erik Morales",
+    "Azumah Nelson",
+    "Alexis Arguello",
+    "Wilfred Benitez",
+    "Aaron Pryor",
+    "Ricardo Lopez",
+    "Eusebio Pedroza",
+    "Kosei Tanaka",
+    "Roman Gonzalez",
+    "Juan Francisco Estrada",
+    "Kazuto Ioka",
+    "Srisaket Sor Rungvisai",  # will resolve to the long correct slug
+    "Andy Ruiz Jr",
+    "Deontay Wilder",
+    "Luis Ortiz",
+    "Joe Joyce",
+    "Filip Hrgovic",
+    "Conor Benn",
+    "Chris Eubank Jr",
+    "Liam Smith",
+    "Kell Brook",
+    "Amir Khan",
+    "Carl Frampton",
+    "Josh Warrington",
 ]
 
 
 def get_top_boxers(conf: ConfCrawler) -> list[tuple[str, str]]:
-    """Return list of (name, profile_url) — currently hardcoded top boxers."""
-    return TOP_BOXERS[: conf.max_pages]
+    """Scrape the boxer directory once and return correct URLs for our curated names."""
+    directory_url = "https://box.live/boxers/"
+    LOGGER.info(f"Fetching boxer directory from {directory_url} to get correct URLs...")
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(user_agent=conf.user_agent)
+        page.goto(directory_url, wait_until="networkidle")
+        html = page.content()
+        browser.close()
+
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Build lookup table: normalized name → correct full URL
+    name_to_url = {}
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if "/boxers/" in href and href.endswith("/"):
+            full_url = (
+                f"https://box.live{href}" if not href.startswith("http") else href
+            )
+            name = a.get_text(strip=True).split("(")[0].strip()
+            if name and len(name) > 2:
+                # Multiple lookup keys for robustness
+                key1 = name.lower()
+                key2 = (
+                    name.lower()
+                    .replace(" ", "-")
+                    .replace("'", "")
+                    .replace(".", "")
+                    .replace("jr", "jr")
+                )
+                name_to_url[key1] = full_url
+                name_to_url[key2] = full_url
+
+    # Match our curated names to real URLs
+    boxers = []
+    for display_name in CURATED_BOXERS:
+        key = display_name.lower()
+        url = name_to_url.get(key) or name_to_url.get(key.replace(" ", "-"))
+
+        if url:
+            boxers.append((display_name, url))
+        else:
+            LOGGER.warning(
+                f"Could not find URL for '{display_name}' on box.live — skipping"
+            )
+
+    LOGGER.info(
+        f"✅ Mapped {len(boxers)}/{len(CURATED_BOXERS)} boxers with correct URLs."
+    )
+    return boxers
 
 
 def parse_boxer_name(html: str) -> str:

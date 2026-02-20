@@ -1,0 +1,251 @@
+Rank,Boxer,Score
+1,Dmitry Bivol,0.0660
+2,Artur Beterbiev,0.0627
+3,Daniel Dubois,0.0292
+4,Canelo Alvarez,0.0291
+5,Oleksandr Usyk,0.0289
+6,Terence Crawford,0.0211
+7,Joe Joyce,0.0200
+8,Filip Hrgovic,0.0193
+9,Chris Eubank Jr,0.0163
+10,Kazuto Ioka,0.0162
+11,Floyd Mayweather Jr,0.0150
+12,Shakur Stevenson,0.0138
+13,Gennady Golovkin,0.0126
+14,Anthony Joshua,0.0126
+15,Naoya Inoue,0.0115
+16,Juan Francisco Estrada,0.0108
+17,Devin Haney,0.0108
+18,Conor Benn,0.0106
+19,Tyson Fury,0.0105
+20,Srisaket Sor Rungvisai,0.0100
+21,Andy Ruiz Jr,0.0098
+22,Ryan Garcia,0.0096
+23,Jermell Charlo,0.0092
+24,Vasyl Lomachenko,0.0090
+25,Deontay Wilder,0.0089
+26,Zhilei Zhang,0.0087
+27,Teofimo Lopez,0.0084
+28,Liam Smith,0.0083
+29,Jesse ‘Bam’ Rodriguez,0.0078
+30,David Benavidez,0.0072
+31,George Groves,0.0064
+32,Josh Warrington,0.0063
+33,Carl Frampton,0.0062
+34,Derek Chisora,0.0061
+35,Errol Spence Jr,0.0061
+36,Joseph Parker,0.0058
+37,Jermall Charlo,0.0058
+38,Manny Pacquiao,0.0058
+39,Janibek Alimkhanuly,0.0054
+40,Fernando Martinez,0.0051
+41,Joshua Franco,0.0051
+42,Donnie Nietes,0.0051
+43,Leo Santa Cruz,0.0051
+44,Nonito Donaire,0.0050
+45,Kosei Tanaka,0.0050
+46,Kell Brook,0.0049
+47,Jake Paul,0.0048
+48,Caleb Plant,0.0046
+49,Wladimir Klitschko,0.0043
+50,Roy Jones Jr,0.0042
+51,Luis Ortiz,0.0041
+52,George Kambosos,0.0041
+53,Guillermo Rigondeaux,0.0040
+54,Billy Joe Saunders,0.0039
+55,Oscar De La Hoya,0.0038
+56,John Gotti III,0.0037
+57,Aaron Chalmers,0.0037
+58,Don Moore,0.0037
+59,Logan Paul,0.0037
+60,Roman ‘Chocolatito’ Gonzalez,0.0035
+61,Amir Khan,0.0035
+62,Jarrell Miller,0.0033
+63,Brian Carlos Castano,0.0031
+64,Tony Harrison,0.0031
+65,Orlando Salido,0.0030
+66,Gervonta ‘Tank’ Davis,0.0026
+67,Phumelele Cafu,0.0026
+68,Bernard Hopkins,0.0026
+69,Marco Antonio Barrera,0.0026
+70,Tommy Fury,0.0025
+71,Mike Tyson,0.0025
+72,Callum Smith,0.0023
+73,Badou Jack,0.0023
+74,Carl Froch,0.0023
+75,Jamel Herring,0.0022
+76,Jaime Munguia,0.0019
+77,Aaron McKenna,0.0019
+78,Magomed Kurbanov,0.0019
+79,Anthony Cacace,0.0018
+80,Leigh Wood,0.0018
+81,Luis Alberto Lopez,0.0018
+82,Mauricio Lara,0.0018
+83,Jose Armando Resendiz,0.0018
+84,Anthony Pettis,0.0017
+85,Enzo Maccarinelli,0.0017
+86,Lateef Kayode,0.0016
+87,Vincent Astrolabio,0.0013
+88,John Riel Casimero,0.0013
+89,Moises Flores,0.0013
+90,Vitor Belfort,0.0012
+91,Ricky Hatton,0.0012
+92,Nicholas Walters,0.0012
+93,Seiya Tsutsumi,0.0012
+94,Alejandro Santiago,0.0012
+95,Jessie Magdaleno,0.0012
+96,Shane Mosley,0.0011
+97,Felix Trinidad,0.0011
+98,Mario Barrios,0.0011
+99,Rukiya Anpo,0.0011
+100,DK Yoo,0.0011
+101,Yordenis Ugas,0.0011
+102,Jeff Horn,0.0011
+103,Juan Manuel Marquez,0.0011
+104,Agapito Sanchez,0.0011
+105,Joe Smith Jr,0.0010
+106,Sergey Kovalev,0.0010
+107,Chad Dawson,0.0010
+108,Joe Calzaghe,0.0010
+109,Kevin McBride,0.0009
+110,Danny Williams,0.0009
+111,Lennox Lewis,0.0009
+112,Evander Holyfield,0.0009
+113,Ryota Murata,0.0005
+114,Kamil Szeremeta,0.0005
+115,Sergiy Derevyanchenko,0.0005
+116,Steve Rolls,0.0005
+117,Vanes Martirosyan,0.0005
+118,Daniel Jacobs,0.0005
+119,Dominic Wade,0.0005
+120,David Lemieux,0.0005
+121,Willie Monroe Jr,0.0005
+122,Martin Murray,0.0005
+123,Marco Antonio Rubio,0.0005
+124,Curtis Stevens,0.0005
+125,Matthew Macklin,0.0005
+126,Gabriel Rosado,0.0005
+127,Jamie Cox,0.0005
+128,Fedor Chudinov,0.0005
+129,Eduard Gutknecht,0.0005
+130,David Brophy,0.0005
+131,Andrea Di Luisa,0.0005
+132,Denis Douglin,0.0005
+133,Clifford Etienne,0.0005
+134,Brian Nielsen,0.0005
+135,Keith Thurman,0.0005
+136,Adrien Broner,0.0005
+137,Lucas Martin Matthysse,0.0005
+138,Jessie Vargas,0.0005
+139,Tim Bradley,0.0005
+140,Chris Algieri,0.0005
+141,Brandon Rios,0.0005
+142,Miguel Cotto,0.0005
+143,David Diaz,0.0005
+144,Deji,0.0005
+145,Mikuru Asakura,0.0005
+146,Tenshin Nasukawa,0.0005
+147,Conor McGregor,0.0005
+148,Andre Berto,0.0005
+149,Marcos Maidana,0.0005
+150,Robert Guerrero,0.0005
+151,Zab Judah,0.0005
+152,DeMarcus Corley,0.0005
+153,Phillip Ndou,0.0005
+154,Jose Luis Castillo,0.0005
+155,Carlos Hernandez,0.0005
+156,Diego Corrales,0.0005
+157,Emanuel Augustus,0.0005
+158,Genaro Hernandez,0.0005
+159,Larry Holmes,0.0005
+160,Steve Forbes,0.0005
+161,Ricardo Mayorga,0.0005
+162,Fernando Vargas,0.0005
+163,Ike Quartey,0.0005
+164,Hector Camacho,0.0005
+165,Pernell Whitaker,0.0005
+166,Julio Cesar Chavez,0.0005
+167,Jorge Paez,0.0005
+168,Scott Sigmon,0.0005
+169,Bobby Gunn,0.0005
+170,Rodney Moore,0.0005
+171,Vyron Phillips,0.0005
+172,Julio Cesar Gonzalez,0.0005
+173,James Toney,0.0005
+174,Thulani Malinga,0.0005
+175,Percy Harris,0.0005
+176,Beibut Shumenov,0.0005
+177,Karo Murat,0.0005
+178,Tavoris Cloud,0.0005
+179,Kelly Pavlik,0.0005
+180,William Scull,0.0005
+181,Edgar Berlanga,0.0005
+182,John Ryder,0.0005
+183,Avni Yildirim,0.0005
+184,Rocky Fielding,0.0005
+185,Julio Cesar Chavez Jr,0.0005
+186,James Kirkland,0.0005
+187,Erislandy Lara,0.0005
+188,Alfredo Angulo,0.0005
+189,Austin Trout,0.0005
+190,Chazz Witherspoon,0.0005
+191,Tony Bellew,0.0005
+192,Murat Gassiev,0.0005
+193,Mairis Briedis,0.0005
+194,Marco Huck,0.0005
+195,Michael Hunter,0.0005
+196,Thabiso Mchunu,0.0005
+197,Krzysztof Glowacki,0.0005
+198,Pedro Rodriguez,0.0005
+199,Johnny Muller,0.0005
+200,Andrey Knyazev,0.0005
+201,Danie Venter,0.0005
+202,Daniel Bruwer,0.0005
+203,Francis Ngannou,0.0005
+204,Dillian Whyte,0.0005
+205,Otto Wallin,0.0005
+206,Tom Schwarz,0.0005
+207,Francesco Pianeta,0.0005
+208,Sefer Seferi,0.0005
+209,Christian Hammer,0.0005
+210,Joey Abell,0.0005
+211,Steve Cunningham,0.0005
+212,Hans Joerg Blasko,0.0005
+213,Robert Helenius,0.0005
+214,Jermaine Franklin,0.0005
+215,Kubrat Pulev,0.0005
+216,Alexander Povetkin,0.0005
+217,Carlos Takam,0.0005
+218,Eric Molina,0.0005
+219,Dominic Breazeale,0.0005
+220,Charles Martin,0.0005
+221,Gary Cornish,0.0005
+222,Kevin Johnson,0.0005
+223,Israil Madrimov,0.0005
+224,David Avanesyan,0.0005
+225,Shawn Porter,0.0005
+226,Egidijus Kavaliauskas,0.0005
+227,Jose Benavidez,0.0005
+228,Julius Indongo,0.0005
+229,Felix Diaz,0.0005
+230,John Molina Jr,0.0005
+231,Viktor Postol,0.0005
+232,Henry Lundy,0.0005
+233,Dierry Jean,0.0005
+234,Thomas Dulorme,0.0005
+235,Raymundo Beltran,0.0005
+236,Yuriorkis Gamboa,0.0005
+237,Ricky Burns,0.0005
+238,Andrey Klimov,0.0005
+239,Danny Garcia,0.0005
+240,Mikey Garcia,0.0005
+241,Carlos Ocampo,0.0005
+242,Lamont Peterson,0.0005
+243,Leonard Bundu,0.0005
+244,Alejandro Barrera,0.0005
+245,Chris Van Heerden,0.0005
+246,Phil Lo Greco,0.0005
+247,Samuel Vargas,0.0005
+248,Kevin Lerena,0.0005
+249,Trevor Bryan,0.0005
+250,Joe Cusumano,0.0005
