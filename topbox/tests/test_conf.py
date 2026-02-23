@@ -21,7 +21,7 @@ class TestConfDataset:
     def test_defaults(self) -> None:
         conf = ConfDataset()
         assert conf.min_date is None
-        assert conf.save_path == "data/matches.parquet"
+        assert conf.save_path == "data/match.parquet"
 
     def test_override(self) -> None:
         conf = ConfDataset(min_date="2020-01-01")

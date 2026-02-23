@@ -6,35 +6,45 @@ from pathlib import Path
 import pandas as pd
 
 from topbox.conf import ConfDataset
-from topbox.crawler import Match
+from topbox.domain import Match
 
 LOGGER = logging.getLogger(__name__)
 
 
-def create_dataset(matches: list[Match], conf: ConfDataset) -> pd.DataFrame:
-    """Create dataset from matches and persist as parquet.
+class Dataset:
+    def __init__(self, conf: ConfDataset):
+        self.conf = conf
+        self.df: pd.DataFrame = pd.DataFrame()
 
-    Stores raw rows exactly as crawled — one row per boxer-profile parse.
-    Deduplication happens at graph construction time, not here.
+    def create_from_matches(self, matches: list[Match]) -> None:
+        """Build DataFrame from matches and save."""
+        if not matches:
+            LOGGER.warning("No matches – empty dataset created")
+            self.df = pd.DataFrame(columns=["boxer_a", "boxer_b", "is_a_win", "date"])
+            self.save()
+            return
 
-    Args:
-        matches: List of Match objects.
-        conf: Dataset config.
+        LOGGER.info(f"Creating dataset from {len(matches)} matches")
+        self.df = pd.DataFrame([vars(m) for m in matches])
+        self.df["date"] = pd.to_datetime(self.df["date"], errors="coerce")
 
-    Returns:
-        Filtered DataFrame saved as parquet.
-    """
-    if len(matches) == 0:
-        LOGGER.warning("No matches, returning empty df")
-        return pd.DataFrame(columns=["boxer_a", "boxer_b", "is_a_win", "date"])
+        if self.conf.min_date:
+            min_dt = pd.to_datetime(self.conf.min_date)
+            self.df = self.df[self.df["date"] >= min_dt]
 
-    LOGGER.info(f"Creating dataset from {len(matches)} matches")
-    df = pd.DataFrame([vars(m) for m in matches])
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
-    if conf.min_date:
-        min_dt = pd.to_datetime(conf.min_date)
-        df = df[df["date"] >= min_dt]
-    Path(conf.save_path).parent.mkdir(parents=True, exist_ok=True)
-    df.to_parquet(conf.save_path, index=False)
-    LOGGER.info(f"Saved dataset: {conf.save_path} ({df.shape[0]} rows)")
-    return df
+        self.save()
+
+    def save(self) -> None:
+        """Persist to parquet."""
+        Path(self.conf.save_path).parent.mkdir(parents=True, exist_ok=True)
+        self.df.to_parquet(self.conf.save_path)
+        LOGGER.info(f"Saved dataset: {self.conf.save_path} ({len(self.df):,} rows)")
+
+    def load(self) -> bool:
+        """Load from parquet if exists. Returns True on success."""
+        path = Path(self.conf.save_path)
+        if path.exists():
+            self.df = pd.read_parquet(path)
+            LOGGER.info(f"Loaded existing dataset: {path} ({len(self.df):,} rows)")
+            return True
+        return False

@@ -4,14 +4,14 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from topbox.conf import ConfCrawlerMin
-from topbox.crawl_min import CrawlerMin
+from topbox.conf import ConfCrawlerWiki
+from topbox.crawler_wiki import CrawlerWiki
 
 
 @pytest.fixture
 def crawler():
-    conf = ConfCrawlerMin()
-    return CrawlerMin(conf)
+    conf = ConfCrawlerWiki()
+    return CrawlerWiki(conf)
 
 
 def test_get_fighters(crawler):

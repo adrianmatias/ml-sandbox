@@ -10,17 +10,17 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-from topbox.conf import ConfCrawlerMin
-from topbox.types import Match
+from topbox.conf import ConfCrawlerWiki
+from topbox.domain import Match
 
 LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
-class CrawlerMin:
+class CrawlerWiki:
     """Minimal crawler for Wikipedia boxer pages using pandas."""
 
-    conf: ConfCrawlerMin
+    conf: ConfCrawlerWiki
 
     def get_fighters(self) -> dict[str, str]:
         """Get dictionary of boxer names to Wikipedia URLs from JSON file."""
@@ -86,8 +86,8 @@ class CrawlerMin:
         return matches
 
 
-def get_matches(conf: ConfCrawlerMin) -> list[Match]:
-    """Get matches from minimal crawler.
+def get_matches(conf: ConfCrawlerWiki) -> list[Match]:
+    """Get matches from crawler.
 
     Args:
         conf: Crawler configuration.
@@ -95,5 +95,5 @@ def get_matches(conf: ConfCrawlerMin) -> list[Match]:
     Returns:
         List of Match objects.
     """
-    crawler = CrawlerMin(conf)
+    crawler = CrawlerWiki(conf)
     return crawler.crawl_all()

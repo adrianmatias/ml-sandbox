@@ -8,26 +8,18 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from topbox.conf import ConfCrawler, ConfWikipedia
-from topbox.wikipedia import get_boxer_names
+from topbox.domain import Match
 
 LOGGER = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
-class Match:
-    boxer_a: str
-    boxer_b: str
-    is_a_win: bool
-    date: str
-
-
 @dataclass
-class BoxerCrawler:
+class CrawlerLiveBox:
     conf: ConfCrawler
     wiki_conf: ConfWikipedia | None = None
 
-    def boxer_list(self) -> list[str]:
-        return get_boxer_names(self.wiki_conf)
+    # def boxer_list(self) -> list[str]:
+    #     return get_boxer_names(self.wiki_conf)
 
     def top_boxers(self) -> list[tuple[str, str]]:
         name_list = self.boxer_list()
@@ -88,7 +80,7 @@ class BoxerCrawler:
 def get_top_boxers(
     conf: ConfCrawler, wiki_conf: ConfWikipedia | None = None
 ) -> list[tuple[str, str]]:
-    crawler = BoxerCrawler(conf, wiki_conf)
+    crawler = CrawlerLiveBox(conf, wiki_conf)
     return crawler.top_boxers()
 
 

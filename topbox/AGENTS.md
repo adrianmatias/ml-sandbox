@@ -14,16 +14,16 @@ uv run pytest -vv
 uv run pytest -vv tests/test_conf.py
 
 # Run single test class
-uv run pytest -vv tests/test_crawler.py::TestParseProfileHtml
+uv run pytest -vv tests/test_crawl_min.py::TestExtractMatches
 
 # Run single test
-uv run pytest -vv tests/test_crawler.py::TestParseProfileHtml::test_sample
+uv run pytest -vv tests/test_crawl_min.py::test_extract_matches_success
 
 # Lint and format
 uv run ruff check . && uv run ruff format .
 
 # Typecheck (mypy)
-uv run mypy src/
+uv run mypy .
 
 # Coverage
 uv run coverage run -m pytest && uv run coverage report --fail-under=90
@@ -56,15 +56,16 @@ import requests
 from bs4 import BeautifulSoup
 
 from topbox.conf import ConfCrawler
-from topbox.crawler import Match
+from topbox.crawler_live_box import Match
 ```
 
 ### Naming Conventions
 - **Functions/variables**: `snake_case` (short, self-documenting, promote 3-5 chars where clear e.g. `opp`, `res`)
-- **Classes**: `PascalCase` (e.g. `ConfCrawler`, `TestParseProfileHtml`)
+- **Classes**: `PascalCase` (e.g. `ConfCrawlerMin`, `TestExtractMatches`)
 - **Constants**: `UPPER_CASE` (module-level)
 - **Private**: `_leading_underscore`
-- **Dataclasses**: `PascalCase` for conf (e.g. `ConfCrawler`)
+- **Dataclasses**: `PascalCase` for conf (e.g. `ConfCrawlerMin`)
+- **Files**: `snake_case` for code, `snake_case.json` for data (e.g., `fighters.json`, `name_mapping.json`)
 
 ### Type Hints
 - Always use type hints for params/returns
@@ -73,7 +74,7 @@ from topbox.crawler import Match
 - No `typing.Optional/List/Dict` unless <3.10
 
 ```python
-def parse_profile_html(html: str, boxer_name: str) -> list[Match]:
+def extract_matches(name: str, url: str) -> list[Match]:
     ...
 ```
 

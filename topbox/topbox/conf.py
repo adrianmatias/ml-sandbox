@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
@@ -30,7 +30,7 @@ class ConfDataset:
     """
 
     min_date: str | None = None
-    save_path: str = "data/full_boxing_matches_1965_present_again.csv"
+    save_path: str = "data/match.parquet"
 
 
 @dataclass(frozen=True)
@@ -51,49 +51,7 @@ class ConfPagerank:
 
 
 @dataclass(frozen=True)
-class ConfWikipedia:
-    """Wikipedia boxer-list configuration.
-
-    Args:
-        pages: Wikipedia page titles to scrape for boxer names.
-        api_url: MediaWiki action API base URL.
-        user_agent: User-Agent sent with every request.
-        extra_names: Additional names appended after Wikipedia fetch.
-    """
-
-    pages: tuple[str, ...] = field(
-        default_factory=lambda: (
-            "List_of_WBA_world_champions",
-            "List_of_WBC_world_champions",
-            "List_of_IBF_world_champions",
-            "List_of_WBO_world_champions",
-            "List_of_current_world_boxing_champions",
-        )
-    )
-    api_url: str = "https://en.wikipedia.org/w/api.php"
-    user_agent: str = "topbox/1.0 (boxing pagerank project; github.com/topbox)"
-    extra_names: tuple[str, ...] = field(default_factory=tuple)
-
-
-@dataclass(frozen=True)
-class ConfWikiCrawler:
-    """Wiki crawler configuration.
-
-    Args:
-        base_url: Base URL for Wikipedia pages.
-        user_agent: User agent string.
-        delay: Delay between requests in seconds.
-    """
-
-    base_url: str = "https://en.wikipedia.org/wiki/"
-    user_agent: str = (
-        "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0"
-    )
-    delay: float = 0.5
-
-
-@dataclass(frozen=True)
-class ConfCrawlerMin:
+class ConfCrawlerWiki:
     """Minimal crawler configuration.
 
     Args:
