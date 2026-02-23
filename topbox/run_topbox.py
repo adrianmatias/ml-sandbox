@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from topbox.conf import ConfCrawler, ConfDataset, ConfPagerank
-from topbox.crawler import get_matches
+from topbox.conf import ConfDataset, ConfPagerank, ConfWikiCrawler
+from topbox.crawler_wiki import get_matches
 from topbox.dataset import create_dataset
 from topbox.pagerank import compute_ranks
 
@@ -21,12 +21,12 @@ def main() -> None:
     )
     Path("data").mkdir(exist_ok=True)
 
-    conf_c = ConfCrawler()
+    conf_c = ConfWikiCrawler()
     conf_d = ConfDataset()
     conf_p = ConfPagerank(top_n=5000)
 
     if Path(conf_d.save_path).exists():
-        df = pd.read_parquet(conf_d.save_path)
+        df = pd.read_csv(conf_d.save_path)
         logging.info(f"Loaded existing dataset: {conf_d.save_path}")
     else:
         matches = get_matches(conf_c)

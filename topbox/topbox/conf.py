@@ -30,7 +30,7 @@ class ConfDataset:
     """
 
     min_date: str | None = None
-    save_path: str = "data/matches.parquet"
+    save_path: str = "data/full_boxing_matches_1965_present.csv"
 
 
 @dataclass(frozen=True)
@@ -73,3 +73,20 @@ class ConfWikipedia:
     api_url: str = "https://en.wikipedia.org/w/api.php"
     user_agent: str = "topbox/1.0 (boxing pagerank project; github.com/topbox)"
     extra_names: tuple[str, ...] = field(default_factory=tuple)
+
+
+@dataclass(frozen=True)
+class ConfWikiCrawler:
+    """Wiki crawler configuration.
+
+    Args:
+        base_url: Base URL for Wikipedia pages.
+        user_agent: User agent string.
+        delay: Delay between requests in seconds.
+    """
+
+    base_url: str = "https://en.wikipedia.org/wiki/"
+    user_agent: str = (
+        "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0"
+    )
+    delay: float = 0.5
