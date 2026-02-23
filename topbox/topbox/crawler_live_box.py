@@ -7,7 +7,6 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-from topbox.conf import ConfCrawler, ConfWikipedia
 from topbox.domain import Match
 
 LOGGER = logging.getLogger(__name__)
@@ -15,12 +14,6 @@ LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class CrawlerLiveBox:
-    conf: ConfCrawler
-    wiki_conf: ConfWikipedia | None = None
-
-    # def boxer_list(self) -> list[str]:
-    #     return get_boxer_names(self.wiki_conf)
-
     def top_boxers(self) -> list[tuple[str, str]]:
         name_list = self.boxer_list()
         directory_url = "https://box.live/boxers/"
@@ -78,9 +71,9 @@ class CrawlerLiveBox:
 
 
 def get_top_boxers(
-    conf: ConfCrawler, wiki_conf: ConfWikipedia | None = None
+    # conf: ConfCrawler, wiki_conf: ConfWikipedia | None = None
 ) -> list[tuple[str, str]]:
-    crawler = CrawlerLiveBox(conf, wiki_conf)
+    crawler = CrawlerLiveBox()
     return crawler.top_boxers()
 
 
@@ -179,15 +172,16 @@ def parse_profile_html(html: str, boxer_name: str) -> list[Match]:
     return matches
 
 
-def get_matches(conf: ConfCrawler) -> list[Match]:
+def get_matches() -> list[Match]:
     matches = []
-    boxers = get_top_boxers(conf)
+    boxers = get_top_boxers()
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         for name, url in boxers:
             try:
-                page = browser.new_page(user_agent=conf.user_agent)
+                page = browser.new_page(user_agent=user_agent)
                 page.goto(url, wait_until="networkidle")
                 html = page.content()
                 Path("data").mkdir(exist_ok=True)

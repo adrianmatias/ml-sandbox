@@ -3,28 +3,29 @@ from __future__ import annotations
 import json
 import logging
 import time
-from dataclasses import dataclass
 from io import StringIO
-from pathlib import Path
 
 import pandas as pd
 import requests
 
-from topbox.conf import ConfCrawlerWiki
+from topbox.const import CONST
 from topbox.domain import Match
 
 LOGGER = logging.getLogger(__name__)
 
 
-@dataclass
 class CrawlerWiki:
     """Minimal crawler for Wikipedia boxer pages using pandas."""
 
-    conf: ConfCrawlerWiki
+    def __init__(self) -> None:
+        self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        self.timeout = 10
+        self.delay = 0.8
+        LOGGER.info(f"{self.__dict__}")
 
-    def get_fighters(self) -> dict[str, str]:
+    def get_fighter_seed(self) -> dict[str, str]:
         """Get dictionary of boxer names to Wikipedia URLs from JSON file."""
-        fighters_path = Path(__file__).parent / "fighters.json"
+        fighters_path = CONST.loc.data / "fighter_seed.json"
         with fighters_path.open() as f:
             return json.load(f)
 
@@ -38,8 +39,8 @@ class CrawlerWiki:
         try:
             resp = requests.get(
                 url,
-                headers={"User-Agent": self.conf.user_agent},
-                timeout=self.conf.timeout,
+                headers={"User-Agent": self.user_agent},
+                timeout=self.timeout,
             )
             resp.raise_for_status()
             tables = pd.read_html(StringIO(resp.text))
@@ -54,8 +55,6 @@ class CrawlerWiki:
                         continue
                     try:
                         dt = pd.to_datetime(date_str, errors="coerce")
-                        if pd.isna(dt) or dt.year < self.conf.min_year:
-                            continue
                         date = dt.strftime("%Y-%m-%d")
                     except Exception:
                         continue
@@ -75,25 +74,21 @@ class CrawlerWiki:
 
     def crawl_all(self) -> list[Match]:
         """Crawl all fighters and return list of matches."""
-        fighters = self.get_fighters()
+        fighters = self.get_fighter_seed()
         matches: list[Match] = []
         for name, url in fighters.items():
             LOGGER.info(f"Fetching {name}...")
             boxer_matches = self.extract_matches(name, url)
             matches.extend(boxer_matches)
-            time.sleep(self.conf.delay)
+            time.sleep(self.delay)
         LOGGER.info(f"Crawled {len(fighters)} boxers, total matches: {len(matches)}")
         return matches
 
 
-def get_matches(conf: ConfCrawlerWiki) -> list[Match]:
+def get_matches() -> list[Match]:
     """Get matches from crawler.
-
-    Args:
-        conf: Crawler configuration.
 
     Returns:
         List of Match objects.
     """
-    crawler = CrawlerWiki(conf)
-    return crawler.crawl_all()
+    return CrawlerWiki().crawl_all()

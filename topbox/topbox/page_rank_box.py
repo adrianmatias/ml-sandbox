@@ -3,18 +3,16 @@ from __future__ import annotations
 import logging
 import re
 import unicodedata
-from dataclasses import dataclass
 
 import networkx as nx
 import pandas as pd
 
-from topbox.conf import ConfPagerank
-
 LOGGER = logging.getLogger(__name__)
 
 
-@dataclass
-class GraphBuilder:
+class PageRankBox:
+    """PageRank computation with graph building."""
+
     _NICKNAME_RULES = [
         (re.compile(r"\bCanelo\b", re.I), "Canelo Alvarez"),
         (re.compile(r"\bTank\b", re.I), "Gervonta Davis"),
@@ -23,6 +21,21 @@ class GraphBuilder:
         (re.compile(r"\s+Jr\.?", re.I), " Jr"),
         (re.compile(r"\s+Sr\.?", re.I), " Sr"),
     ]
+
+    def __init__(
+        self,
+        alpha: float = 0.85,
+        max_iter: int = 1000,
+        tol: float = 1.0e-6,
+        top_n: int = 10,
+        mode: str = "loser_to_winner",
+    ) -> None:
+        self.alpha = alpha
+        self.max_iter = max_iter
+        self.tol = tol
+        self.top_n = top_n
+        self.mode = mode
+        LOGGER.info(f"{self.__dict__}")
 
     def normalize_name(self, name: str) -> str:
         if not isinstance(name, str):
@@ -88,23 +101,21 @@ class GraphBuilder:
                 G.add_edge(winner, loser)
         return G
 
+    def compute(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Compute PageRank and return ready-to-save DataFrame with 'rank' column."""
+        LOGGER.info(f"Computing PageRank on {len(df)} raw rows, mode={self.mode}")
 
-def compute_ranks(
-    df: pd.DataFrame, conf: ConfPagerank, mode: str = "loser_to_winner"
-) -> pd.DataFrame:
-    """Compute PageRank and return ready-to-save DataFrame with 'Rank' column."""
-    builder = GraphBuilder()
-    LOGGER.info(f"Computing PageRank on {len(df)} raw rows, mode={mode}")
+        df = self.dedup(df)
+        G = self.build_graph(df, self.mode)
 
-    df = builder.dedup(df)
-    G = builder.build_graph(df, mode)
+        pr = nx.pagerank(G, alpha=self.alpha, max_iter=self.max_iter, tol=self.tol)
+        ranked = sorted(pr.items(), key=lambda x: x[1], reverse=True)[: self.top_n]
 
-    pr = nx.pagerank(G, alpha=conf.alpha, max_iter=conf.max_iter, tol=conf.tol)
-    ranked = sorted(pr.items(), key=lambda x: x[1], reverse=True)[: conf.top_n]
+        result_df = pd.DataFrame(ranked, columns=["boxer", "score"])
+        result_df.insert(0, "rank", range(1, len(result_df) + 1))
+        result_df["score"] = result_df["score"].round(4)
 
-    result_df = pd.DataFrame(ranked, columns=["boxer", "score"])
-    result_df.insert(0, "rank", range(1, len(result_df) + 1))
-    result_df["score"] = result_df["score"].round(4)
-
-    LOGGER.info(f"Top 10 after normalization: {result_df.head(10).to_dict('records')}")
-    return result_df
+        LOGGER.info(
+            f"Top 10 after normalization: {result_df.head(10).to_dict('records')}"
+        )
+        return result_df

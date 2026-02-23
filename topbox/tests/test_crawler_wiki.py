@@ -4,18 +4,16 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from topbox.conf import ConfCrawlerWiki
 from topbox.crawler_wiki import CrawlerWiki
 
 
 @pytest.fixture
 def crawler():
-    conf = ConfCrawlerWiki()
-    return CrawlerWiki(conf)
+    return CrawlerWiki()
 
 
 def test_get_fighters(crawler):
-    fighters = crawler.get_fighters()
+    fighters = crawler.get_fighter_seed()
     assert isinstance(fighters, dict)
     assert len(fighters) > 50  # has many
     assert "Muhammad Ali" in fighters
