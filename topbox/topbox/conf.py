@@ -30,7 +30,7 @@ class ConfDataset:
     """
 
     min_date: str | None = None
-    save_path: str = "data/full_boxing_matches_1965_present.csv"
+    save_path: str = "data/full_boxing_matches_1965_present_again.csv"
 
 
 @dataclass(frozen=True)
@@ -90,3 +90,20 @@ class ConfWikiCrawler:
         "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0"
     )
     delay: float = 0.5
+
+
+@dataclass(frozen=True)
+class ConfCrawlerMin:
+    """Minimal crawler configuration.
+
+    Args:
+        user_agent: User agent string.
+        timeout: Request timeout in seconds.
+        delay: Delay between requests in seconds.
+        min_year: Minimum year for fights.
+    """
+
+    user_agent: str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    timeout: int = 10
+    delay: float = 0.8
+    min_year: int = 1965

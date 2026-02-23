@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from topbox.conf import ConfDataset, ConfPagerank, ConfWikiCrawler
-from topbox.crawler_wiki import get_matches
+from topbox.conf import ConfCrawlerMin, ConfDataset, ConfPagerank
+from topbox.crawl_min import get_matches
 from topbox.dataset import create_dataset
 from topbox.pagerank import compute_ranks
 
@@ -21,7 +21,7 @@ def main() -> None:
     )
     Path("data").mkdir(exist_ok=True)
 
-    conf_c = ConfWikiCrawler()
+    conf_c = ConfCrawlerMin()
     conf_d = ConfDataset()
     conf_p = ConfPagerank(top_n=5000)
 
