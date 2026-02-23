@@ -14,7 +14,7 @@ TopBox computes centrality scores for top boxers from match graphs scraped from 
 git clone <repo>
 cd topbox
 uv sync
-uv run python run_topbox.py
+uv run python -m topbox.run
 ```
 
 Writes top boxers to `topbox.csv` (scrapes Wikipedia; rate-limited—adjust delays if needed).
@@ -22,20 +22,15 @@ Writes top boxers to `topbox.csv` (scrapes Wikipedia; rate-limited—adjust dela
 ## Pipeline
 
 ```python
-from topbox.conf import ConfCrawlerMin, ConfDataset, ConfPagerank
-from topbox.crawl_min import get_matches
-from topbox.dataset import create_dataset
-from topbox.pagerank import compute_ranks
+from topbox.crawler_wiki import get_matches
+from topbox.dataset import Dataset
+from topbox.page_rank_box import PageRankBox
 
-conf_c = ConfCrawlerMin()  # Wiki crawler config
-conf_c = ConfCrawler()
-matches = get_matches(conf_c)  # Crawl box.live → list[Match]
+ds = Dataset(save_path="data/match.parquet", min_date="1950-01-01")
+matches = get_matches()  # Crawl Wikipedia → list[Match]
+ds.create_from_matches(matches)  # → data/match.parquet (raw rows)
 
-conf_d = ConfDataset()
-df = create_dataset(matches, conf_d)  # → data/matches.parquet (raw rows)
-
-conf_p = ConfPagerank(top_n=10)
-ranks = compute_ranks(df, conf_p, mode="loser_to_winner")  # Dedup + rank → [('Usyk', 0.25), ...]
+ranks = PageRankBox(top_n=10, mode="loser_to_winner").compute(ds.df)  # Dedup + rank → DataFrame
 ```
 
 ## Installation
@@ -44,7 +39,7 @@ ranks = compute_ranks(df, conf_p, mode="loser_to_winner")  # Dedup + rank → [(
 uv sync  # deps + editable src/topbox
 ```
 
-**Dev**: `uv sync --extra dev` (ruff, pytest, mypy, coverage).
+**Dev**: `uv sync --group dev` (ruff, pytest, mypy, coverage).
 
 ## CI
 

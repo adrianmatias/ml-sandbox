@@ -11,13 +11,13 @@ uv sync
 uv run pytest -vv
 
 # Run single test file
-uv run pytest -vv tests/test_conf.py
+uv run pytest -vv tests/test_dataset.py
 
 # Run single test class
-uv run pytest -vv tests/test_crawl_min.py::TestExtractMatches
+uv run pytest -vv tests/test_crawler_wiki.py::TestCrawlerWiki
 
 # Run single test
-uv run pytest -vv tests/test_crawl_min.py::test_extract_matches_success
+uv run pytest -vv tests/test_crawler_wiki.py::test_extract_matches
 
 # Lint and format
 uv run ruff check . && uv run ruff format .
@@ -55,16 +55,16 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from topbox.conf import ConfCrawler
+from topbox.conf import PageRankBox
 from topbox.crawler_live_box import Match
 ```
 
 ### Naming Conventions
 - **Functions/variables**: `snake_case` (short, self-documenting, promote 3-5 chars where clear e.g. `opp`, `res`)
-- **Classes**: `PascalCase` (e.g. `ConfCrawlerMin`, `TestExtractMatches`)
+- **Classes**: `PascalCase` (e.g. `PageRankBox`, `TestExtractMatches`)
 - **Constants**: `UPPER_CASE` (module-level)
 - **Private**: `_leading_underscore`
-- **Dataclasses**: `PascalCase` for conf (e.g. `ConfCrawlerMin`)
+- **Dataclasses**: `PascalCase` for conf (e.g. `PageRankBox`)
 - **Files**: `snake_case` for code, `snake_case.json` for data (e.g., `fighters.json`, `name_mapping.json`)
 
 ### Type Hints
@@ -99,7 +99,7 @@ except requests.RequestException as e:
 - Concise, no examples unless complex
 
 ```python
-def get_matches(conf: ConfCrawler) -> list[Match]:
+def get_matches(conf: PageRankBox) -> list[Match]:
     \"\"\"Get matches from BoxRec profiles.
 
     Args:
@@ -113,12 +113,12 @@ def get_matches(conf: ConfCrawler) -> list[Match]:
 
 ### Configuration Pattern
 - `@dataclass(frozen=True)` for configs
-- Hierarchical (e.g. `ConfCrawler`, `ConfDataset`)
+- Hierarchical (e.g. `PageRankBox`, `ConfDataset`)
 - Defaults sensible, override via init
 
 ```python
 @dataclass(frozen=True)
-class ConfCrawler:
+class PageRankBox:
     base_url: str = "https://boxrec.com"
     max_pages: int = 10
 ```
