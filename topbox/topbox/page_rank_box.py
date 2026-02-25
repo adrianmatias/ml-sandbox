@@ -3,8 +3,10 @@ from __future__ import annotations
 import logging
 import re
 import unicodedata
+from datetime import datetime
 
 import networkx as nx
+import numpy as np
 import pandas as pd
 
 LOGGER = logging.getLogger(__name__)
@@ -16,7 +18,6 @@ class PageRankBox:
     _NICKNAME_RULES = [
         (re.compile(r"\bCanelo\b", re.I), "Canelo Alvarez"),
         (re.compile(r"\bTank\b", re.I), "Gervonta Davis"),
-        (re.compile(r"\bSugar Ray\b", re.I), "Sugar Ray Leonard"),
         (re.compile(r"\bRay Leonard\b", re.I), "Sugar Ray Leonard"),
         (re.compile(r"\s+Jr\.?", re.I), " Jr"),
         (re.compile(r"\s+Sr\.?", re.I), " Sr"),
@@ -82,6 +83,22 @@ class PageRankBox:
         LOGGER.info(f"Deduped {before} → {len(df)} rows")
         return df
 
+    def edge_weight(
+        self, date: pd.Timestamp, tau: float = 8.0, weight_min: float = 0.1
+    ) -> float:
+        """Exponential time-decay weight for a fight edge.
+
+        Args:
+            date: Fight date.
+            tau: Half-life in years (controls how fast old fights decay).
+            weight_min: Floor so old fights are never zeroed out.
+
+        Returns:
+            Weight in [weight_min, 1.0].
+        """
+        years_ago = datetime.now().year - date.year
+        return max(weight_min, np.exp(-years_ago / tau))
+
     def build_graph(self, df: pd.DataFrame, mode: str) -> nx.Graph | nx.DiGraph:
         G = nx.Graph() if mode == "undirected" else nx.DiGraph()
         for _, row in df.iterrows():
@@ -93,12 +110,14 @@ class PageRankBox:
             loser = self.normalize_name(
                 row["boxer_b"] if row["is_a_win"] else row["boxer_a"]
             )
+            weight = self.edge_weight(row["date"])
+
             if mode == "loser_to_winner":
-                G.add_edge(loser, winner)
+                G.add_edge(loser, winner, weight=weight)
             elif mode == "winner_to_loser":
-                G.add_edge(winner, loser)
+                G.add_edge(winner, loser, weight=weight)
             else:
-                G.add_edge(winner, loser)
+                G.add_edge(winner, loser, weight=weight)
         return G
 
     def compute(self, df: pd.DataFrame) -> pd.DataFrame:
