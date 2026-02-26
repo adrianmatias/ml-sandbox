@@ -30,12 +30,14 @@ class PageRankBox:
         tol: float = 1.0e-6,
         top_n: int = 10,
         draw_share: float = 0.5,
+        is_consolidated: bool = False,
     ) -> None:
         self.alpha = alpha
         self.max_iter = max_iter
         self.tol = tol
         self.top_n = top_n
         self.draw_share = draw_share
+        self.is_consolidated = is_consolidated
         LOGGER.info(f"{self.__dict__}")
 
     def normalize_name(self, name: str) -> str:
@@ -92,14 +94,15 @@ class PageRankBox:
 
         Args:
             date: Fight date.
-            tau: Half-life in years (controls how fast old fights decay).
-            weight_min: Floor so old fights are never zeroed out.
+            tau: Half-life in years (controls decay rate).
+            weight_min: Floor so fights never zeroed.
 
         Returns:
-            Weight in [weight_min, 1.0].
+            Weight ≥ weight_min.
         """
         years_ago = datetime.now().year - date.year
-        return max(weight_min, np.exp(-years_ago / tau))
+        sign = 1 if self.is_consolidated else -1
+        return max(weight_min, np.exp(sign * years_ago / tau))
 
     def build_graph(self, df: pd.DataFrame) -> nx.DiGraph:
         G = nx.DiGraph()

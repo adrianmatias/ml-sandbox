@@ -1,14 +1,16 @@
 # TopBox: Boxer Ranking Pipeline
 
-TopBox computes centrality scores for boxers from directed match graphs scraped from Wikipedia. The default uses loser→winner edges with recency weighting.
+TopBox computes centrality scores for boxers from directed match graphs scraped from Wikipedia. The default produces a consolidated view that gives deeper voice to historical win chains.
 
-**Graph Representation**
-Matches are mapped to a directed `loser→winner` DiGraph (PageRank flows importance from loser to winner).
-- **Draws**: Mutual half-weight edges (each fighter gets 0.5 × fight weight).
-- Edges: exponential decay `max(0.1, exp(−years_ago / 8))` (τ=8 years; recent fights dominate).
+**Graph Representation**  
+Matches are mapped to a directed `loser→winner` DiGraph (PageRank flows importance from loser to winner).  
+- **Draws**: Mutual half-weight edges (each fighter receives 0.5 × fight weight; total per fight remains 1.0).  
+- Edges carry exponential time weighting. Two lenses are available:  
+  - **Consolidated** (default): older fights receive higher weight (`exp(+years_ago / 8)`), allowing historical depth to anchor the network.  
+  - **Recent**: newer fights receive higher weight (`exp(-years_ago / 8)`), amplifying current activity.  
 
 **Dataset**: `boxer_a`, `boxer_b`, `is_a_win`, `date` (parquet).  
-**Output**: Top N boxers by PageRank score, saved to `topbox.csv`.
+**Output**: Two files — `topbox_consolidated.csv` (default) and `topbox_recent.csv`.
 
 ## Quick Start
 
@@ -29,10 +31,13 @@ from topbox.dataset import Dataset
 from topbox.page_rank_box import PageRankBox
 
 ds = Dataset(save_path="data/match.parquet", min_date="1950-01-01")
-matches = get_matches()  # Crawl Wikipedia → list[Match]
-ds.create_from_matches(matches)  # → data/match.parquet (raw rows)
+matches = get_matches()
+ds.create_from_matches(matches)
 
-ranks = PageRankBox(top_n=10, mode="loser_to_winner").compute(ds.df)  # Dedup + rank → DataFrame
+# Consolidated lens (default, historical depth)
+ranks_cons = PageRankBox(top_n=25, is_consolidated=True).compute(ds.df)
+# Recent lens
+ranks_rec = PageRankBox(top_n=25, is_consolidated=False).compute(ds.df)
 ```
 
 ## Installation
@@ -93,11 +98,34 @@ sh ci/test.sh
 - Directed "loser → winner" PageRank DiGraph.
 - **Draws**: Mutual 0.5-weight edges (total fight weight = 1.0).
 - Name normalization: NFKD + nicknames + dedup words.
-- Recency: `max(0.1, exp(−years/8))`.
-- Weight classes deliberately omitted: they are attributes of individual fights, not fixed properties of boxers. Fighters like Canelo Alvarez and Terence Crawford regularly cross divisions; the global graph captures cross-division wins as they occurred, as a botTom-up info component.
+- Time weighting: consolidated (historical depth) or recent (current activity)
+- Weight classes deliberately omitted: they are attributes of individual fights, not fixed properties of boxers. Fighters like Canelo Alvarez and Terence Crawford regularly cross divisions; the global graph captures cross-division wins as they occurred, as a bottom-up info component.
 
-### Top 25
+### Consolidated Lens — Historical Depth (topbox_consolidated.csv)
 
+| rank | boxer | score |
+| --- | --- | --- |
+| 1 | Canelo Alvarez | 0.0124 |
+| 2 | Marvin Hagler | 0.0114 |
+| 3 | Gervonta Davis | 0.0114 |
+| 4 | Dmitry Bivol | 0.0111 |
+| 5 | Artur Beterbiev | 0.0108 |
+| 6 | Lamont Roach Jr | 0.0098 |
+| 7 | Roman Gonzalez | 0.0089 |
+| 8 | Roberto Duran | 0.0089 |
+| 9 | Carlos Monzon | 0.0083 |
+| 10 | Lennox Lewis | 0.0079 |
+| 11 | Manny Pacquiao | 0.0074 |
+| 12 | Evander Holyfield | 0.0067 |
+| 13 | Wladimir Klitschko | 0.0064 |
+| 14 | Carlos Cuadras | 0.0064 |
+| 15 | Roy Jones Jr | 0.0062 |
+| 16 | Muhammad Ali | 0.0062 |
+| 17 | Bernard Hopkins | 0.0058 |
+| 18 | Ricardo Lopez | 0.0057 |
+| 19 | Julio Cesar Chavez | 0.0056 |
+| 20 | Luis Manuel Rodriguez | 0.0055 |
+### Recent Lens — Current Activity (topbox_recent.csv)
 | Rank | Boxer | Score |
 |------|-------|-------|
 | 1 | Dmitry Bivol | 0.0206 |
@@ -120,21 +148,21 @@ sh ci/test.sh
 | 18 | Julio Cesar Chavez | 0.0053 |
 | 19 | Roberto Duran | 0.0052 |
 | 20 | Ryan Garcia | 0.0052 |
-| 21 | Hector Camacho | 0.005 |
-| 22 | Rosendo Alvarez | 0.005 |
-| 23 | Myung Woo Yuh | 0.0049 |
-| 24 | Roy Jones Jr | 0.0046 |
-| 25 | Bernard Hopkins | 0.0046 |
+
+
+### Limitations of the Observed Network
+- The graph reveals a necessary asymmetry: active fighters have not yet encountered the defeats that almost every career eventually records towards the end. Their centrality therefore reflects only the observed ascending side of the trajectory. Retired boxers carry every loss, every late decline.
+- This is not a distortion to be corrected with projections or prime-year filters. It is the raw signal of the data as it stands today. Stripping away any attempt to estimate unseen outcomes preserves the first principle of the model: show exactly what the win network has produced up to this moment. The ranking accepts the paradox without adjustment.
 
 ### Discussion
 
-**Standout performers**: Dmitry Bivol and Artur Beterbiev claim the top two spots through dense, high-quality win chains in the light-heavyweight division.
+**Standout performers**: in the Consolidated lens: Canelo Alvarez, Marvin Hagler and Roberto Duran rise through deep historical win chains. In the Recent lens: Dmitry Bivol and Artur Beterbiev dominate via current light-heavyweight density.
 
 **Recent activity** lifts Crawford (#8), Usyk (#10), Joshua (#14), Gervonta Davis (#17), and Garcia (#20). **Historical volume** still matters: Hagler, Pacquiao, Monzon, and Chavez remain high despite the recency weighting.
 
 **Higher than expert lists**: Bivol, Beterbiev, Roman Gonzalez — the model purely rewards fighters who beat other strong fighters.
 
-**Lower than expert lists**: Muhammad Ali (#38) and Floyd Mayweather Jr. (outside top 50) — PageRank penalizes selective matchmaking and values volume of elite victories over cultural legacy or undefeated streaks.
+**Lower than expert lists**: Muhammad Ali (16/30) and Floyd Mayweather Jr. (37) — PageRank penalizes selective matchmaking and values volume of elite victories over cultural legacy or undefeated streaks.
 
 **Strong alignment**: Marvin Hagler, Manny Pacquiao, Carlos Monzon, and Julio Cesar Chavez all land comfortably in the top 20, matching historian consensus.
 

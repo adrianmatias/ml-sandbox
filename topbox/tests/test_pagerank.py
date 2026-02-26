@@ -29,6 +29,7 @@ def _fight(a: str, b: str, win: bool | None = True, date: str = "2024-01-01") ->
 
 class TestEdgeWeight:
     prb = PageRankBox()
+    prb_cons = PageRankBox(is_consolidated=True)
 
     def get_date(self, years_ago: int) -> pd.Timestamp:
         return pd.Timestamp(datetime.now().year - years_ago, 6, 1)
@@ -50,6 +51,19 @@ class TestEdgeWeight:
     def test_weight_never_below_floor(self) -> None:
         for years_ago in range(0, 120, 10):
             assert self.prb.edge_weight(self.get_date(years_ago)) >= 0.1
+
+    def test_consolidated_recent_no_boost(self) -> None:
+        w = self.prb_cons.edge_weight(self.get_date(0))
+        assert math.isclose(w, 1.0, rel_tol=1e-6)
+
+    def test_consolidated_tau_ago_boosted(self) -> None:
+        w = self.prb_cons.edge_weight(self.get_date(8))
+        assert math.isclose(w, math.exp(1), rel_tol=1e-6)
+
+    def test_decay_reversal(self) -> None:
+        recent_old = self.prb.edge_weight(self.get_date(8))
+        cons_old = self.prb_cons.edge_weight(self.get_date(8))
+        assert recent_old < 1.0 < cons_old
 
 
 # ---------------------------------------------------------------------------
