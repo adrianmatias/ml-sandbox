@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import math
+from datetime import datetime
+
 import pandas as pd
 import pytest
 
@@ -17,6 +20,36 @@ def _df(*rows: dict) -> pd.DataFrame:
 
 def _fight(a: str, b: str, win: bool, date: str = "2024-01-01") -> dict:
     return {"boxer_a": a, "boxer_b": b, "is_a_win": win, "date": pd.Timestamp(date)}
+
+
+# ---------------------------------------------------------------------------
+# PageRankBox.edge_weight
+# ---------------------------------------------------------------------------
+
+
+class TestEdgeWeight:
+    prb = PageRankBox()
+
+    def get_date(self, years_ago: int) -> pd.Timestamp:
+        return pd.Timestamp(datetime.now().year - years_ago, 6, 1)
+
+    def test_current_year_is_near_one(self) -> None:
+        w = self.prb.edge_weight(self.get_date(0))
+        assert math.isclose(w, 1.0, rel_tol=1e-6)
+
+    def test_one_tau_ago_is_one_over_e(self) -> None:
+        # After exactly tau years the decay is exp(-1) ≈ 0.368
+        w = self.prb.edge_weight(self.get_date(8))
+        assert math.isclose(w, math.exp(-1), rel_tol=1e-6)
+
+    def test_old_fight_hits_floor(self) -> None:
+        # 100 years ago → exp(-100/8) ≈ 0.0, clamped to weight_min=0.1
+        w = self.prb.edge_weight(self.get_date(100))
+        assert w == pytest.approx(0.1)
+
+    def test_weight_never_below_floor(self) -> None:
+        for years_ago in range(0, 120, 10):
+            assert self.prb.edge_weight(self.get_date(years_ago)) >= 0.1
 
 
 # ---------------------------------------------------------------------------
