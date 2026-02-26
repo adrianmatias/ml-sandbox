@@ -10,7 +10,6 @@ from topbox.page_rank_box import PageRankBox
 
 
 def main() -> None:
-
     logging.basicConfig(
         level=logging.INFO,
         format=(
@@ -30,12 +29,19 @@ def main() -> None:
         matches = get_matches()
         ds.create_from_matches(matches)
 
-    rank_df = PageRankBox(top_n=5000).compute(ds.df)
-    filename = CONST.loc.data / "topbox.csv"
-    logging.info(f"{filename=}")
-    rank_df.to_csv(filename, index=False)
-    rank_df_len = len(rank_df)
-    logging.info(f"{rank_df_len=}")
+    recent_df = PageRankBox(top_n=5000, is_consolidated=False).compute(ds.df)
+    recent_filename = CONST.loc.data / "topbox_recent.csv"
+    logging.info(f"{recent_filename=}")
+    recent_df.to_csv(recent_filename, index=False)
+    recent_len = len(recent_df)
+    logging.info(f"Recent ranks: {recent_len=}")
+
+    cons_df = PageRankBox(top_n=5000, is_consolidated=True).compute(ds.df)
+    cons_filename = CONST.loc.data / "topbox_consolidated.csv"
+    logging.info(f"{cons_filename=}")
+    cons_df.to_csv(cons_filename, index=False)
+    cons_len = len(cons_df)
+    logging.info(f"Consolidated ranks: {cons_len=}")
 
 
 if __name__ == "__main__":
