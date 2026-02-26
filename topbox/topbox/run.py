@@ -30,7 +30,7 @@ def main() -> None:
         matches = get_matches()
         ds.create_from_matches(matches)
 
-    rank_df = PageRankBox(top_n=5000, mode="loser_to_winner").compute(ds.df)
+    rank_df = PageRankBox(top_n=5000).compute(ds.df)
     filename = CONST.loc.data / "topbox.csv"
     logging.info(f"{filename=}")
     rank_df.to_csv(filename, index=False)

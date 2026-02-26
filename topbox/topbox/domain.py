@@ -7,5 +7,5 @@ from dataclasses import dataclass
 class Match:
     boxer_a: str
     boxer_b: str
-    is_a_win: bool
+    is_a_win: bool | None
     date: str

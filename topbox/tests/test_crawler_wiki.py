@@ -50,6 +50,9 @@ def test_extract_matches_success(mock_get, crawler):
     assert matches[0].boxer_a == "Test Boxer"
     assert matches[0].is_a_win is True
 
+    expected_wins = [True, False, True, None, True, False]
+    assert [m.is_a_win for m in matches] == expected_wins
+
 
 @patch("requests.get")
 def test_extract_matches_no_table(mock_get, crawler):
