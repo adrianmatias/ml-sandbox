@@ -3,10 +3,9 @@
 TopBox computes centrality scores for boxers from directed match graphs scraped from Wikipedia. The default uses loser→winner edges with recency weighting.
 
 **Graph Representation**
-Matches are mapped to a directed graph. Default mode `loser_to_winner` flows importance from loser to winner.
-- Edges receive exponential decay weight = max(0.1, exp(−years_ago / 8)) where years_ago is calculated from fight date to 2026.
-- This makes recent fights contribute more to final scores while older results retain influence.
-- Other modes: `winner_to_loser`, `undirected`.
+Matches are mapped to a directed `loser→winner` DiGraph (PageRank flows importance from loser to winner).
+- **Draws**: Mutual half-weight edges (each fighter gets 0.5 × fight weight).
+- Edges: exponential decay `max(0.1, exp(−years_ago / 8))` (τ=8 years; recent fights dominate).
 
 **Dataset**: `boxer_a`, `boxer_b`, `is_a_win`, `date` (parquet).  
 **Output**: Top N boxers by PageRank score, saved to `topbox.csv`.
@@ -89,42 +88,43 @@ sh ci/test.sh
 ## PageRank Boxing Rankings (1965–Present)
 
 **Methodology**
-- 168 consensus all-time greats (expanded seed list from BoxRec Top 60 last 60 years, ESPN, Ring Magazine, Bleacher Report)
-- ~5,500 verified professional bouts (1965–present)
-- Directed "loser → winner" PageRank graph
-- Automatic name normalization: diacritic stripping + minimal nickname rules + consecutive duplicate-word collapse (fixes "Canelo Alvarez Alvarez Alvarez" → "Canelo Alvarez", "Sugar Sugar Sugar Ray Leonard Leonard Leonard" → "Sugar Ray Leonard")
-- Recency weighting: exponential decay (τ = 8 years) on every edge — older wins are down-weighted but never removed
-- Weight classes deliberately omitted: they are attributes of individual fights, not fixed properties of boxers. Fighters like Canelo Alvarez and Terence Crawford regularly cross divisions; the global graph captures cross-division wins as they occurred, as a botom-up info component.
+- 168 consensus all-time greats (expanded seed from BoxRec/ESPN/Ring/Bleacher Report).
+- ~5,500 pro bouts (1965–present) from Wikipedia.
+- Directed "loser → winner" PageRank DiGraph.
+- **Draws**: Mutual 0.5-weight edges (total fight weight = 1.0).
+- Name normalization: NFKD + nicknames + dedup words.
+- Recency: `max(0.1, exp(−years/8))`.
+- Weight classes deliberately omitted: they are attributes of individual fights, not fixed properties of boxers. Fighters like Canelo Alvarez and Terence Crawford regularly cross divisions; the global graph captures cross-division wins as they occurred, as a botTom-up info component.
 
 ### Top 25
 
 | Rank | Boxer | Score |
 |------|-------|-------|
-| 1 | Dmitry Bivol | 0.0191 |
-| 2 | Artur Beterbiev | 0.0183 |
-| 3 | Canelo Alvarez | 0.0116 |
-| 4 | Roman Gonzalez | 0.0093 |
-| 5 | Marvin Hagler | 0.0089 |
-| 6 | Manny Pacquiao | 0.0086 |
-| 7 | Lennox Lewis | 0.0086 |
-| 8 | Terence Crawford | 0.0085 |
-| 9 | Carlos Monzon | 0.0082 |
-| 10 | Oleksandr Usyk | 0.0068 |
-| 11 | Wladimir Klitschko | 0.0064 |
-| 12 | Eder Jofre | 0.0062 |
-| 13 | Ricardo Lopez | 0.0061 |
-| 14 | Anthony Joshua | 0.0060 |
-| 15 | Rosendo Alvarez | 0.0057 |
-| 16 | Juan Francisco Estrada | 0.0056 |
-| 17 | Gervonta Davis | 0.0056 |
-| 18 | Julio Cesar Chavez | 0.0054 |
-| 19 | Roberto Duran | 0.0053 |
-| 20 | Ryan Garcia | 0.0050 |
-| 21 | Lamont Roach Jr | 0.0049 |
-| 22 | Jaime Munguia | 0.0049 |
-| 23 | Bernard Hopkins | 0.0047 |
-| 24 | Myung Woo Yuh | 0.0047 |
-| 25 | Luis Manuel Rodriguez | 0.0047 |
+| 1 | Dmitry Bivol | 0.0206 |
+| 2 | Artur Beterbiev | 0.0191 |
+| 3 | Gervonta Davis | 0.0159 |
+| 4 | Lamont Roach Jr | 0.0132 |
+| 5 | Canelo Alvarez | 0.0109 |
+| 6 | Roman Gonzalez | 0.0099 |
+| 7 | Manny Pacquiao | 0.0098 |
+| 8 | Terence Crawford | 0.0093 |
+| 9 | Carlos Monzon | 0.0088 |
+| 10 | Marvin Hagler | 0.0078 |
+| 11 | Oleksandr Usyk | 0.0067 |
+| 12 | Lennox Lewis | 0.0066 |
+| 13 | Ricardo Lopez | 0.0064 |
+| 14 | Juan Francisco Estrada | 0.006 |
+| 15 | Anthony Joshua | 0.006 |
+| 16 | Wladimir Klitschko | 0.0059 |
+| 17 | Evander Holyfield | 0.0054 |
+| 18 | Julio Cesar Chavez | 0.0053 |
+| 19 | Roberto Duran | 0.0052 |
+| 20 | Ryan Garcia | 0.0052 |
+| 21 | Hector Camacho | 0.005 |
+| 22 | Rosendo Alvarez | 0.005 |
+| 23 | Myung Woo Yuh | 0.0049 |
+| 24 | Roy Jones Jr | 0.0046 |
+| 25 | Bernard Hopkins | 0.0046 |
 
 ### Discussion
 

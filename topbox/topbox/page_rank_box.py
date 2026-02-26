@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class PageRankBox:
-    """PageRank computation with graph building."""
+    """PageRank (loser-to-winner DiGraph). Handles draws via mutual 0.5-weight edges."""
 
     _NICKNAME_RULES = [
         (re.compile(r"\bCanelo\b", re.I), "Canelo Alvarez"),
@@ -29,13 +29,13 @@ class PageRankBox:
         max_iter: int = 1000,
         tol: float = 1.0e-6,
         top_n: int = 10,
-        mode: str = "loser_to_winner",
+        draw_share: float = 0.5,
     ) -> None:
         self.alpha = alpha
         self.max_iter = max_iter
         self.tol = tol
         self.top_n = top_n
-        self.mode = mode
+        self.draw_share = draw_share
         LOGGER.info(f"{self.__dict__}")
 
     def normalize_name(self, name: str) -> str:
@@ -75,7 +75,9 @@ class PageRankBox:
         df["_key_a"] = canon.str[0]
         df["_key_b"] = canon.str[1]
         swapped = df["_key_a"] != df["boxer_a"]
-        df["is_a_win"] = df["is_a_win"] ^ swapped
+        df["is_a_win"] = df["is_a_win"].where(
+            pd.isna(df["is_a_win"]), df["is_a_win"] ^ swapped
+        )
         df["boxer_a"] = df["_key_a"]
         df["boxer_b"] = df["_key_b"]
         df = df.drop_duplicates(subset=["boxer_a", "boxer_b", "date"])
@@ -99,33 +101,32 @@ class PageRankBox:
         years_ago = datetime.now().year - date.year
         return max(weight_min, np.exp(-years_ago / tau))
 
-    def build_graph(self, df: pd.DataFrame, mode: str) -> nx.Graph | nx.DiGraph:
-        G = nx.Graph() if mode == "undirected" else nx.DiGraph()
+    def build_graph(self, df: pd.DataFrame) -> nx.DiGraph:
+        G = nx.DiGraph()
         for _, row in df.iterrows():
             if pd.isna(row["date"]):
                 continue
-            winner = self.normalize_name(
-                row["boxer_a"] if row["is_a_win"] else row["boxer_b"]
-            )
-            loser = self.normalize_name(
-                row["boxer_b"] if row["is_a_win"] else row["boxer_a"]
-            )
             weight = self.edge_weight(row["date"])
-
-            if mode == "loser_to_winner":
-                G.add_edge(loser, winner, weight=weight)
-            elif mode == "winner_to_loser":
-                G.add_edge(winner, loser, weight=weight)
-            else:
-                G.add_edge(winner, loser, weight=weight)
+            a = self.normalize_name(row["boxer_a"])
+            b = self.normalize_name(row["boxer_b"])
+            if pd.isna(row["is_a_win"]):
+                half_weight = weight * self.draw_share
+                G.add_edge(a, b, weight=half_weight)
+                G.add_edge(b, a, weight=half_weight)
+                continue
+            is_a_win = row["is_a_win"]
+            winner = a if is_a_win else b
+            loser = b if is_a_win else a
+            G.add_edge(loser, winner, weight=weight)
         return G
 
     def compute(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Compute PageRank and return ready-to-save DataFrame with 'rank' column."""
-        LOGGER.info(f"Computing PageRank on {len(df)} raw rows, mode={self.mode}")
+        """Compute PageRank (loser-to-winner DiGraph) and return 'rank' DataFrame.
+        Draws handled as mutual half-weight edges."""
+        LOGGER.info(f"Computing PageRank on {len(df)} raw rows")
 
         df = self.dedup(df)
-        G = self.build_graph(df, self.mode)
+        G = self.build_graph(df)
 
         pr = nx.pagerank(G, alpha=self.alpha, max_iter=self.max_iter, tol=self.tol)
         ranked = sorted(pr.items(), key=lambda x: x[1], reverse=True)[: self.top_n]

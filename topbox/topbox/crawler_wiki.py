@@ -61,10 +61,20 @@ class CrawlerWiki:
                     opp = str(row.get("Opponent", "")).strip()
                     if not opp or "nan" in opp.lower():
                         continue
-                    res = str(row.get("Result", "")).lower()
-                    is_win = "win" in res or any(
-                        x in res for x in ["ko", "ud", "sd", "tdko"]
-                    )
+                    result_str = str(row.get("Result", "")).lower().strip()
+                    if any(d in result_str for d in ["draw", "td", "nc"]):
+                        is_win = None
+                    elif (
+                        "win" in result_str
+                        or any(
+                            x in result_str
+                            for x in ["ko", "tko", "ud", "sd", "md", "pts", "rts"]
+                        )
+                        and "loss" not in result_str
+                    ):
+                        is_win = True
+                    else:
+                        is_win = False
                     matches.append(Match(name, opp, is_win, date))
         except requests.RequestException as e:
             LOGGER.error(f"Failed to fetch {url}: {e}")

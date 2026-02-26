@@ -18,7 +18,7 @@ def _df(*rows: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _fight(a: str, b: str, win: bool, date: str = "2024-01-01") -> dict:
+def _fight(a: str, b: str, win: bool | None = True, date: str = "2024-01-01") -> dict:
     return {"boxer_a": a, "boxer_b": b, "is_a_win": win, "date": pd.Timestamp(date)}
 
 
@@ -129,6 +129,16 @@ class TestDedup:
         )
         assert len(builder.dedup(df)) == 3
 
+    def test_dedup_preserves_draw_flag(self) -> None:
+        builder = PageRankBox()
+        df = _df(_fight("Ali", "Frazier", None))
+        out = builder.dedup(df)
+        assert pd.isna(out["is_a_win"].iloc[0])
+
+        df_swap = _df(_fight("Frazier", "Ali", None))
+        out_swap = builder.dedup(df_swap)
+        assert pd.isna(out_swap["is_a_win"].iloc[0])
+
 
 # ---------------------------------------------------------------------------
 # PageRankBox.build_graph
@@ -143,33 +153,43 @@ class TestBuildGraph:
     def test_loser_to_winner_edge_direction(self) -> None:
         builder = PageRankBox()
         df = self._deduped(_fight("Ali", "Frazier", True))
-        G = builder.build_graph(df, "loser_to_winner")
+        G = builder.build_graph(df)
         assert G.has_edge("Frazier", "Ali")
         assert not G.has_edge("Ali", "Frazier")
 
     def test_winner_to_loser_edge_direction(self) -> None:
         builder = PageRankBox()
         df = self._deduped(_fight("Ali", "Frazier", True))
-        G = builder.build_graph(df, "winner_to_loser")
-        assert G.has_edge("Ali", "Frazier")
-        assert not G.has_edge("Frazier", "Ali")
-
-    def test_undirected_graph_type(self) -> None:
-        import networkx as nx
-
-        builder = PageRankBox()
-        df = self._deduped(_fight("Ali", "Frazier", True))
-        G = builder.build_graph(df, "undirected")
-        assert isinstance(G, nx.Graph)
-        assert not isinstance(G, nx.DiGraph)
+        G = builder.build_graph(df)
+        assert not G.has_edge("Ali", "Frazier")
 
     def test_na_date_row_skipped(self) -> None:
         builder = PageRankBox()
         df = _df(
             {"boxer_a": "Ali", "boxer_b": "Frazier", "is_a_win": True, "date": pd.NaT}
         )
-        G = builder.build_graph(df, "loser_to_winner")
+        G = builder.build_graph(df)
         assert G.number_of_edges() == 0
+
+    def test_draw_adds_mutual_half_weight_edges(self) -> None:
+        builder = PageRankBox()
+        df = _df(_fight("Ali", "Frazier", None, "2024-01-01"))
+        df_dedup = builder.dedup(df)
+        G = builder.build_graph(df_dedup)
+        full_weight = builder.edge_weight(pd.Timestamp("2024-01-01"))
+        half_weight = full_weight * 0.5
+        assert G.has_edge("Ali", "Frazier")
+        assert G["Ali"]["Frazier"]["weight"] == pytest.approx(half_weight)
+        assert G.has_edge("Frazier", "Ali")
+        assert G["Frazier"]["Ali"]["weight"] == pytest.approx(half_weight)
+
+    def test_draw_factor_custom_value(self) -> None:
+        builder = PageRankBox(draw_share=0.25)
+        df = _df(_fight("Ali", "Frazier", None, "2024-01-01"))
+        G = builder.build_graph(builder.dedup(df))
+        full_weight = builder.edge_weight(pd.Timestamp("2024-01-01"))
+        quarter_weight = full_weight * 0.25
+        assert G["Ali"]["Frazier"]["weight"] == pytest.approx(quarter_weight)
 
 
 # ---------------------------------------------------------------------------
@@ -186,21 +206,17 @@ class TestComputeRanks:
             _fight("B", "C", False, "2023-12-01"),
         )
 
-    def test_loser_to_winner_returns_top_n(self, sample_df: pd.DataFrame) -> None:
-        ranks = PageRankBox(top_n=2, mode="loser_to_winner").compute(sample_df)
+    def test_returns_top_n(self, sample_df: pd.DataFrame) -> None:
+        ranks = PageRankBox(top_n=2).compute(sample_df)
         assert len(ranks) == 2
         assert ranks.iloc[0]["score"] > 0
         assert "A" in ranks["boxer"].tolist()
 
     def test_winner_to_loser_returns_top_n(self, sample_df: pd.DataFrame) -> None:
-        ranks = PageRankBox(top_n=3, mode="winner_to_loser").compute(sample_df)
+        ranks = PageRankBox(top_n=3).compute(sample_df)
         assert len(ranks) == 3
         names = ranks["boxer"].tolist()
         assert "B" in names or "D" in names
-
-    def test_undirected_mode(self, sample_df: pd.DataFrame) -> None:
-        ranks = PageRankBox(top_n=2, mode="undirected").compute(sample_df)
-        assert len(ranks) == 2
 
     def test_mirror_rows_count_once(self) -> None:
         # A beat B, recorded from both profiles; graph should have one edge, not two
@@ -208,8 +224,8 @@ class TestComputeRanks:
             _fight("A", "B", True),
             _fight("B", "A", False),  # mirror
         )
-        ranks_mirror = PageRankBox(top_n=2, mode="loser_to_winner").compute(df)
+        ranks_mirror = PageRankBox(top_n=2).compute(df)
         df_single = _df(_fight("A", "B", True))
-        ranks_single = PageRankBox(top_n=2, mode="loser_to_winner").compute(df_single)
+        ranks_single = PageRankBox(top_n=2).compute(df_single)
         # Scores must be identical — dedup collapses to the same graph
         assert ranks_mirror.equals(ranks_single)
