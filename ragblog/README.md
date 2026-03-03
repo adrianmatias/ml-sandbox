@@ -8,45 +8,60 @@ Enable intelligent question answering over blog archives by combining semantic s
 
 ## Main Functionality
 
-- **Crawler**: Scrapes blog posts from Blogger sites, extracts titles and content
-- **Document Processing**: Loads JSONL, splits into chunks, generates embeddings
-- **Vector Store**: Persists documents in ChromaDB with Ollama embeddings (`nomic-embed-text`)
-- **RAG Pipeline**: Retrieves relevant chunks, augments LLM context, generates answers via local Ollama (`llama3.1`)
+- **Crawler**: Scrapes blog posts from Blogger sites, extracts text and metadata.
+- **Vector Store**: Embeds documents using local models (e.g., Ollama), stores in ChromaDB for fast retrieval.
+- **RAG Pipeline**: Combines retrieval with LLM generation for contextually grounded answers.
+- **Local LLM**: Uses Ollama for privacy-preserving inference with models like Llama3, Mistral.
 
-## Approach
+## Evaluation
 
-1. Crawl → Extract URLs → Parse HTML → Save as JSONL
-2. Load → Split (1000 chars, 10 overlap) → Embed → Store in Chroma
-3. Query → Retrieve top-k chunks → Prompt LLM with context → Return answer
+The system includes comprehensive evaluation tools for RAG quality assessment:
 
-Uses dataclass-based configuration, modular pipeline components, and functional patterns.
+### Answer Evaluation
+- **Relevance**: How well answers address the question (1-5 scale)
+- **Faithfulness**: Accuracy of context reflection
+- **Coherence**: Logical flow and clarity
+- Configurable metric weights for overall scoring
 
-## Setup
+### Retrieval Evaluation  
+- Document relevance assessment before answer generation
+- Precision@k metrics for retrieval quality
+- Handles embedding effectiveness evaluation
 
-### module
+### Batch Evaluation
+- Multi-query evaluation with statistical aggregation
+- Multiple runs per query to account for LLM non-determinism
+- Results saved as `data/batch_evaluation_{llm-model}.json`
 
+Run batch evaluation:
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-uv sync
+uv run python ragblog/batch_evaluator.py
 ```
 
-### ollama
+## Usage
 
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-ollama pull qwen3-embedding
-ollama pull ministral-3:8b
-```
+### Setup
 
-## CI
+1. Install dependencies: `uv sync`
+2. Download Ollama models: `ollama pull llama3`
+3. Crawl blog data: `uv run python ragblog/run.py` (uncomment crawler lines)
+4. Build vector store: Run pipeline with `is_db_ready=False`
 
-```bash
-sh ci/lint.sh   # ruff check && ruff format
-sh ci/test.sh   # pytest -vv
-```
+### Query
 
-## Run
+Run `uv run python ragblog/run.py` to query the system with a sample question.
 
-```bash
-cd ragblog && uv run python run.py
-```
+## Architecture
+
+- **ragblog/conf.py**: Configuration dataclass
+- **ragblog/crawler.py**: Web scraping logic
+- **ragblog/rag_pipeline.py**: Core RAG components
+- **ragblog/logger_custom.py**: Logging setup
+- **ragblog/rag_evaluator.py**: Evaluation logic
+- **ragblog/batch_evaluator.py**: Batch evaluation runner
+
+## Requirements
+
+- Python 3.10+
+- Ollama for local LLM inference
+- ChromaDB for vector storage

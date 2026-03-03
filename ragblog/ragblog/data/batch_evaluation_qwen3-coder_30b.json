@@ -1,0 +1,45 @@
+{
+  "What is the author's experience with travel?": {
+    "retrieval_avg_relevance": 2.0,
+    "retrieval_precision_at_k": 0.4166666666666667,
+    "answer_overall_avg": 4.133333333333334,
+    "answer_overall_std": 1.026320287889377,
+    "runs": 3
+  },
+  "Describe the relation between Helena and Alejandra.": {
+    "retrieval_avg_relevance": 3.8333333333333335,
+    "retrieval_precision_at_k": 0.75,
+    "answer_overall_avg": 3.533333333333333,
+    "answer_overall_std": 1.026320287889377,
+    "runs": 3
+  },
+  "What are the author's thoughts on technology?": {
+    "retrieval_avg_relevance": 2.6666666666666665,
+    "retrieval_precision_at_k": 0.6666666666666666,
+    "answer_overall_avg": 4.266666666666667,
+    "answer_overall_std": 0.23094010767585052,
+    "runs": 3
+  },
+  "How does the author balance work and personal life?": {
+    "retrieval_avg_relevance": 1.1666666666666667,
+    "retrieval_precision_at_k": 0.0,
+    "answer_overall_avg": 3.8666666666666667,
+    "answer_overall_std": 0.23094010767585024,
+    "runs": 3
+  },
+  "What are some key life lessons from the blog?": {
+    "retrieval_avg_relevance": 3.8333333333333335,
+    "retrieval_precision_at_k": 1.0,
+    "answer_overall_avg": 2.666666666666667,
+    "answer_overall_std": 0.9237604307034013,
+    "runs": 3
+  },
+  "overall": {
+    "avg_retrieval_relevance": 2.7,
+    "avg_retrieval_precision": 0.5666666666666667,
+    "avg_answer_score": 3.6933333333333334,
+    "std_answer_score": 0.6876562443667712,
+    "total_queries": 5,
+    "runs_per_query": 3
+  }
+}

@@ -11,6 +11,7 @@ from ragblog.logger_custom import LoggerCustom
 from ragblog.rag_pipeline import (
     JSONLoaderConf,
     RAGChainConf,
+    RagEvaluatorConf,
     RagPipeline,
     RagPipelineConf,
     TextSplitterConf,
@@ -55,6 +56,7 @@ def rag_pipeline_conf():
             persist_directory=CONF.path.chroma,
         ),
         ragchain=RAGChainConf(prompt_model="rlm/rag-prompt", llm_model="llama3"),
+        evaluator=RagEvaluatorConf(),
         is_db_ready=False,
     )
 
@@ -79,6 +81,7 @@ def rag_pipeline():
             persist_directory=CONF.path.chroma,
         ),
         ragchain=RAGChainConf(prompt_model="rlm/rag-prompt", llm_model="llama3"),
+        evaluator=RagEvaluatorConf(),
         is_db_ready=False,
         is_debug=False,
     )
