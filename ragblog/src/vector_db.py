@@ -4,8 +4,8 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_ollama import OllamaEmbeddings
 
-from ragblog.const import CONST
-from ragblog.logger_custom import LOGGER
+from src.const import CONST
+from src.logger_custom import LOGGER
 
 
 class VectorDB:

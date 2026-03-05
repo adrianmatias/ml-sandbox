@@ -1,14 +1,14 @@
 import os
 
-from ragblog.const import CONST
-from ragblog.logger_custom import LOGGER
-from ragblog.rag import Rag
+from src.const import CONST
+from src.logger_custom import LOGGER
+from src.rag import Rag
 
 
 def main():
 
-    pipeline = Rag(is_ready_vector_db=True)
-    response = pipeline.query(
+    rag = Rag(is_ready_vector_db=True)
+    response = rag.query(
         question="""
 Describe the relation between Helena and Alejandra.
 Consider the author's diverse experiences and multifaceted personality,

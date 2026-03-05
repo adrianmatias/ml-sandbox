@@ -1,14 +1,14 @@
-from ragblog.crawler import ConfCrawler, Crawler
+from src.crawler import Crawler
 
-CRAWLER = Crawler(conf_crawler=ConfCrawler())
+CRAWLER = Crawler(post_count_min=2)
 
 
 def test_get_url_list():
 
     CRAWLER.get_url_list()
 
-    assert len(CRAWLER.url_list) >= CRAWLER.conf.post_count_min
-    assert all(map(lambda url: url.startswith(CRAWLER.conf.url), CRAWLER.url_list))
+    assert len(CRAWLER.url_list) >= CRAWLER.post_count_min
+    assert all(map(lambda url: url.startswith(CRAWLER.url), CRAWLER.url_list))
 
 
 def test_get_post_list():
@@ -24,6 +24,6 @@ def test_get_post_list():
 
 def test_get_post_list_bellow_fold():
 
-    crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=10))
+    crawler = Crawler(post_count_min=10)
     crawler.get_url_list()
     assert len(crawler.url_list) >= 10

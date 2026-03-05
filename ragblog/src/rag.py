@@ -5,9 +5,9 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import OllamaLLM
 
-from ragblog.crawler import Crawler
-from ragblog.doc_loader import DocLoader
-from ragblog.vector_db import VectorDB
+from src.crawler import Crawler
+from src.doc_loader import DocLoader
+from src.vector_db import VectorDB
 
 
 class Rag:

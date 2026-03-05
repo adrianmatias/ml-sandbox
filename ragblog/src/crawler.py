@@ -4,9 +4,9 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 
-from ragblog.const import CONST
-from ragblog.logger_custom import LoggerCustom
-from ragblog.post import Post, PostEmpty
+from src.const import CONST
+from src.logger_custom import LoggerCustom
+from src.post import Post, PostEmpty
 
 LOGGER = LoggerCustom().get_logger()
 

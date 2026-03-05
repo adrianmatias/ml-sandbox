@@ -4,7 +4,7 @@ from langchain_community.document_loaders import JSONLoader
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from ragblog.const import CONST
+from src.const import CONST
 
 
 class DocLoader:

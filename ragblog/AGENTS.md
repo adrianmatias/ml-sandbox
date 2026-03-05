@@ -57,8 +57,8 @@ from bs4 import BeautifulSoup
 from langchain_chroma import Chroma
 
 # Local
-from ragblog.conf import CONF
-from ragblog.logger_custom import LoggerCustom
+from src.conf import CONF
+from src.logger_custom import LoggerCustom
 ```
 
 ### Type Hints
@@ -102,7 +102,7 @@ if response.status_code != 200:
 - Log at appropriate levels (INFO for operations, DEBUG for details)
 
 ```python
-from ragblog.logger_custom import LoggerCustom
+from src.logger_custom import LoggerCustom
 
 LOGGER = LoggerCustom().get_logger()
 LOGGER.info(f"Processing {len(items)} items")
