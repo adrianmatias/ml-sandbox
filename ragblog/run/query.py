@@ -7,7 +7,7 @@ from src.rag import Rag
 
 def main():
 
-    rag = Rag(is_ready_vector_db=True)
+    rag = Rag(is_ready_vector_db=False)
     response = rag.query(
         question="""
 Describe the relation between Helena and Alejandra.
