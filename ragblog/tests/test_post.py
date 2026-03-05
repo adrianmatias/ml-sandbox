@@ -1,4 +1,4 @@
-from ragblog.post import Post
+from src.post import Post
 
 
 def test_basic():
