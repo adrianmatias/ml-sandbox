@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e0d49a9-e9a5-4ecc-8065-62b3c1ceef07" name="Changes" comment="- refactor into src and run dirs&#10;- extend unit test&#10;- remove agents md&#10;- update readme">
-      <change afterPath="$PROJECT_DIR$/data/output.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_doc_loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_rag.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_vector_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/output_2026-02-12.md" beforeDir="false" />
+    <list default="true" id="5e0d49a9-e9a5-4ecc-8065-62b3c1ceef07" name="Changes" comment="- update output&#10;- remove agents md&#10;- extend test coverage">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ragblog.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Changes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Changes/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/ragas.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/ragas/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/ragas1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/ragas1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +277,7 @@
       <workItem from="1772607537875" duration="14116000" />
       <workItem from="1772689043061" duration="38000" />
       <workItem from="1772689159049" duration="277000" />
-      <workItem from="1772689448484" duration="13060000" />
+      <workItem from="1772689448484" duration="13450000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Add comprehensive RAG evaluation system with quality metrics&#10;&#10;- Implement RagEvaluator class using LLM-as-judge approach&#10;  * Three key metrics: relevance (1-5), faithfulness, coherence&#10;  * Configurable weights for overall scoring&#10;  * Integrated into RagPipeline for seamless evaluation&#10;&#10;- Add BatchEvaluator for statistical multi-query assessment&#10;  * Handles LLM non-determinism with multiple runs per query&#10;  * Evaluates both retrieval quality and answer generation&#10;  * Precision@k and average relevance for document assessment&#10;&#10;- Update configuration and pipeline integration&#10;  * Add RagEvaluatorConf to RagPipelineConf&#10;  * Modify run.py to demonstrate evaluation workflow&#10;  * Extend tests with evaluator fixtures&#10;&#10;- Generate evaluation results across multiple LLMs&#10;  * Batch evaluation outputs for gpt-oss-20b, lfm2-24b, qwen3-coder-30b&#10;  * JSON results with per-query stats and overall aggregates&#10;&#10;- Comprehensive test suite and code formatting&#10;  * Unit tests for evaluators with mocked LLM calls&#10;  * Code cleaned and formatted with ruff for standards compliance&#10;  * Updated README with evaluation documentation and technical voice&#10;&#10;This adds robust evaluation capabilities to measure and improve RAG system quality, enabling data-driven optimization of retrieval and generation components.">
       <option name="closed" value="true" />
@@ -315,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772708931100</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="- update output&#10;- remove agents md&#10;- extend test coverage">
+      <option name="closed" value="true" />
+      <created>1772712012998</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1772712012998</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,7 +351,8 @@
     <MESSAGE value="- ruff" />
     <MESSAGE value="- refactor conf into const&#10;- refactor rag into modular pipeline&#10;- allow reuse of vector database" />
     <MESSAGE value="- refactor into src and run dirs&#10;- extend unit test&#10;- remove agents md&#10;- update readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="- refactor into src and run dirs&#10;- extend unit test&#10;- remove agents md&#10;- update readme" />
+    <MESSAGE value="- update output&#10;- remove agents md&#10;- extend test coverage" />
+    <option name="LAST_COMMIT_MESSAGE" value="- update output&#10;- remove agents md&#10;- extend test coverage" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ragblog$rag_pipeline.coverage" NAME="rag_pipeline Coverage Results" MODIFIED="1772538784651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ragblog" />
