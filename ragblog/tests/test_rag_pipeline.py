@@ -5,9 +5,7 @@ import pytest
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import JSONLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
 from ragblog.conf import CONF
-from ragblog.logger_custom import LoggerCustom
 from ragblog.rag_pipeline import (
     JSONLoaderConf,
     RAGChainConf,
@@ -16,6 +14,8 @@ from ragblog.rag_pipeline import (
     TextSplitterConf,
     VectorStoreConf,
 )
+
+from ragblog.logger_custom import LoggerCustom
 
 
 # Mock the dependencies

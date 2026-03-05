@@ -1,59 +1,28 @@
 import os
 
-from ragblog.conf import CONF
-from ragblog.crawler import ConfCrawler, Crawler
-from ragblog.logger_custom import LoggerCustom
-from ragblog.rag_pipeline import (
-    JSONLoaderConf,
-    RAGChainConf,
-    RagPipeline,
-    RagPipelineConf,
-    TextSplitterConf,
-    VectorStoreConf,
-)
+from ragblog.const import CONST
+from ragblog.logger_custom import LOGGER
+from ragblog.rag import Rag
 
 
 def main():
-    logger = LoggerCustom().get_logger()
 
-    crawler = Crawler(conf_crawler=ConfCrawler(post_count_min=1000))
-    crawler.get_url_list()
-    crawler.get_post_list()
-    crawler.write(path=CONF.path.data)
-
-    rp_conf = RagPipelineConf(
-        loader=JSONLoaderConf(
-            file_path=os.path.join(CONF.path.data, "blog.jsonl"),
-            jq_schema=".text",
-            text_content=False,
-            json_lines=True,
-        ),
-        splitter=TextSplitterConf(chunk_size=1000, chunk_overlap=10),
-        vectorstore=VectorStoreConf(
-            embedding_model="qwen3-embedding",
-            persist_directory=CONF.path.chroma,
-        ),
-        ragchain=RAGChainConf(
-            prompt_model="rlm/rag-prompt-llama", llm_model="ministral-3:8b"
-        ),
-        is_db_ready=False,
-        is_debug=False,
-    )
-
-    pipeline = RagPipeline(conf=rp_conf, logger=logger)
+    pipeline = Rag(is_ready_vector_db=True)
     response = pipeline.query(
-        question="""Describe the relation between Helena and Alejandra.
-        Consider the author's diverse experiences and multifaceted personality,
-        reflecting on traits that are evident across their various blog posts.
-        Provide a detailed and thoughtful response.
-        Ensure your answer is profound and sufficiently long, 
-        offering deep insights and personal reflections."""
+        question="""
+Describe the relation between Helena and Alejandra.
+Consider the author's diverse experiences and multifaceted personality,
+reflecting on traits that are evident across their various blog posts.
+Provide a detailed and thoughtful response.
+Ensure your answer is profound and sufficiently long, 
+offering deep insights and personal reflections.
+"""
     )
-    print(response)
+    LOGGER.info(f"{response=}")
 
-    output_path = os.path.join(CONF.path.data, "output.md")
-    logger.info(f"{output_path}")
-    os.makedirs(CONF.path.data, exist_ok=True)
+    output_path = os.path.join(CONST.loc.data, "output.md")
+    LOGGER.info(f"{output_path}")
+    os.makedirs(CONST.loc.data, exist_ok=True)
     with open(output_path, "w") as f:
         f.write(f"# Response\n\n{response}")
 

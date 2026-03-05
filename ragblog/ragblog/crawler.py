@@ -1,35 +1,37 @@
 import os
-from dataclasses import dataclass
 from typing import List
 
 import requests
 from bs4 import BeautifulSoup
 
+from ragblog.const import CONST
 from ragblog.logger_custom import LoggerCustom
 from ragblog.post import Post, PostEmpty
 
 LOGGER = LoggerCustom().get_logger()
 
 
-@dataclass
-class ConfCrawler:
-    url: str = "https://delightfulobservaciones.blogspot.com/"
-    post_count_min: int = 2
-
-
 class Crawler:
-    def __init__(self, conf_crawler: ConfCrawler):
-        self.conf = conf_crawler
+    def __init__(self, post_count_min: int):
         self.url_list: List[str] = []
         self.post_list: List[Post] = []
+
+        self.url = "https://delightfulobservaciones.blogspot.com/"
+        self.post_count_min = post_count_min
+
         LOGGER.info(f"self.__dict__: {self.__dict__}")
 
+    def run(self):
+        self.get_url_list()
+        self.get_post_list()
+        self.write(path=CONST.loc.data)
+
     def get_url_list(self) -> None:
-        current_url = self.conf.url
+        current_url = self.url
         url_list = []
 
         while current_url:
-            if len(url_list) >= self.conf.post_count_min:
+            if len(url_list) >= self.post_count_min:
                 break
 
             LOGGER.info(f"Fetching {current_url}")

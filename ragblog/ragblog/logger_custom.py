@@ -42,3 +42,6 @@ class LoggerCustom:
     @staticmethod
     def get_logger():
         return logging.getLogger(__name__)
+
+
+LOGGER = LoggerCustom().get_logger()
