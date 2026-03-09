@@ -5,8 +5,8 @@ import argparse
 import json
 
 from src.const import CONST
-from src.evaluation.evaluator import RAGEvaluator
-from src.evaluation.testset import TestSet
+from src.evaluation.eval_set import EvalSet
+from src.evaluation.evaluator import RagEval
 from src.rag import Rag
 
 
@@ -50,10 +50,10 @@ def main():
     print(f"🚀 Starting evaluation: {args.name}")
 
     rag = Rag(is_ready_vector_db=True)
-    testset = TestSet()
+    testset = EvalSet()
     testset.load()
 
-    evaluator = RAGEvaluator(rag)
+    evaluator = RagEval(rag)
     results = evaluator.evaluate(testset)
 
     save_results(args.name, results)

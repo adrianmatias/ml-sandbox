@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Generate testset - thin orchestration script."""
+"""Generate eval_set - thin orchestration script."""
 
-from src.evaluation.testset import TestSet
+from src.evaluation.eval_set import EvalSet
 
 
 def main():
-    """Generate a testset using the TestSet abstraction."""
-    print("🚀 Starting testset generation...")
-    testset = TestSet()
+    """Generate a eval_set using the EvalSet abstraction."""
+    print("🚀 Starting eval_set generation...")
+    testset = EvalSet()
     testset.generate()
     print(f"✅ Testset generation complete. Total: {len(testset)} samples")
 

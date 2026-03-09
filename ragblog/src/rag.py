@@ -50,6 +50,12 @@ Answer: [/INST]""",
     def query(self, question: str):
         return self.chain.invoke(question)
 
+    def get_contexts(self, question: str):
+        """Return retrieved contexts for a question. Public API for evaluators."""
+        retriever = self.vector_db.as_retriever(k=10)
+        docs = retriever.invoke(question)
+        return [doc.page_content for doc in docs]
+
     @staticmethod
     def format_docs(docs):
         doc_intro = "<|retrieved_doc|>"

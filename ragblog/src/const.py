@@ -11,7 +11,7 @@ class Loc:
     data: Path = root / "data"
     vect_db: Path = data / "vect_db"
     eval_data: Path = data / "eval"
-    testset: Path = eval_data / "testset.jsonl"
+    eval_set: Path = eval_data / "eval_set.jsonl"
     results: Path = eval_data / "results"
 
 
@@ -23,9 +23,16 @@ class LLM(StrEnum):
 
 
 @dataclass(frozen=True)
+class Api:
+    ollama_base_url: str = "http://localhost:11434/v1"
+    ollama_api_key: str = "ollama"
+
+
+@dataclass(frozen=True)
 class Model:
     rag: LLM = LLM.GPT_OSS_20B
-    test_dataset: LLM = LLM.QWEN_2_5_14B
+    eval_set: LLM = LLM.QWEN_2_5_14B
+    eval: LLM = LLM.QWEN_2_5_14B
     embedding: LLM = LLM.QWEN_3_emb_8B
 
 
@@ -44,6 +51,7 @@ class Eval:
 
 @dataclass(frozen=True)
 class Const:
+    api = Api()
     loc = Loc()
     eval = Eval()
     model = Model()
