@@ -5,6 +5,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import OllamaLLM
 
+from src.const import CONST
 from src.crawler import Crawler
 from src.doc_loader import DocLoader
 from src.vector_db import VectorDB
@@ -23,7 +24,7 @@ class Rag:
         self.chain = self.create_chain()
 
     def create_chain(self) -> Any:
-        llm = OllamaLLM(model="gpt-oss:20b")
+        llm = OllamaLLM(model=CONST.model.rag)
         prompt = PromptTemplate.from_template(
             """human
 
@@ -51,7 +52,5 @@ Answer: [/INST]""",
 
     @staticmethod
     def format_docs(docs):
-        for doc in docs:
-            print(doc)
         doc_intro = "<|retrieved_doc|>"
         return "\n\n".join(doc_intro + doc.page_content for doc in docs)

@@ -24,23 +24,15 @@ class TestSetItem:
 
 
 class TestSet:
-    """Encapsulates testset creation, loading, and management.
-
-    Follows clean OO design patterns from the rest of the project.
-    """
+    """Encapsulates testset creation, loading, and management."""
 
     def __init__(self):
-        """Initialize TestSet manager."""
         self.data: List[Dict[str, Any]] = []
         self.testset_path: Path = CONST.loc.testset
 
     def generate(self, testset_size: int = None) -> None:
-        """Generate synthetic testset using Ragas.
-
-        Args:
-            testset_size: Number of test cases to generate. Uses default from CONST if None.
-        """
-        size = testset_size or CONST.eval.default_testset_size
+        """Generate synthetic testset using Ragas."""
+        size = testset_size or CONST.eval.testset_size
         print("📚 Loading blog documents for testset generation...")
 
         loader = JSONLoader(
@@ -51,17 +43,16 @@ class TestSet:
         documents = loader.load()
         print(f"   Loaded {len(documents)} documents.")
 
-        # Use local models
         print("🤖 Setting up generation models...")
         generator_llm = LangchainLLMWrapper(
             ChatOllama(
-                model=CONST.eval.default_llm_model,
+                model=CONST.model.test_dataset,
                 temperature=0.0,
             )
         )
 
         generator_embeddings = LangchainEmbeddingsWrapper(
-            OllamaEmbeddings(model=CONST.eval.default_embedding_model)
+            OllamaEmbeddings(model=CONST.model.embedding)
         )
 
         generator = TestsetGenerator(
@@ -75,7 +66,6 @@ class TestSet:
             testset_size=size,
         )
 
-        # Convert to our clean internal format
         df = ragas_testset.to_pandas()
         self.data = []
 
@@ -94,7 +84,6 @@ class TestSet:
         print(f"✅ Generated and saved {len(self.data)} test cases")
 
     def load(self) -> List[Dict[str, Any]]:
-        """Load testset from disk in native Ragas format."""
         if not self.testset_path.exists():
             raise FileNotFoundError(
                 f"Testset not found at {self.testset_path}. Run generate() first."
@@ -110,17 +99,13 @@ class TestSet:
         return self.data
 
     def save(self) -> None:
-        """Save testset to disk."""
         CONST.loc.eval_data.mkdir(parents=True, exist_ok=True)
-
         with open(self.testset_path, "w") as f:
             for item in self.data:
                 f.write(json.dumps(item, ensure_ascii=False) + "\n")
-
         print(f"Saved testset to {self.testset_path}")
 
     def to_testset_items(self) -> List[TestSetItem]:
-        """Convert to clean TestSetItem objects."""
         return [
             TestSetItem(
                 question=item.get("user_input") or item.get("question", ""),

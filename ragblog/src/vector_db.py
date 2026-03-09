@@ -12,14 +12,14 @@ class VectorDB:
     def __init__(
         self,
     ):
-        self.embedding_model = "qwen3-embedding:8b"
-        self.collection_name = "collection_ragblog"
+        self.model = CONST.model.embedding
         self.persist_directory = CONST.loc.vect_db
+        self.collection_name = "collection_ragblog"
 
         self.store = Chroma(
             persist_directory=self.persist_directory,
             collection_name=self.collection_name,
-            embedding_function=OllamaEmbeddings(model=self.embedding_model),
+            embedding_function=OllamaEmbeddings(model=self.model),
         )
 
     def save(self, doc_list: List[Document]) -> None:
@@ -27,14 +27,14 @@ class VectorDB:
         LOGGER.info(f"{doc_list_count=}")
         Chroma.from_documents(
             documents=doc_list,
-            embedding=OllamaEmbeddings(model=self.embedding_model),
+            embedding=OllamaEmbeddings(model=self.model),
             persist_directory=self.persist_directory,
         )
 
     def load(self) -> Chroma:
         return Chroma(
             persist_directory=self.persist_directory,
-            embedding_function=OllamaEmbeddings(model=self.embedding_model),
+            embedding_function=OllamaEmbeddings(model=self.model),
         )
 
     def get_vector_db(self, doc_list: List[Document] | None) -> Chroma:

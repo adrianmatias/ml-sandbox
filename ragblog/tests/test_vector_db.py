@@ -12,7 +12,7 @@ def vector_db():
 
 
 def test_init(vector_db):
-    assert vector_db.embedding_model == "qwen3-embedding:8b"
+    assert vector_db.model == "qwen3-embedding:8b"
     assert vector_db.collection_name == "collection_ragblog"
 
 

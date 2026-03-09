@@ -18,17 +18,17 @@ from src.rag import Rag
 
 
 class RAGEvaluator:
-    """RAG evaluator using TestSet abstraction - clean OO design."""
+    """RAG evaluator using TestSet abstraction."""
 
     def __init__(self, rag: Rag):
         self.rag = rag
         self.llm = ChatOllama(
-            model=CONST.eval.default_llm_model,
+            model=CONST.model.rag,
             temperature=0.0,
         )
         self.llm_wrapper = LangchainLLMWrapper(self.llm)
         self.embeddings = LangchainEmbeddingsWrapper(
-            OllamaEmbeddings(model=CONST.eval.default_embedding_model)
+            OllamaEmbeddings(model=CONST.model.embedding)
         )
         self.metrics = [
             ContextPrecision(),
@@ -38,7 +38,6 @@ class RAGEvaluator:
         ]
 
     def evaluate(self, testset: TestSet) -> List[Dict[str, Any]]:
-        """Evaluate using TestSet object."""
         dataset_dict = {
             "question": [],
             "answer": [],

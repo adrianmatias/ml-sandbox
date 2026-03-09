@@ -23,7 +23,7 @@ def save_results(name: str, results: list[dict]) -> None:
         f.write("# RAG Evaluation Results\n\n")
         f.write(f"Configuration: {name}\n\n")
 
-        metrics = CONST.eval.metrics
+        metrics = CONST.eval.metric_list
         agg_scores = {m: [] for m in metrics}
 
         for result in results:
@@ -49,7 +49,6 @@ def main():
 
     print(f"🚀 Starting evaluation: {args.name}")
 
-    # High-level calls only
     rag = Rag(is_ready_vector_db=True)
     testset = TestSet()
     testset.load()
