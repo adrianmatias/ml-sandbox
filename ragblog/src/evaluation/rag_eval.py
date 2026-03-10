@@ -38,7 +38,7 @@ class RagEval:
 
     Manifests clear separation between the evaluated RAG system (Rag)
     and the evaluation harness (RagEval), each using dedicated models
-    from CONST.model.rag and CONST.model.eval respectively.
+    from CONST.model.aug and CONST.model.eval_aug respectively.
     """
 
     def __init__(self, rag: Rag):
@@ -48,8 +48,8 @@ class RagEval:
             base_url=CONST.api.ollama_base_url,
             api_key=CONST.api.ollama_api_key,
         )
-        llm = llm_factory(CONST.model.eval, client=client)
-        emb = embedding_factory("openai", CONST.model.embedding, client=client)
+        llm = llm_factory(CONST.model.eval_aug, client=client)
+        emb = embedding_factory("openai", CONST.model.emb, client=client)
 
         self.metrics = {
             "context_precision": ContextPrecision(llm=llm),

@@ -19,6 +19,7 @@ class LLM(StrEnum):
     QWEN_2_5_14B = "qwen2.5:14b"
     GPT_OSS_20B = "gpt-oss:20b"
     QWEN_3_5_9B = "qwen3.5:9b"
+    QWEN_3_5_27B = "qwen3.5:27b"
     QWEN_3_emb_8B = "qwen3-embedding:8b"
 
 
@@ -30,10 +31,10 @@ class Api:
 
 @dataclass(frozen=True)
 class Model:
-    rag: LLM = LLM.GPT_OSS_20B
+    aug: LLM = LLM.QWEN_3_5_9B
+    emb: LLM = LLM.QWEN_3_emb_8B
     eval_set: LLM = LLM.QWEN_2_5_14B
-    eval: LLM = LLM.QWEN_2_5_14B
-    embedding: LLM = LLM.QWEN_3_emb_8B
+    eval_aug: LLM = LLM.QWEN_2_5_14B
 
 
 @dataclass(frozen=True)

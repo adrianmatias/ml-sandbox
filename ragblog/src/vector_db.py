@@ -12,7 +12,7 @@ class VectorDB:
     def __init__(
         self,
     ):
-        self.model = CONST.model.embedding
+        self.model = CONST.model.emb
         self.persist_directory = CONST.loc.vect_db
         self.collection_name = "collection_ragblog"
 
@@ -25,15 +25,18 @@ class VectorDB:
     def save(self, doc_list: List[Document]) -> None:
         doc_list_count = len(doc_list)
         LOGGER.info(f"{doc_list_count=}")
+        self.store.delete_collection()
         Chroma.from_documents(
             documents=doc_list,
             embedding=OllamaEmbeddings(model=self.model),
             persist_directory=self.persist_directory,
+            collection_name=self.collection_name,
         )
 
     def load(self) -> Chroma:
         return Chroma(
             persist_directory=self.persist_directory,
+            collection_name=self.collection_name,
             embedding_function=OllamaEmbeddings(model=self.model),
         )
 

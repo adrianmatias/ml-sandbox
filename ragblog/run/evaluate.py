@@ -6,7 +6,7 @@ import json
 
 from src.const import CONST
 from src.evaluation.eval_set import EvalSet
-from src.evaluation.evaluator import RagEval
+from src.evaluation.rag_eval import RagEval
 from src.rag import Rag
 
 
@@ -49,7 +49,7 @@ def main():
 
     print(f"🚀 Starting evaluation: {args.name}")
 
-    rag = Rag(is_ready_vector_db=True)
+    rag = Rag(is_ready_vector_db=False)
     testset = EvalSet()
     testset.load()
 

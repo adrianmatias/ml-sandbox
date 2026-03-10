@@ -24,7 +24,7 @@ class Rag:
         self.chain = self.create_chain()
 
     def create_chain(self) -> Any:
-        llm = OllamaLLM(model=CONST.model.rag)
+        llm = OllamaLLM(model=CONST.model.aug)
         prompt = PromptTemplate.from_template(
             """human
 
@@ -38,7 +38,7 @@ Context: {context}
 
 Answer: [/INST]""",
         )
-        retriever = self.vector_db.as_retriever(k=10)
+        retriever = self.vector_db.as_retriever(search_kwargs={"k": 10})
 
         return (
             {"context": retriever | self.format_docs, "question": RunnablePassthrough()}
@@ -52,7 +52,7 @@ Answer: [/INST]""",
 
     def get_contexts(self, question: str):
         """Return retrieved contexts for a question. Public API for evaluators."""
-        retriever = self.vector_db.as_retriever(k=10)
+        retriever = self.vector_db.as_retriever(search_kwargs={"k": 10})
         docs = retriever.invoke(question)
         return [doc.page_content for doc in docs]
 

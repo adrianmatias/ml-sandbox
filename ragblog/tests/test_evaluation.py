@@ -1,6 +1,6 @@
 from src.const import CONST
 from src.evaluation.eval_set import EvalSet, Item
-from src.evaluation.evaluator import RagEval
+from src.evaluation.rag_eval import RagEval
 
 
 def test_item_creation():

@@ -26,7 +26,7 @@ class DocLoader:
     @staticmethod
     def split(doc_list: List[Document]) -> List[Document]:
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
+            chunk_size=500,
             chunk_overlap=10,
         )
         return splitter.split_documents(documents=doc_list)

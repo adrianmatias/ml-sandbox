@@ -52,7 +52,7 @@ class EvalSet:
         )
 
         generator_embeddings = LangchainEmbeddingsWrapper(
-            OllamaEmbeddings(model=CONST.model.embedding)
+            OllamaEmbeddings(model=CONST.model.emb)
         )
 
         generator = TestsetGenerator(

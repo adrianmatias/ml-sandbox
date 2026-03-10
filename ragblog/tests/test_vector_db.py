@@ -30,6 +30,7 @@ def test_save(mock_ollama, mock_chroma, vector_db):
         documents=docs,
         embedding=mock_embedding_instance,
         persist_directory=vector_db.persist_directory,
+        collection_name=vector_db.collection_name,
     )
 
 
@@ -45,6 +46,7 @@ def test_load(mock_ollama, mock_chroma, vector_db):
 
     mock_chroma.assert_called_with(
         persist_directory=vector_db.persist_directory,
+        collection_name=vector_db.collection_name,
         embedding_function=mock_embedding_instance,
     )
     assert result == mock_chroma_instance
