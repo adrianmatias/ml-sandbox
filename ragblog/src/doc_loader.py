@@ -5,13 +5,15 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from src.const import CONST
+from src.logger_custom import log_init
 
 
+@log_init
 class DocLoader:
     def __init__(
         self,
     ):
-        self.a = "a"
+        pass
 
     def load(self) -> List[Document]:
         loader = JSONLoader(
@@ -26,7 +28,7 @@ class DocLoader:
     @staticmethod
     def split(doc_list: List[Document]) -> List[Document]:
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
+            chunk_size=500,
             chunk_overlap=10,
         )
         return splitter.split_documents(documents=doc_list)

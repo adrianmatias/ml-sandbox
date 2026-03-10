@@ -51,6 +51,34 @@ sh ci/test.sh   # pytest -vv
 uv run python run/query.py
 ```
 
+## Evaluation
+
+To objectively measure RAG system improvements, use the built-in evaluation framework based on Ragas.
+
+### Generate Testset
+
+First, generate a synthetic testset from your documents (run once):
+
+```bash
+uv run python run/generate_testset.py
+```
+
+This creates `data/eval/testset.jsonl` with questions, ground truths, etc.
+
+### Evaluate Configuration
+
+Evaluate a specific RAG configuration (e.g., after changing chunk size):
+
+```bash
+uv run python run/evaluate.py --name "chunk-500"
+```
+
+Results are saved to `data/eval/results/chunk-500.json` and `chunk-500.md` (with summary and failing examples).
+
+Compare different configurations by running with different `--name` values (e.g., "baseline", "embedding-model-x").
+
+Metrics evaluated: context_precision, context_recall, faithfulness, answer_relevancy.
+
 ## Code Style
 
 - clean code

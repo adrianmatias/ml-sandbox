@@ -1,5 +1,33 @@
+import functools
+import inspect
 import logging
 import logging.config
+
+
+def log_init(cls):
+    """Class decorator that logs class name and init attributes after __init__."""
+
+    original_init = cls.__init__
+    logger = logging.getLogger(cls.__module__)
+    source_file = inspect.getfile(cls)
+
+    @functools.wraps(original_init)
+    def new_init(self, *args, **kwargs):
+        original_init(self, *args, **kwargs)
+        record = logger.makeRecord(
+            name=logger.name,
+            level=logging.INFO,
+            fn=source_file,
+            lno=0,
+            msg=f"{cls.__name__}: {self.__dict__}",
+            args=(),
+            exc_info=None,
+            func="__init__",
+        )
+        logger.handle(record)
+
+    cls.__init__ = new_init
+    return cls
 
 
 class LoggerCustom:
@@ -8,7 +36,7 @@ class LoggerCustom:
             [
                 "%(asctime)s,%(msecs)d",
                 "%(levelname)-8s",
-                "[%(filename)s:%(funcName)s:%(lineno)d].",
+                "[%(filename)s:%(funcName)s:%(lineno)d]",
                 "%(message)s",
             ]
         )
