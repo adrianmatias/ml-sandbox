@@ -8,9 +8,11 @@ from langchain_ollama import OllamaLLM
 from src.const import CONST
 from src.crawler import Crawler
 from src.doc_loader import DocLoader
+from src.logger_custom import log_init
 from src.vector_db import VectorDB
 
 
+@log_init
 class Rag:
     def __init__(self, is_ready_vector_db: bool):
         if is_ready_vector_db:

@@ -5,12 +5,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.const import CONST
-from src.logger_custom import LoggerCustom
+from src.logger_custom import LOGGER, log_init
 from src.post import Post, PostEmpty
 
-LOGGER = LoggerCustom().get_logger()
 
-
+@log_init
 class Crawler:
     def __init__(self, post_count_min: int):
         self.url_list: List[str] = []
@@ -18,8 +17,6 @@ class Crawler:
 
         self.url = "https://delightfulobservaciones.blogspot.com/"
         self.post_count_min = post_count_min
-
-        LOGGER.info(f"self.__dict__: {self.__dict__}")
 
     def run(self):
         self.get_url_list()

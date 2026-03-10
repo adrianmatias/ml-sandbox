@@ -5,9 +5,10 @@ from langchain_core.documents import Document
 from langchain_ollama import OllamaEmbeddings
 
 from src.const import CONST
-from src.logger_custom import LOGGER
+from src.logger_custom import LOGGER, log_init
 
 
+@log_init
 class VectorDB:
     def __init__(
         self,

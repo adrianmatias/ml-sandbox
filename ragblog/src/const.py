@@ -47,7 +47,7 @@ class Eval:
             "answer_relevancy",
         ]
     )
-    testset_size: int = 8
+    testset_size: int = 16
 
 
 @dataclass(frozen=True)

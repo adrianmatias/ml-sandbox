@@ -5,13 +5,15 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from src.const import CONST
+from src.logger_custom import log_init
 
 
+@log_init
 class DocLoader:
     def __init__(
         self,
     ):
-        self.a = "a"
+        pass
 
     def load(self) -> List[Document]:
         loader = JSONLoader(
