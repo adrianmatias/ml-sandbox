@@ -6,16 +6,16 @@ from src.rag import Rag
 @patch("src.rag.VectorDB")
 @patch("src.rag.DocLoader")
 @patch("src.rag.Crawler")
-def test_init_ready_db(mock_crawler, mock_doc_loader, mock_vector_db):
+def test_init_index_exists(mock_crawler, mock_doc_loader, mock_vector_db):
     mock_vector_db_instance = MagicMock()
     mock_vector_db.return_value = mock_vector_db_instance
+    mock_vector_db_instance.persist_directory.exists.return_value = True
     mock_vector_db_instance.get_vector_db.return_value = mock_vector_db_instance
 
-    rag = Rag(is_ready_vector_db=True)
+    rag = Rag()
 
     mock_crawler.assert_not_called()
     mock_doc_loader.assert_not_called()
-    mock_vector_db.assert_called_once()
     mock_vector_db_instance.get_vector_db.assert_called_once_with(doc_list=None)
     assert rag.vector_db == mock_vector_db_instance
 
@@ -23,7 +23,7 @@ def test_init_ready_db(mock_crawler, mock_doc_loader, mock_vector_db):
 @patch("src.rag.VectorDB")
 @patch("src.rag.DocLoader")
 @patch("src.rag.Crawler")
-def test_init_not_ready_db(mock_crawler, mock_doc_loader, mock_vector_db):
+def test_init_overwrite_index(mock_crawler, mock_doc_loader, mock_vector_db):
     mock_crawler_instance = MagicMock()
     mock_crawler.return_value = mock_crawler_instance
     mock_doc_loader_instance = MagicMock()
@@ -33,13 +33,12 @@ def test_init_not_ready_db(mock_crawler, mock_doc_loader, mock_vector_db):
     mock_vector_db.return_value = mock_vector_db_instance
     mock_vector_db_instance.get_vector_db.return_value = mock_vector_db_instance
 
-    rag = Rag(is_ready_vector_db=False)
+    rag = Rag(is_overwrite_index=True)
 
     mock_crawler.assert_called_once_with(post_count_min=2)
     mock_crawler_instance.run.assert_called_once()
     mock_doc_loader.assert_called_once()
     mock_doc_loader_instance.load.assert_called_once()
-    mock_vector_db.assert_called_once()
     mock_vector_db_instance.get_vector_db.assert_called_once_with(doc_list="docs")
     assert rag.vector_db == mock_vector_db_instance
 

@@ -67,6 +67,15 @@ class RagEval:
         Returns:
             List of per-row metric scores as dicts.
         """
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop:
+            # Running inside Jupyter or another async context — return a coroutine
+            # to be awaited by the caller (e.g. `await evaluator.evaluate(...)`)
+            return self._aevaluate(eval_set)
         return asyncio.run(self._aevaluate(eval_set))
 
     async def _aevaluate(self, eval_set: EvalSet) -> List[Dict[str, Any]]:
