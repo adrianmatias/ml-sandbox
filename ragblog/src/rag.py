@@ -19,7 +19,7 @@ class Rag:
 
         vdb = VectorDB()
         if is_overwrite_index or not vdb.persist_directory.exists():
-            crawler = Crawler(post_count_min=2)
+            crawler = Crawler(post_count_min=100)
             crawler.run()
             doc_list = DocLoader().load()
         else:

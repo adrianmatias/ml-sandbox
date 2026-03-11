@@ -35,7 +35,7 @@ def test_init_overwrite_index(mock_crawler, mock_doc_loader, mock_vector_db):
 
     rag = Rag(is_overwrite_index=True)
 
-    mock_crawler.assert_called_once_with(post_count_min=2)
+    mock_crawler.assert_called_once_with(post_count_min=100)
     mock_crawler_instance.run.assert_called_once()
     mock_doc_loader.assert_called_once()
     mock_doc_loader_instance.load.assert_called_once()

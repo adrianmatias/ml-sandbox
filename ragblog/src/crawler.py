@@ -39,8 +39,7 @@ class Crawler:
 
             soup = BeautifulSoup(response.content, "html.parser")
 
-            # Find all post urls on the current page
-            posts = soup.find_all("h3", class_="post-title entry-title")
+            posts = soup.find_all("h3", class_="post-title")
             for post in posts:
                 url = post.find("a")["href"]
                 LOGGER.info(f"url: {url}")
