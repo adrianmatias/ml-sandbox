@@ -3,7 +3,7 @@ from typing import Any, Optional
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from langchain_ollama import OllamaLLM
+from langchain_openai import ChatOpenAI
 
 from src.const import CONST, LLM
 from src.crawler import Crawler
@@ -29,7 +29,13 @@ class Rag:
         self.chain = self.create_chain()
 
     def create_chain(self) -> Any:
-        llm = OllamaLLM(model=self.aug)
+        llm = ChatOpenAI(
+            model=self.aug,
+            base_url=CONST.api.base_url,
+            api_key=CONST.api.api_key,
+            max_tokens=1536,
+            temperature=1.0,
+        )
         prompt = PromptTemplate.from_template(
             """human
 

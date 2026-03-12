@@ -20,18 +20,35 @@ class LLM(StrEnum):
     GPT_OSS_20B = "gpt-oss:20b"
     QWEN_3_5_9B = "qwen3.5:9b"
     QWEN_3_5_27B = "qwen3.5:27b"
+    QWEN_3_5_27B_Q3 = (
+        "qwen3.5:27b-q3_K_M"  # requantized; see scripts/quantize_27b_q3.sh
+    )
     QWEN_3_emb_8B = "qwen3-embedding:8b"
 
 
 @dataclass(frozen=True)
 class Api:
-    ollama_base_url: str = "http://localhost:11434/v1"
-    ollama_api_key: str = "ollama"
+    """Backend inference server configuration.
+
+    Both Ollama and llama-server expose an OpenAI-compatible /v1 endpoint,
+    so only the base_url differs between providers.
+
+    Ollama  (default): base_url="http://localhost:11434/v1", api_key="ollama"
+    llama-server:      base_url="http://localhost:8080/v1",  api_key="none"
+
+    To switch providers change the two fields below; no other file needs editing.
+    See scripts/llama_server_start.sh for the llama-server launch command.
+    """
+
+    base_url: str = "http://localhost:8080/v1"
+    api_key: str = "none"
 
 
 @dataclass(frozen=True)
 class Model:
-    aug: LLM = LLM.QWEN_3_5_9B
+    aug: LLM = (
+        LLM.QWEN_3_5_27B_Q3
+    )  # Q3_K_M fits fully in 16 GB VRAM; see scripts/quantize_27b_q3.sh
     emb: LLM = LLM.QWEN_3_emb_8B
     eval_set: LLM = LLM.QWEN_2_5_14B
     eval_aug: LLM = LLM.QWEN_2_5_14B

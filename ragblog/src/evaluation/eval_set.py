@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from langchain_community.document_loaders import JSONLoader
-from langchain_ollama import ChatOllama, OllamaEmbeddings
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.llms import LangchainLLMWrapper
 from ragas.testset import TestsetGenerator
@@ -45,14 +45,20 @@ class EvalSet:
 
         print("🤖 Setting up generation models...")
         generator_llm = LangchainLLMWrapper(
-            ChatOllama(
+            ChatOpenAI(
                 model=CONST.model.eval_set,
+                base_url=CONST.api.base_url,
+                api_key=CONST.api.api_key,
                 temperature=0.0,
             )
         )
 
         generator_embeddings = LangchainEmbeddingsWrapper(
-            OllamaEmbeddings(model=CONST.model.emb)
+            OpenAIEmbeddings(
+                model=CONST.model.emb,
+                base_url=CONST.api.base_url,
+                api_key=CONST.api.api_key,
+            )
         )
 
         generator = TestsetGenerator(

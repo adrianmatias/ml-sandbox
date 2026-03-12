@@ -17,10 +17,10 @@ def test_init(vector_db):
 
 
 @patch("src.vector_db.Chroma")
-@patch("src.vector_db.OllamaEmbeddings")
-def test_save(mock_ollama, mock_chroma, vector_db):
+@patch("src.vector_db.OpenAIEmbeddings")
+def test_save(mock_embeddings, mock_chroma, vector_db):
     mock_embedding_instance = MagicMock()
-    mock_ollama.return_value = mock_embedding_instance
+    mock_embeddings.return_value = mock_embedding_instance
     mock_chroma.from_documents = MagicMock()
 
     docs = [Document(page_content="test")]
@@ -35,10 +35,10 @@ def test_save(mock_ollama, mock_chroma, vector_db):
 
 
 @patch("src.vector_db.Chroma")
-@patch("src.vector_db.OllamaEmbeddings")
-def test_load(mock_ollama, mock_chroma, vector_db):
+@patch("src.vector_db.OpenAIEmbeddings")
+def test_load(mock_embeddings, mock_chroma, vector_db):
     mock_embedding_instance = MagicMock()
-    mock_ollama.return_value = mock_embedding_instance
+    mock_embeddings.return_value = mock_embedding_instance
     mock_chroma_instance = MagicMock()
     mock_chroma.return_value = mock_chroma_instance
 

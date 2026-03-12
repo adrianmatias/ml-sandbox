@@ -3,7 +3,7 @@ from typing import List
 
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from langchain_ollama import OllamaEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 from src.const import CONST
 from src.logger_custom import LOGGER, log_init
@@ -18,6 +18,13 @@ class VectorDB:
         self.persist_directory = CONST.loc.vect_db
         self.collection_name = "collection_ragblog"
 
+    def _make_embeddings(self) -> OpenAIEmbeddings:
+        return OpenAIEmbeddings(
+            model=self.model,
+            base_url=CONST.api.base_url,
+            api_key=CONST.api.api_key,
+        )
+
     def save(self, doc_list: List[Document]) -> None:
         doc_list_count = len(doc_list)
         LOGGER.info(f"{doc_list_count=}")
@@ -25,7 +32,7 @@ class VectorDB:
             shutil.rmtree(self.persist_directory)
         Chroma.from_documents(
             documents=doc_list,
-            embedding=OllamaEmbeddings(model=self.model),
+            embedding=self._make_embeddings(),
             persist_directory=self.persist_directory,
             collection_name=self.collection_name,
         )
@@ -34,7 +41,7 @@ class VectorDB:
         return Chroma(
             persist_directory=self.persist_directory,
             collection_name=self.collection_name,
-            embedding_function=OllamaEmbeddings(model=self.model),
+            embedding_function=self._make_embeddings(),
         )
 
     def get_vector_db(self, doc_list: List[Document] | None) -> Chroma:

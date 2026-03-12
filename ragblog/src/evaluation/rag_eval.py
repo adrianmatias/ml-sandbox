@@ -45,8 +45,8 @@ class RagEval:
         self.rag = rag
 
         client = AsyncOpenAI(
-            base_url=CONST.api.ollama_base_url,
-            api_key=CONST.api.ollama_api_key,
+            base_url=CONST.api.base_url,
+            api_key=CONST.api.api_key,
         )
         llm = llm_factory(CONST.model.eval_aug, client=client)
         emb = embedding_factory("openai", CONST.model.emb, client=client)
