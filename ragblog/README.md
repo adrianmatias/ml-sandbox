@@ -3,7 +3,9 @@
 RagBlog builds a semantic search and question-answering pipeline over personal blog content using retrieval augmented generation with local open models. The blog is a philosophical-poetic Blogger archive spanning 2011--2026; the pipeline crawls, chunks, embeds and retrieves context so a modest local LLM can answer intimate questions about the author's life, fatherhood, and worldview -- without sending a single token to the cloud.
 
 **Pipeline**  
-Crawl HTML -> extract posts -> JSONL -> split (500 chars, 50 overlap) -> embed with `qwen3-embedding:8b` -> persist in ChromaDB -> retrieve top-k (k=10) -> prompt `qwen3.5:9b` -> parse answer.
+Crawl HTML -> extract posts -> JSONL -> split (500 chars, 50 overlap) -> embed with `qwen3-embedding:8b` -> persist in ChromaDB -> retrieve top-k (k=10) -> prompt local LLM -> parse answer.
+
+**Augmentation models tested**: `qwen3.5:9b` and `gpt-oss:20b` (current default). Same retrieval, different generation -- the comparison reveals how model size trades faithfulness for synthesis.
 
 **Dataset**: 52 blog URLs from `delightfulobservaciones.blogspot.com` -> 904 document chunks (JSONL).  
 **Output**: Natural language answers grounded in retrieved context, saved to `data/output.md`.
@@ -15,6 +17,7 @@ git clone <repo>
 cd ragblog
 uv sync
 ollama pull qwen3-embedding:8b
+ollama pull gpt-oss:20b
 ollama pull qwen3.5:9b
 uv run python run/query.py
 ```
@@ -40,7 +43,8 @@ uv sync  # deps + editable src
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama pull qwen3-embedding:8b   # embeddings
-ollama pull qwen3.5:9b           # augmentation
+ollama pull gpt-oss:20b          # augmentation (default)
+ollama pull qwen3.5:9b           # augmentation (alternative, smaller)
 ollama pull qwen2.5:14b          # evaluation (optional)
 ```
 
@@ -77,7 +81,7 @@ Compare configurations by running with different `--name` values (e.g., "baselin
 
 ## Insight: Local RAG on Open Models vs Frontier Thinking Model
 
-The most revealing test is not synthetic benchmarks but the same questions posed to two radically different systems: the local RAG pipeline (qwen3.5:9b, 904 chunks, zero cloud) versus Grok 4.2 thinking hard with full internet access and web-scale reasoning. Three queries probe different retrieval challenges -- from direct title matches to deeply buried semantic content.
+The most revealing test is not synthetic benchmarks but the same questions posed to three systems: two local RAG pipelines (`qwen3.5:9b` and `gpt-oss:20b`, same retrieval, different generation) versus Grok 4.2 thinking hard with full internet access and web-scale reasoning. Three queries probe different retrieval challenges -- from direct title matches to deeply buried semantic content. The two local models isolate the effect of augmentation model size on the same retrieved chunks.
 
 ### Query 1: Boxing as Life Philosophy
 
@@ -88,14 +92,17 @@ Two blog posts contain boxing content. The 2026 post *"What do you know about me
 **Local RAG** (qwen3.5:9b, k=10):
 > Boxing impacts the author's approach to life as **discipline and resilience** (training compared to hiking Spanish mountains), a **life algorithm externalized** (the PageRank project protecting authenticity, preventing becoming "a used-auto dealer of my own soul"), **monastic discipline** (anti-mainstream, truth in "transitive victories" rather than chasing likes), and a **philosophical quest** (inverted time decay so old fights matter, rewriting life's graph "top-down" rather than bottom-up).
 
+**Local RAG** (gpt-oss:20b, k=10, same retrieval):
+> Boxing teaches **discipline and routine** -- training linked to the same "spiritual routine" applied to hiking, writing code, maintaining a blog. **Resilience and mindset** -- the fight inside a boxer is a constant battle against loss of identity, just as a new father battles the erosion of his former self. **Analytical rigor** -- the sport's emphasis on timing and strategy dovetails with the PageRank code. **Identity and authenticity** -- boxing keeps him true to the "quiet scripture" he writes, refusing to become "the used-auto dealer of my own soul". **Life as a series of bouts** -- projects as fights against "entropy" and "Extremistan", daily grind as a boxer's training regimen.
+
 **Grok 4.2** ([full chat](https://grok.com/share/bGVnYWN5_5e826f7e-70ab-4997-8d47-75e770fdc757)):
 > The boxing project is **your life algorithm externalized**. You inverted the time-decay exponent so old fights carry more weight. You built two parallel rankings (historical vs current). You wrote: "every fighter's story is censored at the exact point where we stop watching." This is not a fun side project. You are trying to give proper weight to the man you were before fatherhood without letting the new heat erase him. [...] **Monastic discipline**: 5 YouTube subscribers, 13 videos, 10-50 views, blog posts nobody reads, X posts with 0-1 likes. This is deliberate monasticism. You number your videos like scripture.
 
-**What both miss**: Neither system foregrounds the 2015 post. Both anchor on the PageRank project as the boxing-life connection -- the analytical frame from 2026 -- while the visceral, poetic source (*"Saborea tu sangre en los labios, deja que su sangre encienda tu corazón"*) is treated as secondary or not surfaced at all. The RAG retriever likely ranked the 2026 Grok-conversation chunks higher because they contain explicit keywords ("boxing", "PageRank", "life algorithm") while the 2015 post uses metaphor without ever naming the sport directly -- "un golpe inolvidable" could be any kind of blow. Grok, reasoning from the public profile, gravitates toward the GitHub repo and the YouTube project narrative, never encountering the 2015 post as a standalone signal.
+**What all three miss -- and what the 20B partially recovers**: All three systems anchor on the PageRank project as the boxing-life connection -- the analytical frame from 2026. The 2015 post (*"Saborea tu sangre en los labios, deja que su sangre encienda tu corazón"*) is never foregrounded as the primary source. The RAG retriever likely ranked the 2026 Grok-conversation chunks higher because they contain explicit keywords ("boxing", "PageRank", "life algorithm") while the 2015 post uses metaphor without ever naming the sport -- "un golpe inolvidable" could be any kind of blow. Grok, reasoning from the public profile, gravitates toward the GitHub repo and YouTube project narrative, never encountering the 2015 post as a standalone signal.
 
-This is a shared blind spot: both systems prefer the explicit, analytical frame over the implicit, poetic one. The retriever favours keyword overlap; the frontier model favours structured public signals. Neither reads metaphor well enough to recognise that *"Inventa un hueco"* is the deeper boxing text -- the one where the author is not describing a coding project but standing in the ring.
+However, the `gpt-oss:20b` model partially bridges the gap. Working from the same 10 retrieved chunks as the 9B, it generates language that echoes the embodied register of the 2015 post: "the fight inside a boxer", "life as a series of bouts", "daily grind as a boxer's training regimen". The 9B model stays strictly analytical; the 20B infers a physical dimension the chunks only hint at. This is not retrieval improvement -- both models receive the same context. It is the larger model's capacity to read between the lines of the retrieved text, inferring the embodied experience from analytical descriptions of it. The metaphor gap narrows with model size, even when retrieval does not change.
 
-**Verdict**: Both arrive at the same core insight -- boxing as externalized life algorithm, monastic discipline, anti-mainstream identity -- through opposite paths. But both share a bias toward the analytical over the poetic. The RAG retriever prioritises chunks with explicit boxing vocabulary; Grok prioritises structured public-profile signals. The most authentic boxing content -- pure embodied philosophy without a single keyword match -- falls through both filters.
+**Verdict**: The 9B and Grok converge on the same analytical insight through opposite paths. The 20B, reading the same chunks, adds an embodied layer that neither the 9B nor Grok produce. But none of the three systems foreground *"Inventa un hueco"* as the primary boxing text. The deeper source -- pure visceral philosophy without a single keyword match -- still falls through all three filters.
 
 ### Query 2: Bitcoin Thesis
 
@@ -106,10 +113,13 @@ The source post is explicitly titled *"Los 9 motivos por los que tengo bitcoins"
 **Local RAG** (qwen3.5:9b, k=10):
 > The author's core thesis: Bitcoin as **scarcity and store of value** (finite supply mimicking gold vs unlimited fiat), **decentralization and transparency** (public ledger, no corralito threat, value from genuine market competition), **dynamic system evolution** (adoption following an arctangent function with abrupt equilibrium transitions via positive/negative feedback loops), and **political metaphor** (Bitcoin as "the dollar of the new land" -- internet vs dominant states reprising the colonial struggle for economic liberty).
 
+**Local RAG** (gpt-oss:20b, k=10, same retrieval):
+> Bitcoin as a **shared ledger** with **scarcity built into the protocol** (capped supply, mining progressively harder, "like gold"). Immune to arbitrary corralitos or inflationary policies. Value derived solely from real-world competitive markets. Growth driven by **dynamic feedback loops** (positive: price rise attracts buyers; negative: high value discourages spending) that may push Bitcoin into stable equilibrium **abruptly** -- potentially becoming "the dollar of the new internet".
+
 **Grok 4.2** ([full chat](https://grok.com/c/10602ead-e939-42ef-9257-8b044990c541?rid=36533622-acde-4674-bedd-c4f0ff2f4a79)):
 > Grok identifies the 2013 bitcoin post but frames it within the author's broader worldview: anti-establishment stance, mathematical trust over institutional trust, and early-adopter conviction. It connects the bitcoin thesis to the same anti-mainstream identity visible in the boxing project and the low-visibility creative output.
 
-**Verdict**: When the title directly matches the query, the local RAG excels. It extracts precise, structured arguments (the 9 reasons, the arctangent model, the feedback loops) that Grok summarises more loosely. The 9B model produces a more faithful, more complete answer than the frontier model on this query because the retriever delivers exactly the right chunks and the question does not require cross-domain synthesis.
+**Verdict**: When the title directly matches the query, both local models excel over Grok. The 9B produces a broader enumeration (four themes, close to the original 9 reasons). The 20B produces a tighter, more structured synthesis -- fewer themes, crisper language, "shared ledger" and "dynamic feedback loops" distilled into a coherent narrative. Both outperform Grok on faithfulness here because the retriever delivers exactly the right chunks and no cross-domain synthesis is needed. The 20B trades coverage for clarity; the 9B trades clarity for completeness.
 
 ### Query 3: Information as a Good of Distinctive Nature
 
@@ -120,10 +130,13 @@ This is the most interesting retrieval test. The relevant passage lives inside a
 **Local RAG** (qwen3.5:9b, k=10):
 > The author describes information as a good of distinctive nature by contrasting it with physical goods: giving wood depletes the giver ("el primero deja de tener la madera"), but giving information means both possess it ("cuando uno da información a otro, entonces ambos tienen la información"). This reveals information's nature as **abundance and dissemination**, distinguishing it from all previous paradigms.
 
+**Local RAG** (gpt-oss:20b, k=10, same retrieval):
+> Information is not a finite resource one can "own" like a physical good. When knowledge is shared, both giver and receiver keep it -- it is essentially **abundant and freely diffusing**. Yet its value lies in the **authenticity and personal insight** the author brings to it, making information uniquely valuable even when widely shared. An intangible, endlessly shareable good whose distinctive quality lies in its non-exhaustive, personal nature rather than in scarcity.
+
 **Grok 4.2** ([full chat](https://grok.com/share/bGVnYWN5_33695110-1c15-444e-b30a-81eabcec9efb)):
 > Grok locates the same passage from the blog but frames it as an early signal of the author's recurring pattern: trusting mathematical/informational structures over institutional ones (connecting it to the bitcoin thesis and the PageRank project).
 
-**Verdict**: This query is where semantic retrieval earns its keep. The embedding model bridges the gap between "information as a distinctive good" and a post titled "HiperNeolítico" -- a connection that requires understanding the *meaning* of the chunk, not its title or keywords. The 9B model then produces a concise, accurate answer grounded in the exact Spanish-language passage. Grok reaches the same source but adds interpretive cross-references the local model cannot make.
+**Verdict**: This query is where semantic retrieval earns its keep. The embedding model bridges the gap between "information as a distinctive good" and a post titled "HiperNeolítico" -- a connection that requires understanding the *meaning* of the chunk, not its title or keywords. The 9B model produces a concise, accurate answer grounded in the exact Spanish-language passage. The 20B adds an interpretive layer -- "authenticity and personal insight" -- that is not in the retrieved text but resonates with the author's broader philosophy. This is the faithfulness-synthesis trade-off in miniature: the 9B sticks to what the chunks say, the 20B infers what the chunks mean. Grok reaches the same source but adds cross-domain connections the local models cannot make.
 
 ### Metric Comparison (across all three queries)
 
