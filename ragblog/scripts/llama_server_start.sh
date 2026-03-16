@@ -45,6 +45,10 @@
 #   -> Never both loaded at the same time with this two-server approach.
 # =============================================================================
 
+# manual launch
+# llama.cpp master ❯ ./build/bin/llama-server -hf unsloth/Qwen3.5-9B-GGUF:Q4_K_M -c 32768
+# ollama run qwen3-embedding:8b "hey man"
+
 set -euo pipefail
 
 LLAMA_BUILD_DIR="${LLAMA_BUILD_DIR:-${HOME}/llama.cpp/build}"
