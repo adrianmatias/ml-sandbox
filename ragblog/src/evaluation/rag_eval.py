@@ -44,12 +44,16 @@ class RagEval:
     def __init__(self, rag: Rag):
         self.rag = rag
 
-        client = AsyncOpenAI(
+        llm_client = AsyncOpenAI(
             base_url=CONST.api.base_url,
             api_key=CONST.api.api_key,
         )
-        llm = llm_factory(CONST.model.eval_aug, client=client)
-        emb = embedding_factory("openai", CONST.model.emb, client=client)
+        emb_client = AsyncOpenAI(
+            base_url=CONST.api.emb_url,
+            api_key=CONST.api.api_key,
+        )
+        llm = llm_factory(CONST.model.eval_aug, client=llm_client)
+        emb = embedding_factory("openai", CONST.model.emb, client=emb_client)
 
         self.metrics = {
             "context_precision": ContextPrecision(llm=llm),

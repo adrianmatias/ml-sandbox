@@ -50,9 +50,10 @@ set -euo pipefail
 LLAMA_BUILD_DIR="${LLAMA_BUILD_DIR:-${HOME}/llama.cpp/build}"
 LLAMA_SERVER="${LLAMA_BUILD_DIR}/bin/llama-server"
 
-# GGUFs — defaults to the Ollama blob paths; override via env vars if needed
-LLM_GGUF="${LLM_GGUF:-${HOME}/.ollama/models/blobs/qwen3.5-27b-q3_K_M.gguf}"
-EMB_GGUF="${EMB_GGUF:-${HOME}/.ollama/models/blobs/sha256-3fcd3febec8b3fd64435204db75bf0dd73b91e8d0661e0331acfe7e7c3120b85}"
+# Models — LLM uses your cached 35B; EMB uses small nomic embed (auto-downloads via -hf)
+#LLM_GGUF="${LLM_GGUF:-${HOME}/.cache/llama.cpp/unsloth_Qwen3.5-35B-A3B-GGUF_Qwen3.5-35B-A3B-Q3_K_S.gguf}"
+LLM_GGUF="${LLM_GGUF:-${HOME}/.cache/llama.cpp/unsloth_Qwen3.5-27B-GGUF_Qwen3.5-27B-Q3_K_S.gguf}"
+EMB_MODEL="${EMB_MODEL:-nomic-ai/nomic-embed-text-v1.5-GGUF:Q4_K_M}"
 
 LLM_PORT=8080
 EMB_PORT=8081
@@ -99,56 +100,45 @@ fi
 Run: bash scripts/build_llama_server.sh"
 
 [[ -f "${LLM_GGUF}" ]] || die "LLM GGUF not found: ${LLM_GGUF}.
-Run: bash scripts/quantize_27b_q3.sh"
+Use LLM_GGUF=... or -hf manually."
 
-[[ -f "${EMB_GGUF}" ]] || die "Embedding GGUF not found: ${EMB_GGUF}.
-Check that ollama pull qwen3-embedding:8b has been run."
-
-# ---------------------------------------------------------------------------
-# Start embedding server (port 8081)
-# Load first, use during retrieval, then stop before starting the LLM.
-# Run with --embedding flag to enable the /v1/embeddings endpoint.
-# Only a few layers need GPU for the 8B model; use --n-gpu-layers 999 to
-# offload all of them.
-# ---------------------------------------------------------------------------
-info "Starting embedding server on port ${EMB_PORT}..."
-"${LLAMA_SERVER}" \
-    --model "${EMB_GGUF}" \
-    --port "${EMB_PORT}" \
-    --host 127.0.0.1 \
-    --n-gpu-layers 999 \
-    --ctx-size 512 \
-    --embedding \
-    --log-disable \
-    > /tmp/llama_server_emb.log 2>&1 &
-echo $! > "${EMB_PID_FILE}"
-info "  Embedding server PID: $(cat ${EMB_PID_FILE})  log: /tmp/llama_server_emb.log"
+info "Starting two-server setup: LLM (27B) on 8080 + nomic-embed on 8081"
 
 # ---------------------------------------------------------------------------
-# Start LLM server (port 8080)
-# --n-gpu-layers 999  → offload all layers (Q3_K_M fits in 16 GB after emb
-#                       is stopped).
-# --ctx-size 2048     → matches num_ctx in rag.py.
-# --no-mmap           → avoid page-cache competition with emb server.
+# Start LLM server (port 8080) - 27B model, no emb flag
 # ---------------------------------------------------------------------------
-info "Starting LLM server on port ${LLM_PORT}..."
+info "Starting LLM server on port ${LLM_PORT} (27B-Q3_K_S)..."
 "${LLAMA_SERVER}" \
     --model "${LLM_GGUF}" \
     --port "${LLM_PORT}" \
     --host 127.0.0.1 \
     --n-gpu-layers 999 \
     --ctx-size 2048 \
-    --no-mmap \
     --log-disable \
     > /tmp/llama_server_llm.log 2>&1 &
 echo $! > "${LLM_PID_FILE}"
-info "  LLM server PID: $(cat ${LLM_PID_FILE})  log: /tmp/llama_server_llm.log"
+info "  LLM server PID: $(cat ${LLM_PID_FILE})"
 
 # ---------------------------------------------------------------------------
-# Wait for both servers to be ready
+# Start embedding server (port 8081) - nomic-embed with default pooling
+# ---------------------------------------------------------------------------
+info "Starting embedding server on port ${EMB_PORT} (nomic-embed, CPU-only)..."
+"${LLAMA_SERVER}" \
+    -hf "${EMB_MODEL}" \
+    --port "${EMB_PORT}" \
+    --host 127.0.0.1 \
+    --n-gpu-layers 0 \
+    --ctx-size 512 \
+    --log-disable \
+    > /tmp/llama_server_emb.log 2>&1 &
+echo $! > "${EMB_PID_FILE}"
+info "  Embedding server PID: $(cat ${EMB_PID_FILE})"
+
+# ---------------------------------------------------------------------------
+# Wait for servers to be ready
 # ---------------------------------------------------------------------------
 info "Waiting for servers to become ready..."
-for port in "${EMB_PORT}" "${LLM_PORT}"; do
+for port in "${LLM_PORT}" "${EMB_PORT}"; do
     for i in $(seq 1 30); do
         if curl -sf "http://127.0.0.1:${port}/health" >/dev/null 2>&1; then
             info "  Port ${port}: ready"
@@ -156,7 +146,7 @@ for port in "${EMB_PORT}" "${LLM_PORT}"; do
         fi
         sleep 1
         if [[ "${i}" -eq 30 ]]; then
-            die "Server on port ${port} did not become ready in 30s. Check logs."
+            die "Server on port ${port} did not become ready in 30s."
         fi
     done
 done
@@ -165,20 +155,20 @@ info ""
 info "============================================================"
 info "  Both servers running."
 info ""
-info "  LLM server  : http://127.0.0.1:${LLM_PORT}/v1"
-info "  Emb server  : http://127.0.0.1:${EMB_PORT}/v1"
+info "  LLM server (27B)  : http://127.0.0.1:${LLM_PORT}/v1"
+info "  Emb server (CPU)  : http://127.0.0.1:${EMB_PORT}/v1"
 info ""
-info "  NOTE: const.py Api.base_url currently points to a single"
-info "  endpoint.  For the two-server setup you have two options:"
+info "  To stop: bash scripts/llama_server_start.sh stop"
+info "============================================================"
+info "  To stop: bash scripts/llama_server_start.sh stop"
+info "============================================================"
+info "  Server(s) running."
 info ""
-info "  Option A — single server, sequential loading (simplest):"
-info "    Use port 8080 for both LLM and embeddings."
-info "    llama-server handles one model at a time."
+info "  LLM (+embeddings): http://127.0.0.1:${LLM_PORT}/v1"
+if [[ -f "${EMB_PID_FILE}" ]]; then
+    info "  Dedicated emb   : http://127.0.0.1:${EMB_PORT}/v1"
+fi
 info ""
-info "  Option B — two servers, dedicated ports:"
-info "    Set Api.base_url  = 'http://127.0.0.1:8080/v1'  (LLM)"
-info "    Add Api.emb_url   = 'http://127.0.0.1:8081/v1'  (embeddings)"
-info "    Update VectorDB._make_embeddings() to use CONST.api.emb_url."
-info ""
-info "  To stop:  bash scripts/llama_server_start.sh stop"
+info "  Using 35B-A3B model. Run with: bash scripts/llama_server_start.sh"
+info "  To stop: bash scripts/llama_server_start.sh stop"
 info "============================================================"

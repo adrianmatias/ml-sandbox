@@ -56,7 +56,7 @@ class EvalSet:
         generator_embeddings = LangchainEmbeddingsWrapper(
             OpenAIEmbeddings(
                 model=CONST.model.emb,
-                base_url=CONST.api.base_url,
+                base_url=CONST.api.emb_url,
                 api_key=CONST.api.api_key,
             )
         )

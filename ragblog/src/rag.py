@@ -1,14 +1,15 @@
 from typing import Any, Optional
 
+import requests
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI
 
 from src.const import CONST, LLM
 from src.crawler import Crawler
 from src.doc_loader import DocLoader
-from src.logger_custom import log_init
+from src.logger_custom import LOGGER, log_init
 from src.vector_db import VectorDB
 
 
@@ -34,21 +35,22 @@ class Rag:
             base_url=CONST.api.base_url,
             api_key=CONST.api.api_key,
             max_tokens=1536,
-            temperature=1.0,
+            temperature=0.7,
         )
-        prompt = PromptTemplate.from_template(
-            """human
 
-[INST]<<SYS>> You are an assistant for question-answering tasks. 
-Use the following pieces of retrieved context to answer the question. 
-If you don't know the answer, just say that you don't know.<</SYS>> 
-
-Question: {question} 
-
-Context: {context} 
-
-Answer: [/INST]""",
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                (
+                    "system",
+                    "You are an assistant for question-answering tasks. "
+                    "Use the following pieces of retrieved context to "
+                    "answer the question. If you don't know the answer, "
+                    "just say that you don't know.",
+                ),
+                ("human", "Question: {question}\n\nContext: {context}\n\nAnswer:"),
+            ]
         )
+
         retriever = self.vector_db.as_retriever(search_kwargs={"k": 10})
 
         return (
@@ -59,7 +61,58 @@ Answer: [/INST]""",
         )
 
     def query(self, question: str):
-        return self.chain.invoke(question)
+        response = self.chain.invoke(question)
+        if response and response.strip():
+            return response
+
+        LOGGER.warning(
+            "Empty content from ChatOpenAI response; falling back to reasoning_content"
+        )
+        return self._query_via_openai_fallback(question=question)
+
+    def _query_via_openai_fallback(self, question: str) -> str:
+        context = "\n\n".join(self.get_contexts(question=question))
+        response = requests.post(
+            f"{CONST.api.base_url}/chat/completions",
+            headers={
+                "Authorization": f"Bearer {CONST.api.api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": str(self.aug),
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are an assistant for question-answering tasks. "
+                            "Use the following pieces of retrieved context to "
+                            "answer the question. If you don't know the answer, "
+                            "just say that you don't know."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            f"Question: {question}\n\nContext: {context}\n\nAnswer:"
+                        ),
+                    },
+                ],
+                "max_tokens": 1536,
+                "temperature": 0.7,
+                "no_think": True,
+            },
+            timeout=120,
+        )
+        response.raise_for_status()
+        completion = response.json()
+
+        message = completion["choices"][0]["message"]
+        content = (message.get("content") or "").strip()
+        if content:
+            return content
+
+        reasoning_content = (message.get("reasoning_content") or "").strip()
+        return reasoning_content
 
     def get_contexts(self, question: str):
         """Return retrieved contexts for a question. Public API for evaluators."""

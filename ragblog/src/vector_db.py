@@ -3,10 +3,10 @@ from typing import List
 
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from langchain_openai import OpenAIEmbeddings
 
 from src.const import CONST
 from src.logger_custom import LOGGER, log_init
+from src.ollama_embeddings import OllamaEmbeddings
 
 
 @log_init
@@ -18,11 +18,10 @@ class VectorDB:
         self.persist_directory = CONST.loc.vect_db
         self.collection_name = "collection_ragblog"
 
-    def _make_embeddings(self) -> OpenAIEmbeddings:
-        return OpenAIEmbeddings(
+    def _make_embeddings(self) -> OllamaEmbeddings:
+        return OllamaEmbeddings(
             model=self.model,
-            base_url=CONST.api.base_url,
-            api_key=CONST.api.api_key,
+            base_url=CONST.api.emb_url,
         )
 
     def save(self, doc_list: List[Document]) -> None:

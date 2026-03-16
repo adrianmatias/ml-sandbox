@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from langchain_core.documents import Document
 
+from src.const import CONST
 from src.vector_db import VectorDB
 
 
@@ -12,12 +13,12 @@ def vector_db():
 
 
 def test_init(vector_db):
-    assert vector_db.model == "qwen3-embedding:8b"
+    assert vector_db.model == CONST.model.emb
     assert vector_db.collection_name == "collection_ragblog"
 
 
 @patch("src.vector_db.Chroma")
-@patch("src.vector_db.OpenAIEmbeddings")
+@patch("src.vector_db.OllamaEmbeddings")
 def test_save(mock_embeddings, mock_chroma, vector_db):
     mock_embedding_instance = MagicMock()
     mock_embeddings.return_value = mock_embedding_instance
@@ -35,7 +36,7 @@ def test_save(mock_embeddings, mock_chroma, vector_db):
 
 
 @patch("src.vector_db.Chroma")
-@patch("src.vector_db.OpenAIEmbeddings")
+@patch("src.vector_db.OllamaEmbeddings")
 def test_load(mock_embeddings, mock_chroma, vector_db):
     mock_embedding_instance = MagicMock()
     mock_embeddings.return_value = mock_embedding_instance

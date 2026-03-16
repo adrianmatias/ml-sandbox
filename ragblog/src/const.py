@@ -20,9 +20,9 @@ class LLM(StrEnum):
     GPT_OSS_20B = "gpt-oss:20b"
     QWEN_3_5_9B = "qwen3.5:9b"
     QWEN_3_5_27B = "qwen3.5:27b"
-    QWEN_3_5_27B_Q3 = (
-        "qwen3.5:27b-q3_K_M"  # requantized; see scripts/quantize_27b_q3.sh
-    )
+    QWEN_3_5_27B_Q3 = "unsloth/Qwen3.5-27B-GGUF:Q3_K_S"
+    QWEN_3_5_9B_Q4 = "unsloth/Qwen3.5-9B-GGUF:Q4_K_M"
+    # QWEN_3_5_35B_A3B_Q3 = "unsloth/Qwen3.5-35B-A3B-GGUF:Q3_K_S"
     QWEN_3_emb_8B = "qwen3-embedding:8b"
 
 
@@ -30,25 +30,18 @@ class LLM(StrEnum):
 class Api:
     """Backend inference server configuration.
 
-    Both Ollama and llama-server expose an OpenAI-compatible /v1 endpoint,
-    so only the base_url differs between providers.
-
-    Ollama  (default): base_url="http://localhost:11434/v1", api_key="ollama"
-    llama-server:      base_url="http://localhost:8080/v1",  api_key="none"
-
-    To switch providers change the two fields below; no other file needs editing.
-    See scripts/llama_server_start.sh for the llama-server launch command.
+    Hybrid setup: LLM via llama.cpp on 8080 (GPU),
+    embeddings via Ollama on 11434 (CPU).
     """
 
-    base_url: str = "http://localhost:8080/v1"
+    base_url: str = "http://127.0.0.1:8080/v1"
+    emb_url: str = "http://127.0.0.1:11434/v1"
     api_key: str = "none"
 
 
 @dataclass(frozen=True)
 class Model:
-    aug: LLM = (
-        LLM.QWEN_3_5_27B_Q3
-    )  # Q3_K_M fits fully in 16 GB VRAM; see scripts/quantize_27b_q3.sh
+    aug: LLM = LLM.QWEN_3_5_9B_Q4
     emb: LLM = LLM.QWEN_3_emb_8B
     eval_set: LLM = LLM.QWEN_2_5_14B
     eval_aug: LLM = LLM.QWEN_2_5_14B

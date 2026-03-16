@@ -7,7 +7,7 @@ from src.rag import Rag
 
 def main():
 
-    rag = Rag(is_overwrite_index=True)
+    rag = Rag(is_overwrite_index=False)
     response = rag.query(
         question="""
 Describe the relation between Helena and Alejandra.
