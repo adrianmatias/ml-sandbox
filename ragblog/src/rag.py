@@ -34,7 +34,7 @@ class Rag:
             model=self.aug,
             base_url=CONST.api.base_url,
             api_key=CONST.api.api_key,
-            max_tokens=1536,
+            max_tokens=4096,
             temperature=0.7,
         )
 

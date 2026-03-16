@@ -22,7 +22,6 @@ class LLM(StrEnum):
     QWEN_3_5_27B = "qwen3.5:27b"
     QWEN_3_5_27B_Q3 = "unsloth/Qwen3.5-27B-GGUF:Q3_K_S"
     QWEN_3_5_9B_Q4 = "unsloth/Qwen3.5-9B-GGUF:Q4_K_M"
-    # QWEN_3_5_35B_A3B_Q3 = "unsloth/Qwen3.5-35B-A3B-GGUF:Q3_K_S"
     QWEN_3_emb_8B = "qwen3-embedding:8b"
 
 
@@ -41,7 +40,7 @@ class Api:
 
 @dataclass(frozen=True)
 class Model:
-    aug: LLM = LLM.QWEN_3_5_9B_Q4
+    aug: LLM = LLM.QWEN_3_5_27B_Q3
     emb: LLM = LLM.QWEN_3_emb_8B
     eval_set: LLM = LLM.QWEN_2_5_14B
     eval_aug: LLM = LLM.QWEN_2_5_14B
