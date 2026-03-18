@@ -16,6 +16,7 @@ dependencies = [
     "langchain-ollama>=0.1.0",
     "ragas>=0.1.0",
     "rapidfuzz>=3.14.3",
+    "jupyterlab>=4.5.5",
 ]
 
 [dependency-groups]

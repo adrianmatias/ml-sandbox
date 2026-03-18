@@ -1,11 +1,11 @@
-from typing import Any
+from typing import Any, Optional
 
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_ollama import OllamaLLM
 
-from src.const import CONST
+from src.const import CONST, LLM
 from src.crawler import Crawler
 from src.doc_loader import DocLoader
 from src.logger_custom import log_init
@@ -14,19 +14,22 @@ from src.vector_db import VectorDB
 
 @log_init
 class Rag:
-    def __init__(self, is_ready_vector_db: bool):
-        if is_ready_vector_db:
-            doc_list = None
-        else:
-            crawler = Crawler(post_count_min=2)
+    def __init__(self, is_overwrite_index: bool = False, aug: Optional[LLM] = None):
+        self.aug = aug or CONST.model.aug
+
+        vdb = VectorDB()
+        if is_overwrite_index or not vdb.persist_directory.exists():
+            crawler = Crawler(post_count_min=100)
             crawler.run()
             doc_list = DocLoader().load()
+        else:
+            doc_list = None
 
-        self.vector_db = VectorDB().get_vector_db(doc_list=doc_list)
+        self.vector_db = vdb.get_vector_db(doc_list=doc_list)
         self.chain = self.create_chain()
 
     def create_chain(self) -> Any:
-        llm = OllamaLLM(model=CONST.model.aug)
+        llm = OllamaLLM(model=self.aug)
         prompt = PromptTemplate.from_template(
             """human
 

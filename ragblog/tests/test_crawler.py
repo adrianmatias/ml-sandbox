@@ -4,11 +4,13 @@ CRAWLER = Crawler(post_count_min=2)
 
 
 def test_get_url_list():
+    url_post_title_only = "https://delightfulobservaciones.blogspot.com/2026/03/what-do-you-know-about-me.html"
 
     CRAWLER.get_url_list()
 
     assert len(CRAWLER.url_list) >= CRAWLER.post_count_min
     assert all(map(lambda url: url.startswith(CRAWLER.url), CRAWLER.url_list))
+    assert url_post_title_only in CRAWLER.url_list
 
 
 def test_get_post_list():

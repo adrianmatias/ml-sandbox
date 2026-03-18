@@ -3,15 +3,20 @@
 
 import argparse
 import json
+from typing import Dict, List
 
-from src.const import CONST
+from src.const import CONST, LLM
 from src.evaluation.eval_set import EvalSet
 from src.evaluation.rag_eval import RagEval
 from src.rag import Rag
 
 
-def save_results(name: str, results: list[dict]) -> None:
-    """Save evaluation results."""
+async def evaluate_model(aug: LLM, eval_set: EvalSet) -> List[Dict]:
+    rag = Rag(aug=aug)
+    return await RagEval(rag).evaluate(eval_set)
+
+
+def save_results(name: str, results: List[Dict]) -> None:
     CONST.loc.results.mkdir(parents=True, exist_ok=True)
 
     json_path = CONST.loc.results / f"{name}.json"
@@ -42,20 +47,17 @@ def save_results(name: str, results: list[dict]) -> None:
 
 
 def main():
-    """High-level evaluation orchestration."""
     parser = argparse.ArgumentParser(description="Evaluate RAG configuration")
     parser.add_argument("--name", required=True, help="Name of the configuration")
     args = parser.parse_args()
 
     print(f"🚀 Starting evaluation: {args.name}")
 
-    rag = Rag(is_ready_vector_db=False)
+    rag = Rag(is_overwrite_index=True)
     testset = EvalSet()
     testset.load()
 
-    evaluator = RagEval(rag)
-    results = evaluator.evaluate(testset)
-
+    results = RagEval(rag).evaluate(testset)
     save_results(args.name, results)
     print("✅ Evaluation pipeline completed!")
 
