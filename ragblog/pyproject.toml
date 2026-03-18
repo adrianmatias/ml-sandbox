@@ -17,6 +17,7 @@ dependencies = [
     "ragas>=0.1.0",
     "rapidfuzz>=3.14.3",
     "jupyterlab>=4.5.5",
+    "python-dotenv>=1.2.1",
 ]
 
 [dependency-groups]

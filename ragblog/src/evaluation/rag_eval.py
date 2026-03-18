@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 from typing import Any, Dict, List
 
 from openai import AsyncOpenAI
@@ -18,6 +19,18 @@ from ragas.metrics.collections import (
 from src.const import CONST
 from src.evaluation.eval_set import EvalSet
 from src.rag import Rag
+
+API_EVAL_URL = "http://127.0.0.1:11434/v1"
+
+
+@dataclass
+class PrecomputedResponse:
+    """Pre-generated response for evaluation without RAG model."""
+
+    user_input: str
+    response: str
+    retrieved_contexts: List[str]
+    reference: str
 
 
 class EvalResult(BaseModel):
@@ -45,7 +58,7 @@ class RagEval:
         self.rag = rag
 
         llm_client = AsyncOpenAI(
-            base_url=CONST.api.base_url,
+            base_url=API_EVAL_URL,
             api_key=CONST.api.api_key,
         )
         emb_client = AsyncOpenAI(
@@ -135,6 +148,79 @@ class RagEval:
         dataset = Dataset("ragblog-eval_set", backend=backend, data=data)
 
         print(f"Evaluating {len(eval_set)} test cases...")
+        result_exp = await run_row.arun(
+            dataset,
+            name="ragblog-eval",
+            backend=InMemoryBackend(),
+        )
+
+        return [row.model_dump() for row in result_exp]
+
+    async def evaluate_from_responses(
+        self, responses: List[PrecomputedResponse]
+    ) -> List[Dict[str, Any]]:
+        """Evaluate pre-generated responses without RAG model.
+
+        Args:
+            responses: Pre-generated responses with contexts.
+
+        Returns:
+            List of per-row metric scores as dicts.
+        """
+        metrics = self.metrics
+
+        @experiment(EvalResult)
+        async def run_row(row: dict) -> EvalResult:
+            user_input = row["user_input"]
+            response = row["response"]
+            contexts = row["retrieved_contexts"]
+            reference = row["reference"]
+
+            cp = await metrics["context_precision"].ascore(
+                user_input=user_input,
+                reference=reference,
+                retrieved_contexts=contexts,
+            )
+            cr = await metrics["context_recall"].ascore(
+                user_input=user_input,
+                retrieved_contexts=contexts,
+                reference=reference,
+            )
+            faith = await metrics["faithfulness"].ascore(
+                user_input=user_input,
+                response=response,
+                retrieved_contexts=contexts,
+            )
+            ar = await metrics["answer_relevancy"].ascore(
+                user_input=user_input,
+                response=response,
+            )
+
+            return EvalResult(
+                user_input=user_input,
+                response=response,
+                retrieved_contexts=contexts,
+                reference=reference,
+                context_precision=cp.value,
+                context_recall=cr.value,
+                faithfulness=faith.value,
+                answer_relevancy=ar.value,
+            )
+
+        data = [
+            {
+                "user_input": r.user_input,
+                "response": r.response,
+                "retrieved_contexts": r.retrieved_contexts,
+                "reference": r.reference,
+            }
+            for r in responses
+        ]
+
+        backend = InMemoryBackend()
+        dataset = Dataset("ragblog-eval_set", backend=backend, data=data)
+
+        print(f"Evaluating {len(responses)} pre-generated responses...")
         result_exp = await run_row.arun(
             dataset,
             name="ragblog-eval",

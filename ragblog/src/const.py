@@ -17,11 +17,11 @@ class Loc:
 
 class LLM(StrEnum):
     QWEN_2_5_14B = "qwen2.5:14b"
-    GPT_OSS_20B = "gpt-oss:20b"
+    GPT_OSS_20B = "unsloth/gpt-oss-20b-GGUF:Q8_0"
     QWEN_3_5_9B = "qwen3.5:9b"
     QWEN_3_5_27B = "qwen3.5:27b"
     QWEN_3_5_27B_Q3 = "unsloth/Qwen3.5-27B-GGUF:Q3_K_S"
-    QWEN_3_5_9B_Q4 = "unsloth/Qwen3.5-9B-GGUF:Q4_K_M"
+    QWEN_3_5_9B_Q8 = "unsloth/Qwen3.5-9B-GGUF:Q8_0"
     QWEN_3_emb_8B = "qwen3-embedding:8b"
 
 
@@ -40,7 +40,7 @@ class Api:
 
 @dataclass(frozen=True)
 class Model:
-    aug: LLM = LLM.QWEN_3_5_27B_Q3
+    aug: LLM = LLM.GPT_OSS_20B
     emb: LLM = LLM.QWEN_3_emb_8B
     eval_set: LLM = LLM.QWEN_2_5_14B
     eval_aug: LLM = LLM.QWEN_2_5_14B

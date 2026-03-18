@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from langchain_community.document_loaders import JSONLoader
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -10,6 +10,7 @@ from ragas.llms import LangchainLLMWrapper
 from ragas.testset import TestsetGenerator
 
 from src.const import CONST
+from src.logger_custom import log_init
 
 
 @dataclass
@@ -23,12 +24,13 @@ class Item:
     query_style: str = ""
 
 
+@log_init
 class EvalSet:
     """Encapsulates evaluation set creation, loading, and management."""
 
-    def __init__(self):
+    def __init__(self, eval_set_path: Optional[Path] = None):
         self.data: List[Dict[str, Any]] = []
-        self.eval_set_path: Path = CONST.loc.eval_set
+        self.eval_set_path: Path = eval_set_path or CONST.loc.eval_set
 
     def generate(self, testset_size: int = None) -> None:
         """Generate synthetic eval_set using Ragas."""
