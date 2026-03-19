@@ -81,11 +81,14 @@ Answer: [/INST]""",
         )
         retriever = self.vector_db.as_retriever(search_kwargs={"k": 10})
 
+        is_think_on = self.aug == CONST.model.aug.QWEN_3_5_27B_Q2
+        output_parser = ThinkingOutputParser() if is_think_on else StrOutputParser()
+
         return (
             {"context": retriever | self.format_docs, "question": RunnablePassthrough()}
             | prompt
             | llm
-            | ThinkingOutputParser()
+            | output_parser
         )
 
     def query(self, question: str):
