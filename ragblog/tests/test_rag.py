@@ -1,6 +1,72 @@
 from unittest.mock import MagicMock, patch
 
-from src.rag import Rag
+from src.rag import Rag, ThinkingOutputParser
+
+
+def test_thinking_output_parser_strips_markdown_thinking():
+    parser = ThinkingOutputParser()
+
+    # Actual pattern from Qwen output
+    text = """Thinking Process:
+
+1. **Analyze the Request:**
+   Some thinking here.
+
+2. **Analyze the Context:**
+   More thinking.
+
+Based on the provided context, the answer is 42."""
+    result = parser.parse(text)
+    assert "Thinking Process:" not in result
+    assert "Analyze the Request" not in result
+    assert result.startswith("Based on the provided context")
+
+
+def test_thinking_output_parser_strips_think_token():
+    parser = ThinkingOutputParser()
+
+    text_with_think_token = """<think>
+
+</think>
+
+The core thesis of the author is"""
+    result = parser.parse(text_with_think_token)
+    assert result == "The core thesis of the author is"
+
+
+def test_thinking_output_parser_strips_unicode_tags():
+    parser = ThinkingOutputParser()
+
+    # Unicode thinking tags (U+16EE = ᛮ, U+16ED = ᛭)
+    text_with_unicode = "\u16eeLet me think\u16edThe answer is 42."
+    result = parser.parse(text_with_unicode)
+    assert result == "The answer is 42."
+
+
+def test_thinking_output_parser_keeps_thinking_content():
+    parser = ThinkingOutputParser()
+
+    # Generic  markers - content is kept
+    text_with_generic = "Let me thinkThe answer is 42."
+    result = parser.parse(text_with_generic)
+    assert "Let me think" in result
+    assert "The answer is 42" in result
+
+
+def test_thinking_output_parser_handles_no_tags():
+    parser = ThinkingOutputParser()
+
+    text_without_thinking = "The answer is 42."
+    result = parser.parse(text_without_thinking)
+    assert result == "The answer is 42."
+
+
+def test_thinking_output_parser_after_double_newline():
+    parser = ThinkingOutputParser()
+
+    text = "thinking the str\n\nThe answer is 42."
+    result = parser.parse(text)
+    assert result == "The answer is 42."
 
 
 @patch("src.rag.VectorDB")

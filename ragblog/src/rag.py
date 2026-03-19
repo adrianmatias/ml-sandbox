@@ -1,3 +1,4 @@
+import re
 from typing import Any, Optional
 
 from langchain_core.output_parsers import StrOutputParser
@@ -10,6 +11,38 @@ from src.crawler import Crawler
 from src.doc_loader import DocLoader
 from src.logger_custom import log_init
 from src.vector_db import VectorDB
+
+
+class ThinkingOutputParser(StrOutputParser):
+    """Strips thinking/reasoning traces from Qwen3.5-27B Unsloth output.
+
+    Handles:
+    - <think> blocks
+    - "Thinking Process:" sections
+    - Unmarked reasoning + double newline + clean answer (newest pattern)
+    """
+
+    def parse(self, text: str) -> str:
+        cleaned = text
+
+        cleaned = re.sub(
+            r"<think>.*?</think>", "", cleaned, flags=re.DOTALL | re.IGNORECASE
+        )
+
+        cleaned = re.sub(
+            r"Thinking Process:.*?(?=\n\n[A-Z]|\Z)",
+            "",
+            cleaned,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+
+        cleaned = re.sub(r"^.*?\n\n(?=[A-Z])", "", cleaned, flags=re.DOTALL)
+
+        cleaned = re.sub(r"\u16ee.*?\u16ed", "", cleaned, flags=re.DOTALL)
+
+        cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+
+        return cleaned.strip()
 
 
 @log_init
@@ -29,7 +62,10 @@ class Rag:
         self.chain = self.create_chain()
 
     def create_chain(self) -> Any:
-        llm = OllamaLLM(model=self.aug)
+        # num_ctx = 1024
+        num_ctx = None
+
+        llm = OllamaLLM(model=self.aug, num_ctx=num_ctx)
         prompt = PromptTemplate.from_template(
             """human
 
@@ -45,11 +81,14 @@ Answer: [/INST]""",
         )
         retriever = self.vector_db.as_retriever(search_kwargs={"k": 10})
 
+        is_think_on = self.aug == CONST.model.aug.QWEN_3_5_27B_Q2
+        output_parser = ThinkingOutputParser() if is_think_on else StrOutputParser()
+
         return (
             {"context": retriever | self.format_docs, "question": RunnablePassthrough()}
             | prompt
             | llm
-            | StrOutputParser()
+            | output_parser
         )
 
     def query(self, question: str):
