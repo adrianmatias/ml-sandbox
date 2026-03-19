@@ -25,7 +25,7 @@ class VectorDB:
             shutil.rmtree(self.persist_directory)
         Chroma.from_documents(
             documents=doc_list,
-            embedding=OllamaEmbeddings(model=self.model),
+            embedding=OllamaEmbeddings(model=self.model, keep_alive=0),
             persist_directory=self.persist_directory,
             collection_name=self.collection_name,
         )

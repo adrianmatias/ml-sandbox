@@ -173,6 +173,20 @@ Retrieval compensates for reasoning. Privacy compensates for synthesis. Semantic
 - The HiperNeolítico retrieval success depends on embedding model quality. A weaker embedding model might miss the semantic bridge between "information as a good" and a post about civilisational transitions.
 - Metaphorical content remains systematically underweighted. The 2015 boxing post ("Inventa un hueco") demonstrates that when the author's deepest expression avoids naming its subject, both embedding-based retrieval and frontier reasoning prefer the analytical gloss over the visceral source. Improving this would likely require re-ranking strategies or multi-hop reasoning that first retrieves the metaphor, then connects it to the explicit frame.
 
+### Hardware Reality: qwen3.5-27B IQ2_M (Unsloth) — March 2026
+
+The 27B Unsloth IQ2_M variant runs on the RTX 5060 Ti 16GB but with these trade-offs:
+
+- Quantized model fits within VRAM constraints (≈13–14.5 GB loaded).
+- llama.cpp was the initial choice but abandoned (no native embeddings + unmanageable dual-backend sequencing with Ollama).
+- Ollama succeeded with a simple Modelfile wrapper — cleanest experience, no process management, no interference with the embedding model.
+- Response quality is excellent and noticeably superior to 9B/14B models.
+- Thinking traces (`<think>`, "Thinking Process:", numbered lists, runes) persist despite every flag, prompt tweak, and `options={"think": False}`.
+- ThinkingOutputParser (regex-based) was implemented as the safety net but leaks occur in varied formats.
+- Native Ollama qwen3.5:27b with reduced context (1024) still caused CPU offload and unacceptable latency.
+
+**Conclusion**: We accept the parser + occasional manual cleanup. The 27B IQ2_M remains the highest-quality local model for this corpus when quality > speed.
+
 ## Code Style
 
 - clean code
