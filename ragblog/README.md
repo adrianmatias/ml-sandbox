@@ -3,9 +3,20 @@
 RagBlog builds a semantic search and question-answering pipeline over personal blog content using retrieval augmented generation with local open models. The blog is a philosophical-poetic Blogger archive spanning 2011--2026; the pipeline crawls, chunks, embeds and retrieves context so a modest local LLM can answer intimate questions about the author's life, fatherhood, and worldview -- without sending a single token to the cloud.
 
 **Pipeline**  
-Crawl HTML -> extract posts -> JSONL -> split (500 chars, 50 overlap) -> embed with `qwen3-embedding:8b` -> persist in ChromaDB -> retrieve top-k (k=10) -> prompt local LLM -> parse answer.
+1. Crawl HTML
+2. extract posts
+3. JSONL
+4. split (500 chars, 50 overlap)
+5. embed with `qwen3-embedding:8b`
+6. persist in ChromaDB
+7. retrieve top-k (k=10)
+8. prompt local LLM
+9. parse answer
 
-**Augmentation models tested**: `qwen3.5:9b` and `gpt-oss:20b` (current default). Same retrieval, different generation -- the comparison reveals how model size trades faithfulness for synthesis.
+**Augmentation models tested**:
+- `qwen3.5:27bIQ2_M` "https://huggingface.co/unsloth/Qwen3.5-27B-GGUF"
+- `qwen3.5:9b`
+- `gpt-oss:20b`
 
 **Dataset**: 52 blog URLs from `delightfulobservaciones.blogspot.com` -> 904 document chunks (JSONL).  
 **Output**: Natural language answers grounded in retrieved context, saved to `data/output.md`.
@@ -19,6 +30,7 @@ uv sync
 ollama pull qwen3-embedding:8b
 ollama pull gpt-oss:20b
 ollama pull qwen3.5:9b
+sh run/wrap_gguf_ollama.sh qwen3.5:27bIQ2_M ~/Downloads/Qwen3.5-27B-UD-IQ2_M.ggu
 uv run python run/query.py
 ```
 
@@ -65,6 +77,10 @@ Ragas-based framework measuring retrieval and generation quality on a synthetic 
 uv run python run/generate_testset.py               # creates data/eval/eval_set.jsonl (16 cases)
 uv run python run/evaluate.py --name "QWEN_3_5_9B"  # results -> data/eval/results/
 ```
+notebooks
+- [query_gpt_oss_20b.ipynb](run/query_gpt_oss_20b.ipynb)
+- [compare.ipynb](run/compare.ipynb)
+
 
 ### Aggregate Scores (qwen3.5:9b)
 
@@ -152,18 +168,58 @@ This is the most interesting retrieval test. The relevant passage lives inside a
 | **cost / privacy** | zero cloud tokens, fully local, private | cloud API, full web crawl, all data leaves the machine |
 
 ### Discussion
+**Insight: Local RAG on Open Models**
 
-The three queries expose a gradient. When the post title directly matches the question (bitcoin), the local RAG produces a more structured, more faithful answer than the frontier model. When the question requires cross-domain synthesis (boxing as life philosophy), Grok wins on depth by connecting signals the blog corpus alone cannot provide. When the relevant content is buried under an unrelated title (information inside HiperNeolítico), semantic retrieval is the decisive factor -- and the local RAG demonstrates precisely the capability that justifies the entire pipeline: finding meaning where keywords fail.
+We re-ran the same five queries across three augmentation models using identical retrieval (`k=10`): `qwen3.5:27bIQ2_M` (Unsloth + ThinkingOutputParser), `qwen3.5:9b` (native Ollama), and `gpt-oss:20b`.
 
-But the boxing query reveals a shared weakness that cuts across both architectures: **neither system reads metaphor well**. The 2015 post *"Inventa un hueco"* is the most authentic boxing text in the corpus -- raw, visceral, embodied -- yet both systems anchor on the 2026 analytical frame instead. The RAG retriever ranks chunks with explicit keywords ("boxing", "PageRank") above poetic prose that never names the sport. Grok gravitates toward the GitHub project and YouTube channel because those are structured, parseable signals. The result is that the analytical commentary *about* boxing outranks the lived experience *of* boxing in both systems. This is not a retrieval bug or a reasoning failure -- it is a systematic preference for the literal over the figurative, the explicit over the implicit. Embeddings compress meaning into vectors, but metaphor lives in the gap between what is said and what is meant, and that gap is where both systems lose signal.
+The 27B IQ2_M variant fits within the 16 GB VRAM limit when quantized. Ollama handles it cleanly via Modelfile. It consistently produces high-quality synthesis but requires the ThinkingOutputParser to remove persistent reasoning traces.
 
-The local RAG wins on **faithfulness** and **privacy**: every sentence maps to a specific chunk, nothing leaves the machine. But it loses on **answer relevancy** (the 0.38 aggregate score confirms the model sometimes meanders) and on **synthesis depth** -- it cannot connect the bitcoin thesis to the boxing project to the information theory because those connections span different posts and external signals.
+#### Query Results
 
-Grok wins on **synthesis** and **voice**: it reads like a conversation with someone who has studied the author's entire public presence. But it requires full internet access, cloud compute, and the willingness to send personal data through an external API. It also occasionally attributes intent that the author may not have consciously articulated -- a form of confident over-inference that formal faithfulness metrics would penalise.
+**1. Relation between Helena and Alejandra**  
+All models correctly identify them as sisters, with Helena as the elder. The 27B version provides the most layered reflection on privacy, legacy, and the author's fatherhood transformation.
 
-The paradox: for deeply personal, private corpora, a modest local model with good retrieval produces answers that are more grounded and more trustworthy than a frontier model reasoning from scattered public signals. The frontier model produces answers that are more insightful and more human. The value of local RAG is not competing with frontier intelligence -- it is providing **grounded, private, faithful answers** from a corpus the frontier model cannot access. But neither system yet reads the soul of a text when it speaks in metaphor.
+**2. Transcendence of Lanzarote**  
+All models describe the “I was dead. And then I was not” moment. The 27B version most clearly captures the non-linear time insight (“top-down script”) and its impact on weighting the past.
 
-Retrieval compensates for reasoning. Privacy compensates for synthesis. Semantic search finds what keywords cannot. But metaphor still falls through both filters. The humble 9B model, armed with the right 10 chunks, reaches the same destination as the frontier model thinking hard -- it just arrives more carefully, with less flair, and with the same blind spot for what was never said directly.
+**3. Impact of boxing**  
+All three link boxing to discipline, the PageRank project as a “life algorithm,” authenticity, and monastic discipline. The 27B version is the most coherent after parser cleanup.
+
+**4. Bitcoin thesis**  
+All models cover scarcity, transparency, and feedback loops. The 27B version is the most structured and faithful to the original 2013 post.
+
+**5. Information as a good of distinctive nature**  
+All models accurately contrast information with physical goods (wood analogy) and highlight abundance and diffusion. The 27B version is the most concise.
+
+**Ragas Evaluation (16 test cases)**
+
+| model                | context_precision | context_recall | faithfulness | answer_relevancy |
+|----------------------|-------------------|----------------|--------------|------------------|
+| qwen3.5:27bIQ2_M     | 0.559             | 0.729          | 0.897        | 0.674            |
+| qwen3.5:9b           | 0.568             | 0.778          | 0.851        | 0.565            |
+| gpt-oss:20b          | 0.515             | 0.679          | 0.560        | **0.714**        |
+
+**Metric context**  
+- **faithfulness**: Measures how grounded the answer is in the retrieved context (how little the model hallucinates or adds unsupported information).  
+- **answer_relevancy**: Measures how directly the response addresses the actual question asked (how well it stays on-topic without drifting).
+- **context_precision**: Measures how relevant the retrieved chunks were to the question.  
+- **context_recall**: Measures how much of the truly relevant information in the corpus was surfaced.  
+
+Even though the embedding model, Chroma index, and retrieval parameters are identical, small differences in precision and recall appear across runs due to stochastic ranking behaviour in vector search.
+
+**Comparison with Grok 4.2**  
+Grok 4.2 (with full web access and thinking mode) produces more synthetic and conversational answers on the same questions. It often connects themes across posts and mirrors the author’s voice more naturally. However, it sometimes introduces external context or inferred intent not present in the retrieved chunks.
+
+Specific cases:
+
+- **Boxing query**: Grok emphasised the monastic discipline and identity preservation with poetic language (“the fight inside a boxer is a constant battle against loss of identity”) and linked it to the author’s broader life experiment. The local 27B version was more concise and strictly grounded in the PageRank project and hiking analogy from the retrieved chunks.
+
+- **Information as a good of distinctive nature**: Grok added cross-domain connections (linking the wood analogy to bitcoin and anti-establishment themes). The local models (especially 27B) stayed strictly to the exact contrast in the HiperNeolítico post, showing higher faithfulness to the corpus.
+
+**Summary**  
+Each model shows different strengths. The 27B IQ2_M + parser combination delivers the highest faithfulness. The 9B model offers the best recall and speed. The 20B stands out for answer relevancy. Grok wins on breadth and voice. Choice depends on the priority: strict grounding in context, efficiency, or direct engagement with the question.
+The eye-test, reading the responses for inspection, supported by the domain knowledge of me as the author of the blog, makes me favour the qwen3.5:27bIQ2_M variant over the rest of local models and Grok 4.2. It shows accuracy, low hallucination, depth, consistency and relevant quotes to actual content.
+
 
 ### Limitations
 
@@ -173,7 +229,7 @@ Retrieval compensates for reasoning. Privacy compensates for synthesis. Semantic
 - The HiperNeolítico retrieval success depends on embedding model quality. A weaker embedding model might miss the semantic bridge between "information as a good" and a post about civilisational transitions.
 - Metaphorical content remains systematically underweighted. The 2015 boxing post ("Inventa un hueco") demonstrates that when the author's deepest expression avoids naming its subject, both embedding-based retrieval and frontier reasoning prefer the analytical gloss over the visceral source. Improving this would likely require re-ranking strategies or multi-hop reasoning that first retrieves the metaphor, then connects it to the explicit frame.
 
-### Hardware Reality: qwen3.5-27B IQ2_M (Unsloth) — March 2026
+### Constraints on hardware and software
 
 The 27B Unsloth IQ2_M variant runs on the RTX 5060 Ti 16GB but with these trade-offs:
 
@@ -185,7 +241,7 @@ The 27B Unsloth IQ2_M variant runs on the RTX 5060 Ti 16GB but with these trade-
 - ThinkingOutputParser (regex-based) was implemented as the safety net but leaks occur in varied formats.
 - Native Ollama qwen3.5:27b with reduced context (1024) still caused CPU offload and unacceptable latency.
 
-**Conclusion**: We accept the parser + occasional manual cleanup. The 27B IQ2_M remains the highest-quality local model for this corpus when quality > speed.
+**Conclusion**: The thinking parser is an acceptable solution. The 27B IQ2_M remains the highest-quality local model for this corpus when quality > speed.
 
 ## Code Style
 
