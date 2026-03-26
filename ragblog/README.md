@@ -97,7 +97,7 @@ Compare configurations by running with different `--name` values (e.g., "baselin
 
 ## Insight: Local RAG on Open Models vs Frontier Thinking Model
 
-The most revealing test is not synthetic benchmarks but the same questions posed to three systems: two local RAG pipelines (`qwen3.5:9b` and `gpt-oss:20b`, same retrieval, different generation) versus Grok 4.2 thinking hard with full internet access and web-scale reasoning. Three queries probe different retrieval challenges -- from direct title matches to deeply buried semantic content. The two local models isolate the effect of augmentation model size on the same retrieved chunks.
+The most revealing test is not synthetic benchmarks but the same questions posed to four systems: three local RAG pipelines (`qwen3.5:27bIQ2_M`, `qwen3.5:9b`, and `gpt-oss:20b`, same retrieval, different generation) versus Grok 4.2 thinking hard with full internet access and web-scale reasoning. Three queries probe different retrieval challenges -- from direct title matches to deeply buried semantic content. The three local models isolate the effect of augmentation model size on the same retrieved chunks.
 
 ### Query 1: Boxing as Life Philosophy
 
@@ -110,6 +110,9 @@ Two blog posts contain boxing content. The 2026 post *"What do you know about me
 
 **Local RAG** (gpt-oss:20b, k=10, same retrieval):
 > Boxing teaches **discipline and routine** -- training linked to the same "spiritual routine" applied to hiking, writing code, maintaining a blog. **Resilience and mindset** -- the fight inside a boxer is a constant battle against loss of identity, just as a new father battles the erosion of his former self. **Analytical rigor** -- the sport's emphasis on timing and strategy dovetails with the PageRank code. **Identity and authenticity** -- boxing keeps him true to the "quiet scripture" he writes, refusing to become "the used-auto dealer of my own soul". **Life as a series of bouts** -- projects as fights against "entropy" and "Extremistan", daily grind as a boxer's training regimen.
+
+**Local RAG** (qwen3.5:27bIQ2_M, k=10, same retrieval):
+> Boxing shapes the author's life as **discipline and resilience** -- training compared to hiking Spanish mountains, a "spiritual routine" applied across domains. **Life algorithm externalized** -- the PageRank project protects authenticity, inverting time decay so old fights carry weight, preventing becoming "a used-auto dealer of my own soul". **Monastic discipline** -- anti-mainstream stance, truth in "transitive victories" rather than chasing likes. The 27B version is the most coherent, grounding each theme in specific retrieved quotes while maintaining narrative flow. After ThinkingOutputParser cleanup, it produces the cleanest synthesis of the three local models.
 
 **Grok 4.2** ([full chat](https://grok.com/share/bGVnYWN5_5e826f7e-70ab-4997-8d47-75e770fdc757)):
 > The boxing project is **your life algorithm externalized**. You inverted the time-decay exponent so old fights carry more weight. You built two parallel rankings (historical vs current). You wrote: "every fighter's story is censored at the exact point where we stop watching." This is not a fun side project. You are trying to give proper weight to the man you were before fatherhood without letting the new heat erase him. [...] **Monastic discipline**: 5 YouTube subscribers, 13 videos, 10-50 views, blog posts nobody reads, X posts with 0-1 likes. This is deliberate monasticism. You number your videos like scripture.
@@ -132,6 +135,9 @@ The source post is explicitly titled *"Los 9 motivos por los que tengo bitcoins"
 **Local RAG** (gpt-oss:20b, k=10, same retrieval):
 > Bitcoin as a **shared ledger** with **scarcity built into the protocol** (capped supply, mining progressively harder, "like gold"). Immune to arbitrary corralitos or inflationary policies. Value derived solely from real-world competitive markets. Growth driven by **dynamic feedback loops** (positive: price rise attracts buyers; negative: high value discourages spending) that may push Bitcoin into stable equilibrium **abruptly** -- potentially becoming "the dollar of the new internet".
 
+**Local RAG** (qwen3.5:27bIQ2_M, k=10, same retrieval):
+> Bitcoin as **scarcity and store of value** (finite supply, mining progressively harder, "like gold"). **Decentralization and transparency** -- public ledger, no corralito threat, value from genuine market competition. **Dynamic system evolution** -- adoption following an arctangent function with abrupt equilibrium transitions via feedback loops. **Political metaphor** -- "the dollar of the new land", internet vs dominant states reprising the colonial struggle. The 27B version is the most structured and faithful to the original 2013 post, producing the cleanest enumeration of the core thesis.
+
 **Grok 4.2** ([full chat](https://grok.com/c/10602ead-e939-42ef-9257-8b044990c541?rid=36533622-acde-4674-bedd-c4f0ff2f4a79)):
 > Grok identifies the 2013 bitcoin post but frames it within the author's broader worldview: anti-establishment stance, mathematical trust over institutional trust, and early-adopter conviction. It connects the bitcoin thesis to the same anti-mainstream identity visible in the boxing project and the low-visibility creative output.
 
@@ -149,6 +155,9 @@ This is the most interesting retrieval test. The relevant passage lives inside a
 **Local RAG** (gpt-oss:20b, k=10, same retrieval):
 > Information is not a finite resource one can "own" like a physical good. When knowledge is shared, both giver and receiver keep it -- it is essentially **abundant and freely diffusing**. Yet its value lies in the **authenticity and personal insight** the author brings to it, making information uniquely valuable even when widely shared. An intangible, endlessly shareable good whose distinctive quality lies in its non-exhaustive, personal nature rather than in scarcity.
 
+**Local RAG** (qwen3.5:27bIQ2_M, k=10, same retrieval):
+> Information contrasts with physical goods: giving wood depletes the giver, but giving information means both possess it. This reveals information's nature as **abundance and dissemination**. The 27B version is the most concise and grounded, sticking strictly to the exact contrast in the HiperNeolítico post without adding interpretive layers. Highest faithfulness to the corpus among local models.
+
 **Grok 4.2** ([full chat](https://grok.com/share/bGVnYWN5_33695110-1c15-444e-b30a-81eabcec9efb)):
 > Grok locates the same passage from the blog but frames it as an early signal of the author's recurring pattern: trusting mathematical/informational structures over institutional ones (connecting it to the bitcoin thesis and the PageRank project).
 
@@ -156,16 +165,16 @@ This is the most interesting retrieval test. The relevant passage lives inside a
 
 ### Metric Comparison (across all three queries)
 
-| dimension | local RAG (qwen3.5:9b) | Grok 4.2 (thinking hard) |
-| --- | --- | --- |
-| **faithfulness** | high -- every claim traceable to a retrieved chunk | high -- but inference bridges gaps the blog never states |
-| **context grounding** | strict -- answers only what the 10 retrieved chunks contain | loose -- synthesises across GitHub, X, YouTube, LinkedIn, blog |
-| **factual accuracy** | accurate within scope; no hallucination observed | accurate and broader; occasionally attributes intent not articulated |
-| **depth of insight** | strongest when retriever delivers the right chunks (bitcoin, information) | strongest when cross-domain synthesis is required (boxing) |
-| **semantic retrieval** | finds buried content regardless of title (HiperNeolítico -> information nature) | finds content via web crawl and title/URL pattern matching |
-| **metaphor reading** | weak -- retriever ranks explicit keywords over poetic expression (boxing) | weak -- gravitates to structured project signals over visceral prose |
-| **voice fidelity** | neutral assistant tone, quotes the source | mirrors the author's own language -- reads like a conversation |
-| **cost / privacy** | zero cloud tokens, fully local, private | cloud API, full web crawl, all data leaves the machine |
+| dimension | local RAG (qwen3.5:27bIQ2_M) | local RAG (qwen3.5:9b) | local RAG (gpt-oss:20b) | Grok 4.2 (thinking hard) |
+| --- | --- | --- | --- | --- |
+| **faithfulness** | highest -- every claim traceable, parser removes thinking traces | high -- every claim traceable to a retrieved chunk | moderate -- adds interpretive layers not in chunks | high -- but inference bridges gaps the blog never states |
+| **context grounding** | strict -- answers only what the 10 retrieved chunks contain | strict -- answers only what the 10 retrieved chunks contain | moderate -- infers meaning beyond retrieved text | loose -- synthesises across GitHub, X, YouTube, LinkedIn, blog |
+| **factual accuracy** | accurate within scope; no hallucination observed | accurate within scope; no hallucination observed | accurate but sometimes over-interprets | accurate and broader; occasionally attributes intent not articulated |
+| **depth of insight** | strongest coherence and quote grounding | strongest when retriever delivers the right chunks (bitcoin, information) | good synthesis, trades coverage for clarity | strongest when cross-domain synthesis is required (boxing) |
+| **semantic retrieval** | finds buried content regardless of title (HiperNeolítico -> information nature) | finds buried content regardless of title | same retrieval as other local models | finds content via web crawl and title/URL pattern matching |
+| **metaphor reading** | weak -- retriever ranks explicit keywords over poetic expression | weak -- retriever ranks explicit keywords over poetic expression (boxing) | moderate -- infers embodied dimension from analytical chunks | weak -- gravitates to structured project signals over visceral prose |
+| **voice fidelity** | neutral assistant tone, quotes the source | neutral assistant tone, quotes the source | neutral but more interpretive | mirrors the author's own language -- reads like a conversation |
+| **cost / privacy** | zero cloud tokens, fully local, private | zero cloud tokens, fully local, private | zero cloud tokens, fully local, private | cloud API, full web crawl, all data leaves the machine |
 
 ### Discussion
 **Insight: Local RAG on Open Models**
@@ -223,7 +232,7 @@ The eye-test, reading the responses for inspection, supported by the domain know
 
 ### Limitations
 
-- Answer relevancy (0.38) remains the weakest metric. The 9B augmentation model tends to elaborate beyond the question scope. A larger local model (qwen3.5:27b) or stricter prompt engineering may improve this.
+- Answer relevancy varies by model: 27bIQ2_M (0.674), 9b (0.565), 20b (0.714). The 9B augmentation model tends to elaborate beyond the question scope. The 20B achieves highest relevancy but at the cost of faithfulness (0.560). The 27B offers the best balance of faithfulness (0.897) and relevancy (0.674).
 - The Grok comparison is qualitative, not automated. Formalising it would require a shared evaluation harness and ground-truth annotations.
 - The blog corpus is small (52 posts, 904 chunks). RAG advantages compound with larger, more heterogeneous corpora where frontier models cannot memorise the full text.
 - The HiperNeolítico retrieval success depends on embedding model quality. A weaker embedding model might miss the semantic bridge between "information as a good" and a post about civilisational transitions.
