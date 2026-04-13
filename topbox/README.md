@@ -12,6 +12,15 @@ Matches are mapped to a directed `loser→winner` DiGraph (PageRank flows import
 **Dataset**: `boxer_a`, `boxer_b`, `is_a_win`, `date` (parquet).  
 **Output**: Two files — `topbox_consolidated.csv` (default) and `topbox_recent.csv`.
 
+## youtube
+
+0013 page rank for boxers
+
+not the tao with adrian matias
+
+https://youtu.be/mGPn4-F_N-k?si=gvjE7JGJa4LuOm_d
+
+
 ## Quick Start
 
 ```bash

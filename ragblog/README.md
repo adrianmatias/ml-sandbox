@@ -21,6 +21,15 @@ RagBlog builds a semantic search and question-answering pipeline over personal b
 **Dataset**: 52 blog URLs from `delightfulobservaciones.blogspot.com` -> 904 document chunks (JSONL).  
 **Output**: Natural language answers grounded in retrieved context, saved to `data/output.md`.
 
+## youtube
+
+0014 rag on one gpu vs grok to clone my mind
+
+not the tao with adrian matias
+
+https://youtu.be/c_JMsMy0DSM?si=F73-EQGwJd_QDHer
+
+
 ## Quick Start
 
 ```bash
