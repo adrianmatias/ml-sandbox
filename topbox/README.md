@@ -12,6 +12,19 @@ Matches are mapped to a directed `loser→winner` DiGraph (PageRank flows import
 **Dataset**: `boxer_a`, `boxer_b`, `is_a_win`, `date` (parquet).  
 **Output**: Two files — `topbox_consolidated.csv` (default) and `topbox_recent.csv`.
 
+## timeline lens
+
+`uv run python -m topbox.run_timeline` computes PageRank on every year-end window
+(fights fought no later than Y) and dissolves the consolidated/recent duality into
+rank trajectories.
+
+Outputs:
+- `data/topbox_timeline.csv` — long format `snapshot_year, rank, boxer, score`, one PageRank per year.
+- `data/topbox_trajectory.csv` — per-boxer functionals: `first_ranked_year`, `last_ranked_year`, `presence`, `peak_year`, `peak_rank`, `peak_score`, `peak_offset`, `last_rank`, `integral` (sum of snapshot scores).
+
+Comparing fighters at equal career stage (peak centrality, trajectory shape)
+replaces comparing truncated active careers against completed ones.
+
 ## youtube
 
 0013 page rank for boxers
@@ -99,11 +112,11 @@ sh ci/test.sh
 - **Note**: Anti-bot measures (403); demo crawl. Prod: headers/rotating proxies/Selenium. Data incomplete (partial matches) but broader boxer coverage.
 - **Graph**: ~100s fights → ranks converge fast.
 
-## PageRank Boxing Rankings (1965–Present)
+## PageRank Boxing Rankings (1951–Present)
 
 **Methodology**
-- 168 consensus all-time greats (expanded seed from BoxRec/ESPN/Ring/Bleacher Report).
-- ~5,500 pro bouts (1965–present) from Wikipedia.
+- 480 seeded boxers (consensus all-time greats expanded from BoxRec/ESPN/Ring/Bleacher Report).
+- 8,149 pro bouts (1951–present) from Wikipedia; 7,844 after dedup — committed as `data/match.parquet`.
 - Directed "loser → winner" PageRank DiGraph.
 - **Draws**: Mutual 0.5-weight edges (total fight weight = 1.0).
 - Name normalization: NFKD + nicknames + dedup words.
@@ -114,54 +127,75 @@ sh ci/test.sh
 
 | rank | boxer | score |
 | --- | --- | --- |
-| 1 | Canelo Alvarez | 0.0124 |
-| 2 | Marvin Hagler | 0.0114 |
-| 3 | Gervonta Davis | 0.0114 |
-| 4 | Dmitry Bivol | 0.0111 |
-| 5 | Artur Beterbiev | 0.0108 |
-| 6 | Lamont Roach Jr | 0.0098 |
+| 1 | Canelo Alvarez | 0.0126 |
+| 2 | Dmitry Bivol | 0.0116 |
+| 3 | Marvin Hagler | 0.0114 |
+| 4 | Gervonta Davis | 0.0112 |
+| 5 | Artur Beterbiev | 0.0112 |
+| 6 | Lamont Roach Jr | 0.0097 |
 | 7 | Roman Gonzalez | 0.0089 |
 | 8 | Roberto Duran | 0.0089 |
 | 9 | Carlos Monzon | 0.0083 |
 | 10 | Lennox Lewis | 0.0079 |
-| 11 | Manny Pacquiao | 0.0074 |
-| 12 | Evander Holyfield | 0.0067 |
-| 13 | Wladimir Klitschko | 0.0064 |
-| 14 | Carlos Cuadras | 0.0064 |
-| 15 | Roy Jones Jr | 0.0062 |
-| 16 | Muhammad Ali | 0.0062 |
-| 17 | Bernard Hopkins | 0.0058 |
-| 18 | Ricardo Lopez | 0.0057 |
-| 19 | Julio Cesar Chavez | 0.0056 |
-| 20 | Luis Manuel Rodriguez | 0.0055 |
-### Recent Lens — Current Activity (topbox_recent.csv)
-| Rank | Boxer | Score |
-|------|-------|-------|
-| 1 | Dmitry Bivol | 0.0206 |
-| 2 | Artur Beterbiev | 0.0191 |
-| 3 | Gervonta Davis | 0.0159 |
-| 4 | Lamont Roach Jr | 0.0132 |
-| 5 | Canelo Alvarez | 0.0109 |
-| 6 | Roman Gonzalez | 0.0099 |
-| 7 | Manny Pacquiao | 0.0098 |
-| 8 | Terence Crawford | 0.0093 |
-| 9 | Carlos Monzon | 0.0088 |
-| 10 | Marvin Hagler | 0.0078 |
-| 11 | Oleksandr Usyk | 0.0067 |
-| 12 | Lennox Lewis | 0.0066 |
-| 13 | Ricardo Lopez | 0.0064 |
-| 14 | Juan Francisco Estrada | 0.006 |
-| 15 | Anthony Joshua | 0.006 |
-| 16 | Wladimir Klitschko | 0.0059 |
-| 17 | Evander Holyfield | 0.0054 |
-| 18 | Julio Cesar Chavez | 0.0053 |
-| 19 | Roberto Duran | 0.0052 |
-| 20 | Ryan Garcia | 0.0052 |
 
+### Recent Lens — Current Activity (topbox_recent.csv)
+
+| rank | boxer | score |
+| --- | --- | --- |
+| 1 | Dmitry Bivol | 0.0219 |
+| 2 | Artur Beterbiev | 0.0201 |
+| 3 | Gervonta Davis | 0.0151 |
+| 4 | Lamont Roach Jr | 0.0125 |
+| 5 | Canelo Alvarez | 0.0111 |
+| 6 | Roman Gonzalez | 0.0098 |
+| 7 | Terence Crawford | 0.009 |
+| 8 | Carlos Monzon | 0.0088 |
+| 9 | Marvin Hagler | 0.0079 |
+| 10 | Manny Pacquiao | 0.0078 |
+
+## Full Picture — Insights from Year-End Snapshots
+
+The static lenses answer "where does flow sit today"; the timeline answers
+"how did each career move through the network". Four findings survive contact
+with the data:
+
+**Peak parity dissolves the duality.** Years from first-ranked to peak cluster
+tightly across six decades: Monzon 9, Hagler 10, Bivol 11, Duran / Beterbiev /
+Gervonta / Chocolatito 12, Canelo 13, Ali 14. Active fighters are not on an
+anomalous ascending trajectory — at equal career stage they have already
+peaked where their predecessors peaked. Compare peaks, not current states.
+
+**Decline is measurable, not just accepted.** Among top-30 peakers, median
+final-rank ÷ peak-rank: retirees ≤1989 fall 36.5× (9% finish top-50);
+1990–2005 → 10.6×; 2006–2018 → 8.9×; active 2019+ → 2.9× (64% still top-50).
+The active-vs-retired asymmetry is real, mechanical and now bounded.
+
+**Draws-as-flow distort the head of static rankings.** Lamont Roach Jr enters
+the dataset through two opponent-row fights (a 2016 loss, the 2025 Davis
+draw) yet ranks #4–#6 in both lenses. Drop draw flow (`draw_share=0`) and he
+falls to #671. One half-edge from a hub ≈ 667 places.
+
+**Network inertia is real.** Cumulative windows never forget: Monzon
+re-takes #1 in 1988, 1991–92, 1996–98, 2002–03 — after retirement. The #1
+lineage runs Ortiz (59–66) → Monzon (72–79) → Duran (80–82) → Hagler (83–87)
+→ Holyfield/Chavez → Lewis → Pacquiao/Gonzalez/Canelo → Bivol (25–26), with
+snapshot kingship reading as accumulated history, not a contemporary poll.
+
+Example trajectories (rank per snapshot year):
+
+| boxer | 1975 | 1985 | 1995 | 2005 | 2015 | 2020 | 2026 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Carlos Monzon | 1 | 2 | 3 | 2 | 2 | 7 | 8 |
+| Marvin Hagler | 15 | 1 | 2 | 3 | 4 | 10 | 9 |
+| Muhammad Ali | 4 | 4 | 10 | 18 | 29 | 32 | 33 |
+| Canelo Alvarez | – | – | – | 440 | 19 | 1 | 5 |
+| Dmitry Bivol | – | – | – | – | 515 | 87 | 1 |
 
 ### Limitations of the Observed Network
 - The graph reveals a necessary asymmetry: active fighters have not yet encountered the defeats that almost every career eventually records towards the end. Their centrality therefore reflects only the observed ascending side of the trajectory. Retired boxers carry every loss, every late decline.
-- This is not a distortion to be corrected with projections or prime-year filters. It is the raw signal of the data as it stands today. Stripping away any attempt to estimate unseen outcomes preserves the first principle of the model: show exactly what the win network has produced up to this moment. The ranking accepts the paradox without adjustment.
+- This is not a distortion to be corrected with projections or prime-year filters. It is the raw signal of the data as it stands today. Stripping away any attempt to estimate unseen outcomes preserves the first principle of the model: show exactly what the win network has produced up to this moment. The ranking accepts the paradox without adjustment — and the timeline quantifies it per cohort.
+- Seed rot: dozens of seed URLs 404 or resolve to tableless pages; completeness stays era-and-notability biased. Snowball crawling through opponents is the planned fix.
+- Entity resolution is rule-based (`Lamont Roach Jr.` vs `Lamont Roach Jr`); fine rank differences below ~50 should not be over-read until an identity pass exists.
 
 ### Discussion
 
@@ -177,8 +211,9 @@ sh ci/test.sh
 
 **Technical notes**
 - Graph mode: loser → winner (standard PageRank importance flow)
-- Dataset: ~168 seeds → ~5,500+ matches from Wikipedia
-- Data sources: `fighters.json` (boxer URLs)
+- Dataset: 480 seeds → 8,149 matches (7,844 deduped) from Wikipedia, committed as `data/match.parquet`
+- Data sources: `data/fighter_seed.json` (boxer URLs)
+- Timeline: `uv run python -m topbox.run_timeline` → `topbox_timeline.csv` + `topbox_trajectory.csv`
 
 This objective, graph-based ranking complements traditional expert lists by showing exactly who sits at the center of boxing's historical win network.
 

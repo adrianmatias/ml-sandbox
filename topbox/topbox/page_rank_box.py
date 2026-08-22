@@ -123,7 +123,7 @@ class PageRankBox:
             G.add_edge(loser, winner, weight=weight)
         return G
 
-    def compute(self, df: pd.DataFrame) -> pd.DataFrame:
+    def compute(self, df: pd.DataFrame, round_digits: int | None = 4) -> pd.DataFrame:
         """Compute PageRank (loser-to-winner DiGraph) and return 'rank' DataFrame.
         Draws handled as mutual half-weight edges."""
         LOGGER.info(f"Computing PageRank on {len(df)} raw rows")
@@ -136,7 +136,8 @@ class PageRankBox:
 
         result_df = pd.DataFrame(ranked, columns=["boxer", "score"])
         result_df.insert(0, "rank", range(1, len(result_df) + 1))
-        result_df["score"] = result_df["score"].round(4)
+        if round_digits is not None:
+            result_df["score"] = result_df["score"].round(round_digits)
 
         LOGGER.info(
             f"Top 10 after normalization: {result_df.head(10).to_dict('records')}"
