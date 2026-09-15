@@ -460,3 +460,121 @@ linter; no marginal-gain-per-additional-tool study; no mutation-testing wall-clo
 Python or for agent loops; no dead-code prevalence figure for Python; and **no controlled study
 showing static analysis reduces downstream defect density in LLM-generated Python.** §17's ordering
 is a judgement built on the measurements above, not a finding from a study.
+
+---
+
+# Round 5 — the question correctness and static analysis left out
+
+*Added 2026-09-15, in response to the fair objection: "I get no conclusion about enforcing
+typed/OO/func programming into Python, we just got the side of correctness and static analysis."*
+
+That objection is correct. Every earlier arm measured **correctness**. None measured whether
+**enforcing a style** — or **adding lean dependencies** — changes anything. Two further arms were
+built to close that gap, and they are the two most useful results in this document.
+
+## 23. Exhaustiveness: the one place structural enforcement decisively beats convention
+
+This is the clearest measured difference between the two languages in the whole experiment, and it
+comes from a five-probe experiment on real code plus a direct reproduction. The question: if an agent
+adds a new variant to a closed sum type, does anything catch it?
+
+| setup | what happens when a variant is added | caught by |
+|---|---|---|
+| **Scala 3** `enum` + `match`, no flags | `warn: match may not be exhaustive` | compiler |
+| **Scala 3**, `-Werror` | **`error: It would fail on pattern case: AMOUNT`** — build fails | compiler |
+| **Python**, `enum` + `match`, **no wildcard**, non-optional return | `error[invalid-return-type]` (the gap shows up as a return-type error) | `ty` |
+| **Python**, `enum` + `match`, non-optional return, **`case _ as x: assert_never(x)`** | `error[type-assertion-failure]` — **exhaustiveness, properly** | `ty` |
+| **Python**, same but the function may return `None` | **`All checks passed!`** — missing case is silent | nothing |
+| **Python**, `enum` + `match` with an ordinary **wildcard** | **`ty` exit 0, `ruff` exit 0, tests pass — the new variant is silently routed to the wildcard's branch** | nothing |
+
+Reproduced directly: with `case _: return 0` present, adding `UNSUPPORTED` to the enum produces no
+diagnostic of any kind, and `exit_code(Failure(UNSUPPORTED, ...))` returns the wildcard's `0`.
+`assert_never` also only fails at **runtime**, on the path that reaches it.
+
+**The conclusion, which answers the outstanding question.** Typed functional Python *is* enforceable —
+**for `enum` + `assert_never`, and nothing else.** Use a dataclass union, or a wildcard arm, or a
+return type that admits `None`, and the guarantee silently disappears. Worse: **nothing in the
+toolchain tells you which of those two worlds you are in.** Scala's enforcement is structural (the
+language refuses the match); Python's is conventional (you must remember `assert_never`, and keep
+remembering it). For code written by agents — which is exactly code whose invariants are not held in
+anyone's head — that difference is real, and it is the strongest argument for a typed language this
+experiment produced.
+
+## 24. Lean dependencies: what they bought, measured, with numbers
+
+A second arm built the same module with the libraries a pragmatic engineer would reach for. **Two of
+ten survived; eight were rejected with measurements** (`val-py/experiments/out/`):
+
+| dependency | verdict | the number that decided it |
+|---|---|---|
+| **pydantic 2.13.5** | **kept** | 28 ms import, 5.5 µs/row; validated untrusted registry JSON and derived the envelope. **But it did not replace the money rule** — strict mode rejects the spec's own decimal *strings*, lax mode accepts JSON floats |
+| **beartype 0.22.9** | **kept** | the only layer that stops a **binary float entering the Decimal domain when it arrives as `Any`** (e.g. from `json.loads`), where `ty` is silent by construction |
+| typeguard | rejected | same catch, **11.47 ms vs beartype's 0.52 ms** for 20 calls over a 1000-element tuple |
+| icontract / deal | rejected | module invariants are properties of a 923-row *result set*, not function contracts |
+| toolz / funcy | rejected | saved **one** source line over the stdlib loop |
+| returns | rejected on principle | a `Result` chain short-circuits on first failure — **exactly what §3.4 forbids** |
+| pandas 3.0.5 | **rejected** | see below |
+| polars 1.44.2 | rejected | exact, but rounds `1.234` → `1.23` where the spec demands refusal |
+
+### The pandas/polars result — "just use pandas" is wrong here, with numbers
+
+Reproduced independently. Default `read_csv` gives `float64` for `importe`/`saldo`, and:
+
+- **`37713.30` can never be printed** — the value is `37713.3`, so the required canonical form and
+  every `sha256` checksum input are unrecoverable.
+- **260–381 of 923 amount texts cannot be reproduced** from the float (count depends on the
+  normalisation used, which is itself the point).
+- The empty `,,,` row is read as a data row, **shifting every `line` number in the spec's identity field**.
+- pandas on a ragged row **silently remaps columns**: `{'fecha': [1234], 'fecha valor': [56], ...}`.
+- pandas has **no working exact-decimal `read_csv`**: `dtype=decimal128` raises `ArrowInvalid`, and
+  `converters={'importe': Decimal}` raises `InvalidOperation` on the empty row. Only
+  "read as text, then cast with pyarrow" works — pandas reading text and pyarrow casting it.
+
+**Honest correction to the arm's own headline:** it reported the float cumulative check failing
+**912/923** rows. That is true only at zero tolerance. Measured drift: **0 mismatches at 1e-9**,
+worst absolute drift over 923 rows **8.0e-11 EUR**. So the float check is *tolerance-dependent* — and
+the correct, tolerance-independent statement is stronger anyway: **pandas cannot emit the canonical
+decimal string or the raw text the spec requires, at any tolerance.** The library is disqualified by
+representation, not by arithmetic drift.
+
+### The one defect class a runtime dependency owns
+
+Injection, not anecdote: for a float arriving as `Any` into a `Decimal` field, **`ty` is silent,
+beartype catches it, and a plain dataclass accepts it** (`0.1+0.1+0.1 = 0.30000000000000004`).
+That is a genuine gap nothing else covers — and the arm is honest that **no runtime dependency caught
+a defect its tests would have missed during the build.** It is insurance, not a discovered bug.
+
+### Dependencies also obstructed correctness, four times
+
+1. `beartype` + the idiomatic `if TYPE_CHECKING:` import → **runtime crash**
+   (`ForwardRef ... unimportable`), and static checkers are silent because it is a type-only import.
+2. pydantic's `populate_by_name` + alias **defeated `extra="forbid"`**, so a misspelled registry key
+   validated instead of erroring.
+3. pydantic strict mode cannot express the shared fixture's own format.
+4. pandas' silent column remap (above).
+
+## 25. Complexity and tech-debt compounding — with all five arms
+
+| arm | prod LOC | files | tests | suite | deps | defects caught by tests |
+|---|---|---|---|---|---|---|
+| stdlib Python | 1357 | 11 | 133 | 0.80s | 0 | 2 |
+| Python + tooling | 2080 | 12 | 108 | 1.26s | 0 | 2 |
+| Scala 3.9.0 | 1291 | 11 | 92 | 1.43s | 0 | 0 |
+| **functional (enforced style)** | **1932** | 10 | 57 | 0.24s | 0 | 2 |
+| **pydantic + beartype** | **1384** | 15 | 108 | 0.33s | 2 | 1 |
+
+Read the LOC column carefully: the enforced-functional arm cost **+42%** over the stdlib arm
+(1932 vs 1357) for **the same guarantees** — and it produced **no defect the tests would not have
+caught**. The two real defects in that arm were a `Decimal.quantize` precision ceiling and two
+plausible-but-wrong net-worth models; a test and the clarifications table caught them. The style bought
+**iteration speed**, not correctness. Combined with §14's finding that enforcement *redistributes*
+complexity rather than reducing it (mean CC 3.73 → 2.19, worst 28 → 14, total 250 → 337), the pattern
+across all five arms is consistent: **every form of enforcement costs lines and buys a guarantee — and
+the guarantee is only worth it where it is structural rather than conventional.**
+
+### Caveat that limits this table
+
+The suite times are **not mutually comparable**: the arms ran on different Python versions (3.12.14 vs
+3.14.7) under different venvs. The functional arm's 0.24s is largely a smaller suite on a fast
+interpreter, not a style win. The LOC and defect columns are comparable; the timing column is not, and
+is reported only for completeness.
