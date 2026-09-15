@@ -18,6 +18,16 @@ All three parse a bank statement CSV, reconcile it, and emit canonical JSON. Run
 
 ---
 
+> **The one-line verdict:** for agent-written code, spend the constraint budget on the *gates and the
+> boundary* — enforced static checking, a derived codec, a scoped dead-code gate, an exhaustiveness
+> convention, and tests for wiring — and choose the language for ecosystem and domain, not for
+> safety. Where an invariant must be *structural* rather than *conventional*, that is a per-property
+> decision to be earned explicitly, not a per-language default.
+>
+> The whole experiment in one list: [§28 of `docs/FINDINGS.md`](docs/FINDINGS.md#28-the-consolidated-conclusions--the-whole-experiment-in-one-list).
+
+---
+
 ## The headline result
 
 **The language was not the load-bearing variable. The boundary was.**
@@ -146,6 +156,7 @@ reference/
 docs/
   FINDINGS.md           the full write-up: method, results, verdict, and limitations,
                         re-validated number-by-number in §26–§28 (corrections recorded there)
+  tooling-review.md     the contributed review of Python tooling against this experiment
 ```
 
 ---

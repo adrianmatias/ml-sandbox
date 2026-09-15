@@ -717,3 +717,10 @@ boundary* — enforced static checking, a derived codec, a scoped dead-code gate
 convention, and tests for wiring — and choose the language for ecosystem and domain, not for
 safety. Where an invariant must be *structural* rather than *conventional*, that is a per-property
 decision to be earned explicitly, not a per-language default.
+
+**Adopting it:** the list above is the portable part. Turned into rules a project can paste into its
+agent guide, it becomes five of them — the type checker as an enforced gate (and *verify the gate is
+actually looking at your code*), the boundary derived from the type rather than hand-written, wiring
+covered by tests plus a **scoped** dead-code gate, exhaustiveness structural or written down, and the
+line cost of enforcement stated out loud. None of that adds a claim: every rule traces to a numbered
+conclusion above.
