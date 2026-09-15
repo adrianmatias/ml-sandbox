@@ -41,7 +41,16 @@ All three parse a bank statement CSV, reconcile it, and emit canonical JSON. Run
    three real defects on first run, including a name used before definition that
    would have raised `NameError` on a path **no test covered**. `ruff` produced 43
    findings of which one was a real smell (39 were `TRY003` false positives).
-   **`semgrep` returned zero findings on every codebase tested.**
+   **`semgrep` returned zero findings on every codebase tested** — which `docs/FINDINGS.md`
+   §20 explains: its `p/python` ruleset is 138 security and 13 audit rules with **zero**
+   correctness or style rules, so a clean 2,000-line file is unmatchable by construction.
+   The null result says nothing about the code.
+
+   For context on the type checkers, the live `python/typing` conformance dashboard
+   (fetched 2026-09-15) reads: zuban 99.7% · pyrefly 96.9% · pycroscope 95.2% ·
+   **ty 93.8%** · pyright 93.4% · mypy 74.8%. Note the dashboard's own disclaimer —
+   conformance "is not representative of many of the things users typically care about",
+   and it should not be the primary basis for choosing a checker.
 
 4. **The honest price of enforcement** was ~60% more production code (2187 vs 1357
    LOC) and 1.28s vs 0.94s per test suite. Cheap for a caught `NameError`.
@@ -52,13 +61,22 @@ All three parse a bank statement CSV, reconcile it, and emit canonical JSON. Run
    a directory instead of `test .` from the project root, paying JVM/Bloop startup
    each time. The correction is recorded in `docs/FINDINGS.md` §3.)
 
-6. **Dead code is the one place Scala's compiler has a structural advantage** — and
-   it is a narrow one. `-Wunused:all -Xfatal-warnings` rejects an unused **private**
-   member as a compile error. It does **not** flag unused **public** methods, so a
-   public-but-uncalled function compiles clean. Python's `ruff` cannot see either.
-   `vulture` catches both — but only when run on a modern interpreter
-   (`vulture` under Python 3.11 cannot even parse PEP 695 `type X = ...` syntax and
-   silently reports nothing).
+6. **Dead code: the scorecard inverts the intuition, but the asymmetry is narrow.**
+   `-Wunused:all -Werror` catches an unused **private** member as a compile error and
+   is **structurally blind to unused public methods** — and it has **no reachability
+   closure**, so a dead function called only by another dead function stays hidden.
+   `ruff` finds neither. `vulture` finds both, plus unused public functions
+   (its default `min_confidence` is 0). Measured scope, and what is *not* covered:
+   **no Python type checker except pyright/basedpyright has any dead-code diagnostic**
+   (and pyright's `reportUnusedFunction` is off by default, and never fires on a
+   class-scoped method).
+
+   So Scala's real edge is not capability — vulture covers a strictly larger class — it
+   is **delivery**: an in-language compile error versus a third-party tool with a
+   confidence score and a whitelist. The trap to know: **vulture fails silently under
+   Python 3.11**, which cannot parse PEP 695 `type X = ...` — it prints a syntax error
+   and reports nothing for that file, reading as green. Put the dead-code gate on a
+   current interpreter, and verify it is actually looking at your code.
 
 ---
 

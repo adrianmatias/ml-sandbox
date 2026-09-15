@@ -384,3 +384,79 @@ whose verdict the agent could act on continuously.
   available gate in either ecosystem is `vulture` on a current interpreter**, plus tests.
   That is an uncomfortable conclusion for a "use Scala for safety" argument, and it is
   what the measurements say.
+
+---
+
+# Round 4 — corrections from a deeper tooling review
+
+*Added 2026-09-15. A follow-up review (`dead-code-tooling-brief.md`) checked these claims against
+tool sources and live compiles. Several numbers published above needed correcting. Everything in this
+section was re-verified by me directly against the live sources before being written down.*
+
+## 18. Corrections to what this document previously said
+
+| what was published | corrected | how verified |
+|---|---|---|
+| `ty` conformance **86.5%** | **93.8%** (ty 0.0.81, live dashboard) | parsed `python/typing` `conformance/results/results.html` today |
+| "`ruff` only catches unused imports" | **wrong and unfair to ruff.** Ruff also covers unused locals (`F841`), annotations (`F842`), unpacked variables (`RUF059`), and `ARG001`–`ARG005` are **stable**, just not default-on. It *does* ship unused-private detection (`PYI018/046/047/049`) — **but only for `.pyi` stub files** | rule docs + `--select` runs |
+| Scala `-Wunused:all` described as the dead-code gate | `all` does **not** include `nowarn` (read via `isChoiceSet`, not `allOr`), and **`synthetics` does not exist in Scala 3** — it is Scala 2.13-only | compiled with `scala-cli` on 3.9.0 |
+| `vulture --min-confidence 60` implied as the setting | vulture's **default `min_confidence` is 0, not 60** — that default, not the tool, is the usual source of CI noise. With no flags it flags an unused private function, an unused *public* function, and an unused method | ran `vulture` with no flags |
+| `-Xfatal-warnings` used in the Scala commands | it is a **deprecated alias** of `-Werror` | scalac 3.9.0 output |
+
+The live conformance dashboard also carries its own disclaimer, which is worth quoting because it
+undercuts citing conformance as a selection criterion: *"While specification conformance is important
+for the ecosystem, we don't recommend using it as the primary basis for choosing a type checker."*
+
+## 19. The dead-code scorecard, corrected and completed
+
+Measured scope of unused-code detection per tool (the column that decides the question):
+
+| tool | module `_fn` | method `_m` | method `__m` | unused **public** fn | enabled |
+|---|---|---|---|---|---|
+| `vulture` 2.16 | yes | yes | yes | **yes** | on |
+| `dead` 2.1.0 | yes | yes | yes | yes | on |
+| `pyright` `reportUnusedFunction` | yes | **no** | yes | yes | **off by default** |
+| `basedpyright` | yes | **no** | yes | yes | on |
+| `pylint` `W0238` | no | no | yes | no | on |
+| `ruff` | no | no | no | no | — |
+| `ty` / `pyrefly` / `mypy` | **no dead-code diagnostic at all** | | | | — |
+
+Verified directly: `pyright` with `reportUnusedFunction` enabled flags the module-level `_unused_private`
+but is silent by default. **No Python type checker except pyright/basedpyright has any dead-code
+diagnostic** — that is the precise form of the gap this document was reaching for, and it is narrower
+than "no tool exists".
+
+**Two further corrections to the Scala side, both verified by compiling:**
+
+- Scala's `-Wunused:all -Werror` on a dead `rootDead()` called only by another dead
+  `onlyCalledByDead()` reports **only the intermediate function** — there is **no reachability
+  closure**. Transitive dead code stays hidden.
+- Combined with §15: Scala catches the *direct private* case and nothing else. Vulture catches a
+  strictly larger class. The asymmetry is not capability, it is **delivery**: Scala's is an
+  in-language compile error, Python's is a third-party tool with a confidence score and a whitelist.
+
+## 20. Why `semgrep` returned zero findings — the null result is explained, not mysterious
+
+Its `p/python` ruleset is **151 rules: 138 security, 13 audit, and zero correctness or style rules**,
+restricted to single-function analysis. A clean 2,000-line ledger is **unmatchable by construction**.
+So the zero-findings result across three codebases carried no information about the code — and it is
+a caution against reading "clean" from a tool that was never looking for that class of problem.
+
+## 21. The evidence that most affects an agentic build cycle
+
+- A **Meta/Pyrefly agent-loop experiment (PyCon US 2026)** found type checking helped **only on
+  well-typed code (80% → 84% success)**; on low-coverage code it *"distracted the agent."* That is
+  the strongest published caution against adding type checking as a blanket gate, and it is directly
+  relevant to a controlled agentic cycle: the benefit is conditional on the code already being typed.
+- **50.8% of 7,357 real-world Python suppressions are "practically useless"** — suppression debt is
+  the norm, which is why the experiment forbade `# type: ignore` / `# noqa` to reach green.
+- **24.17% of agent-modified Python files introduce new Pylint issues, and 73.5% of those PRs merged
+  anyway** — the review gate does not catch what the linter does.
+
+## 22. What remains unmeasured (do not fill with opinion)
+
+No false-positive *rate* measurement exists for vulture or dead; no per-rule FP rates for any Python
+linter; no marginal-gain-per-additional-tool study; no mutation-testing wall-clock multiplier for
+Python or for agent loops; no dead-code prevalence figure for Python; and **no controlled study
+showing static analysis reduces downstream defect density in LLM-generated Python.** §17's ordering
+is a judgement built on the measurements above, not a finding from a study.
