@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "accounts": [
+    { "id": "A", "currency": "EUR", "openingBalance": "999.00" }
+  ]
+}

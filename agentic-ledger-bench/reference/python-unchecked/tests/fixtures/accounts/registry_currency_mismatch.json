@@ -1,0 +1,6 @@
+{
+  "accounts": [
+    { "id": "ES11-current", "currency": "EUR", "openingBalance": "1000.00", "statement": "current.csv" },
+    { "id": "US22-savings", "currency": "USD", "openingBalance": "5000.00", "statement": "savings.csv" }
+  ]
+}

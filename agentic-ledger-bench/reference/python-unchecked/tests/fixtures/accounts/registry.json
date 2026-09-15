@@ -1,0 +1,8 @@
+{
+  "toleranceDays": 3,
+  "accounts": [
+    { "id": "ES11-current", "currency": "EUR", "openingBalance": "1000.00", "statement": "current.csv" },
+    { "id": "ES22-savings", "currency": "EUR", "openingBalance": "5000.00", "statement": "savings.csv" },
+    { "id": "ES33-joint",   "currency": "EUR", "openingBalance": "250.00",  "statement": "joint.csv" }
+  ]
+}

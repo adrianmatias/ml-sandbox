@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "toleranceDays": 3,
+  "accounts": [
+    { "id": "A", "currency": "EUR", "openingBalance": "100.00" },
+    { "id": "B", "currency": "EUR", "openingBalance": "0.00" },
+    { "id": "C", "currency": "EUR", "openingBalance": "0.00" }
+  ]
+}
