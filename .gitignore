@@ -71,3 +71,6 @@
 /tao-nlp/tao_nlp/test_trainer/checkpoint-7/trainer_state.json
 /tao-nlp/tao_nlp/test_trainer/checkpoint-7/training_args.bin
 /pytorchtext/input.txt
+
+__pycache__/
+*.py[cod]
