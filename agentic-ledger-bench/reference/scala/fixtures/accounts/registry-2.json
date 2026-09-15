@@ -1,0 +1,7 @@
+{
+  "toleranceDays": 3,
+  "accounts": [
+    { "id": "ALPHA", "currency": "EUR", "openingBalance": "1000.00", "statement": "alpha.csv" },
+    { "id": "BETA",  "currency": "EUR", "openingBalance": "500.00",  "statement": "beta.csv" }
+  ]
+}

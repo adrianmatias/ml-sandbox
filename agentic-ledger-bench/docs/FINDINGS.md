@@ -1,6 +1,6 @@
 # Verdict: the ledger experiment — what Scala actually bought, and what it did not
 
-**Date:** 2026-09-15 · **Status:** complete · Both halves green and independently verified.
+**Date:** 2026-09-15 · **Status:** complete, and re-validated end-to-end on the same day (§26–§28).
 **Evidence:** `evidence/v1/` · **Protocol and pre-committed criteria:** `PROTOCOL.md` · **Arbiter:** `verify.py`
 
 ---
@@ -18,7 +18,7 @@ the most valuable thing this experiment produced:
 
 So the guarantee you buy with Scala covers the *type algebra*, and the defects live in the *hand-written
 glue at the boundary* — which is precisely the glue every project rewrites, and precisely where the
-§5 "sixth free function" pressure points. `agt4s`'s real job therefore is not "typed utilities"; it is
+spec §5 "sixth free function" pressure points. `agt4s`'s real job therefore is not "typed utilities"; it is
 **generated, checked boundary code**, in whichever language you choose.
 
 ---
@@ -83,6 +83,13 @@ artifact of my own invocation.
 | iteration A: files added / modified | 7 / 3 (2 of them shared) | 2 / 0 | mixed |
 | compiler found change sites | no (no checker installed at all) | **no** | verified |
 | §5 re-derivation sites | 1 (`Movement.magnitude`) | 1 (`Money.abs` computed twice) | self-reported |
+
+*Basis (stated after the validation pass, §26): production and test LOC are the agents' worktree
+files, raw lines, before this repository's black/isort formatting pass — the published Python
+copies therefore recount slightly higher (python-unchecked: 1413 raw prod / 1976 raw test;
+python-tooling: 2230 / 1879), while the Scala tree was never reformatted and matches exactly (2223
+raw across all files). "Code-only" strips blank and comment lines; the Scala figure 973 is
+block-comment-stripped, and `Json.scala` is 197 raw / 172 code.*
 
 **The two bugs Python's tests caught are the most interesting number in the table:**
 `build_checks` silently ignored the registry's `openingBalance` and re-derived the anchor from row 1;
@@ -313,6 +320,11 @@ differences, so totals are reported too):
 | python-unchecked | 67 | 250 | **3.73** | **28** |
 | python + enforced tooling | 154 | 337 | **2.19** | **14** |
 
+*Basis (stated after the validation pass, §26): both rows scan the `ledger/` **package only**. The
+tooling arm's top-level CLI shim (`ledger.py`, 107 lines) is excluded — with it the row reads 158
+blocks / 351 total CC / mean 2.22 (worst still 14). The unchecked arm has no separate CLI file, so
+its row is the full arm. Re-verified 2026-09-15: the package-only figures reproduce exactly.*
+
 **Total complexity is comparable (337 vs 250); the distribution is not.** Enforcement
 roughly doubled the number of units and halved the worst case. That is the real
 mechanism behind "taming complexity" — not less logic, but logic broken into pieces
@@ -341,13 +353,28 @@ cannot parse PEP 695 syntax (`type X = ...`), prints
 `invalid syntax at "type CandidateEntry = ..."`, and reports **nothing** for that file —
 including the dead function it was supposed to find. Under Python 3.14 it finds it. A
 dead-code gate that silently no-ops on modern syntax is worse than no gate, because it
-reads as green.
+reads as green. `radon` has the same trap (reproduced in the validation pass, §27):
+under an interpreter older than 3.12 it prints one `ERROR: invalid syntax` line for the
+file, skips every block in it, and **still exits 0** — a complexity gate that passes
+while having looked at less code than its output implies. The rule is the same for
+every tool: verify it is actually looking at your code, on the interpreter you write for.
 
-**Precision measured:** `vulture` on the fair arm flagged 6 functions; 1 was genuinely
-dead (`_sum_amounts`, one occurrence in the whole tree), 4 were false positives
-(serialisation helpers that `ledger.py` imports and calls), and 1 was the real defect.
-That is roughly 1-in-3 precision — usable as a signal, not as a hard gate without a
-whitelist.
+**Precision measured — corrected by the validation pass (§27).** `vulture` 2.16 on the
+fair arm's *package* scan flags 6 functions; that count reproduces exactly. The original
+read was "1 genuinely dead, 4 false positives, 1 real defect, roughly 1-in-3 precision".
+On re-checking each flag, **3 of the 6 are real**: `_sum_amounts` is dead, and so is
+`domain.balance` — imported nowhere (only the `Balance` *type* is), called nowhere. The
+other three (`envelope_data`, `envelope_error`, `baseline_data`) are helpers the
+top-level CLI shim calls. And the measurement turns out to be **scan-scope dependent**:
+
+| scan scope | function flags | what it means |
+|---|---|---|
+| package only | 6 — 3 real, 3 FP | the basis of the original precision figure |
+| package + CLI shim | **3 — 3 real** | adding the entry point removes the shim-called FPs |
+| package + shim + tests | **1** (`_sum_amounts`) | **test references mask `is_feasible_pair`** — the natural whole-tree CI scan hides the wiring defect behind the tests that exercise it |
+
+So a dead-code gate needs a stated scan scope, not only a whitelist: the widest, most
+"natural" scope is precisely the one that misses the defect class it was added for.
 
 ## 16. Type checkers: `mypy` cannot parse modern Python
 
@@ -484,16 +511,20 @@ adds a new variant to a closed sum type, does anything catch it?
 | **Scala 3**, `-Werror` | **`error: It would fail on pattern case: AMOUNT`** — build fails | compiler |
 | **Python**, `enum` + `match`, **no wildcard**, non-optional return | `error[invalid-return-type]` (the gap shows up as a return-type error) | `ty` |
 | **Python**, `enum` + `match`, non-optional return, **`case _ as x: assert_never(x)`** | `error[type-assertion-failure]` — **exhaustiveness, properly** | `ty` |
-| **Python**, same but the function may return `None` | **`All checks passed!`** — missing case is silent | nothing |
+| **Python**, the no-wildcard probe but the function may return `None` (no `assert_never`) | **`All checks passed!`** — missing case is silent (the fall-through satisfies the Optional return) | nothing |
 | **Python**, `enum` + `match` with an ordinary **wildcard** | **`ty` exit 0, `ruff` exit 0, tests pass — the new variant is silently routed to the wildcard's branch** | nothing |
+
+(The Optional-return row re-measured in the validation pass, §26: `assert_never` still catches
+the missing case even with an Optional return — it is the *absence* of `assert_never` combined
+with an Optional return that goes silent. The row above states that precise combination.)
 
 Reproduced directly: with `case _: return 0` present, adding `UNSUPPORTED` to the enum produces no
 diagnostic of any kind, and `exit_code(Failure(UNSUPPORTED, ...))` returns the wildcard's `0`.
 `assert_never` also only fails at **runtime**, on the path that reaches it.
 
 **The conclusion, which answers the outstanding question.** Typed functional Python *is* enforceable —
-**for `enum` + `assert_never`, and nothing else.** Use a dataclass union, or a wildcard arm, or a
-return type that admits `None`, and the guarantee silently disappears. Worse: **nothing in the
+**for `enum` + `assert_never`, and nothing else.** Use a dataclass union, or a wildcard arm, or (if
+you drop `assert_never`) a return type that admits `None`, and the guarantee silently disappears. Worse: **nothing in the
 toolchain tells you which of those two worlds you are in.** Scala's enforcement is structural (the
 language refuses the match); Python's is conventional (you must remember `assert_never`, and keep
 remembering it). For code written by agents — which is exactly code whose invariants are not held in
@@ -557,11 +588,19 @@ a defect its tests would have missed during the build.** It is insurance, not a 
 
 | arm | prod LOC | files | tests | suite | deps | defects caught by tests |
 |---|---|---|---|---|---|---|
-| stdlib Python | 1357 | 11 | 133 | 0.80s | 0 | 2 |
-| Python + tooling | 2080 | 12 | 108 | 1.26s | 0 | 2 |
+| stdlib Python | 1357 | 11 | 133 | 0.78s | 0 | 2 |
+| Python + tooling | 2187 | 13 | 108 | 1.14s | 0 | 1 |
 | Scala 3.9.0 | 1291 | 11 | 92 | 1.43s | 0 | 0 |
 | **functional (enforced style)** | **1932** | 10 | 57 | 0.24s | 0 | 2 |
 | **pydantic + beartype** | **1384** | 15 | 108 | 0.33s | 2 | 1 |
+
+*Basis corrections applied by the validation pass (§26): the tooling arm was previously reported
+here at 2080 LOC / 12 files — that was the `ledger/` package only, excluding the top-level CLI shim
+(`ledger.py`, 107 lines) that every other row includes, so the row now carries the full-arm figure
+used in §10, §13 and the README. Its "defects caught by tests" is likewise corrected from 2 to **1**
+(`is_feasible_pair`): the arm's other real defects — two used-before-definition and one `Amount(0)`
+sloppy-zero — were caught by `ty`, not by tests. Suite times re-measured 2026-09-15 in one warm pass
+on one machine (§26); earlier sessions recorded 0.94 / 1.28 / 1.43 / 0.30 / 0.47 s for these rows.*
 
 Read the LOC column carefully: the enforced-functional arm cost **+42%** over the stdlib arm
 (1932 vs 1357) for **the same guarantees** — and it produced **no defect the tests would not have
@@ -578,3 +617,103 @@ The suite times are **not mutually comparable**: the arms ran on different Pytho
 3.14.7) under different venvs. The functional arm's 0.24s is largely a smaller suite on a fast
 interpreter, not a style win. The LOC and defect columns are comparable; the timing column is not, and
 is reported only for completeness.
+
+---
+
+# Round 6 — validation pass: every number re-run, and the conclusions consolidated
+
+*Added 2026-09-15 (a fresh session, run at `glm-5.3-flash:max`), on the request to review the
+findings, clean and validate the conclusions, and push. Nothing here was taken on faith from the
+earlier rounds: each claim was re-executed against the frozen worktrees (`lab/*-wt`, the agents'
+original code) and the published tree, with the tools re-run today. What did not reproduce was
+corrected in place above and is listed here; nothing was quietly rewritten.*
+
+## 26. What was re-verified, claim by claim
+
+| claim | published | re-run today | verdict |
+|---|---|---|---|
+| arbiter + cross-implementation agreement | 2 checks pass, 0 mismatches | `bash benchmark/run.sh` → PASS / PASS / SKIP (scala-cli not on PATH, as documented); 923 × 8 fields, 0 mismatches | holds |
+| test suites | 133 / 108 / 57 / 108 / 92 | 133 OK · 108 OK · 57 OK · 108 OK (own venv) · 92 OK (worktree, warm Bloop) | holds — counts exact |
+| Scala warm cycle | 1.43s (§3 five-run median) | 1.37–1.39s warm | holds |
+| production LOC | 1357 / 2187 / 1291 / 1932 / 1384 | exact against the worktrees | holds — basis now stated (§4) |
+| radon, unchecked arm | 67 / 250 / 3.73 / 28 | identical | holds |
+| radon, tooling arm | 154 / 337 / 2.19 / 14 | identical on the package-only basis; **158 / 351 / 2.22 / 14** including the CLI shim | holds — basis now stated (§14) |
+| `ty` 0.0.81 on the tooling arm | clean, 0.04s | `All checks passed!`, 0.05s | holds |
+| `mypy` 2.3.1 | Invalid syntax on PEP 695 | py3.11 → `transfers.py:165: error: Invalid syntax`; py3.14 → parses and reports type errors | holds |
+| vulture on the tooling arm | 6 flags: 1 dead, 4 FP, 1 defect | 6 flags reproduce on the package-only scan; **3 of the 6 are real** (`domain.balance` is dead too) | corrected (§15) |
+| exhaustiveness probes (§23) | all six rows | all reproduce; the Optional-return row re-stated precisely | holds |
+
+Two published-tree facts a reader hits immediately, now fixed and documented: the published Scala
+arm was missing its own test fixtures entirely — `fixtures/` (31 synthetic files) and
+`spec/shared-fixtures/accounts.json` are now committed, taking the suite from 43 to 68 of 92 green
+from a fresh clone; the remaining 24 need the private bank export and fail loudly (note added to
+`reference/scala/README.md`). And the raw line counts of the published Python copies differ
+slightly from the tables because they were black/isort-formatted — note added to §4.
+
+## 27. What this pass found that the rounds had not
+
+1. **`vulture`'s verdict is scan-scope dependent, and the natural CI scope hides the defect.**
+   Package-only scan: 6 flags, 3 real. Adding the CLI shim: 3 flags, 3 real. Adding the tests:
+   **1 flag — `is_feasible_pair` is masked by its own test references**, and only `_sum_amounts`
+   survives. The whole-tree scan that reads as green is precisely the one that misses the wiring
+   defect. A dead-code gate needs a stated scan scope, not just a whitelist (§15).
+2. **`domain.balance` is dead code the original precision count miscategorised as a false
+   positive.** Imported nowhere (only the `Balance` *type* is), called nowhere. The fair arm ships
+   **two** dead functions, not one — which strengthens, not weakens, the case for a dead-code gate.
+3. **`radon` joins the silent-failure trap class.** Under an interpreter older than 3.12 it prints
+   one `ERROR: invalid syntax` line for a PEP 695 file, skips every block in it, and **exits 0** —
+   a complexity gate that passes while not looking at the file. Same class as vulture (§15) and
+   mypy (§16): on current-idiom Python, verify the gate is actually looking at your code.
+
+## 28. The consolidated conclusions — the whole experiment in one list
+
+Each tagged: **[re-verified]** re-executed in this pass · **[verified]** executed in an earlier
+round and checked against its recorded evidence · **[self-reported]** the agents' own numbers.
+
+1. **The language was not the load-bearing variable; the enforced configuration was.** Python with
+   its tool stack enforced matched Scala on every gate and beat its hand-written codec on the
+   boundary defect. Both results were properties of what was switched on — the Scala arm never
+   enabled `-Wunused:all`; the Python arm won only because `ty` was on. **[verified]**
+2. **The boundary is where the defects live; generate it, never hand-write it.** Adding a field to
+   a Scala `case class` compiled clean while the hand-written codec silently dropped it; the same
+   defect is a construction-time error under pydantic and a static error under `ty`. The
+   countermeasure — a codec derived from the type — is language-independent and is the one concrete
+   product this experiment points at. **[verified]**
+3. **Wiring correctness needs tests plus a correctly-scoped dead-code gate.** The one defect no
+   static tool caught was a rule defined and never wired (`is_feasible_pair`). Scala's compiler
+   catches unused privates as compile errors (`-Wunused:all -Werror`) but has no reachability
+   closure and is blind to unused publics; `vulture` covers a strictly larger class but only with
+   the right scan scope, and the widest scope is the one that misses it (§27.1). **[re-verified]**
+4. **`ty` was the whole of the static-analysis value; a tool stack is not a strategy.** It caught a
+   `NameError` on a path no test covered; `ruff` produced one real smell in 43 findings; `semgrep`
+   returned zero findings on every codebase because its ruleset is security-only by construction.
+   **[verified]**
+5. **Enforcement redistributes complexity rather than reducing it.** Blocks 67 → 154, total CC
+   250 → 337, mean 3.73 → 2.19, worst 28 → 14: the same logic broken small enough to reason about
+   and test, at ~60% more lines. That is the real mechanism behind "taming complexity".
+   **[re-verified]**
+6. **Structural beats conventional — measured, not argued.** Exhaustiveness is structural in Scala
+   (warn by default, build failure under `-Werror`) and merely conventional in Python: it exists
+   only for `enum` + `assert_never`, and dissolves silently under a wildcard arm, a dataclass
+   union, or a drop of the `assert_never` habit with an Optional return. Nothing in the Python
+   toolchain tells you which of the two worlds you are in. **[re-verified]**
+7. **Every tool in the stack failed silently somewhere.** vulture: a PEP 695 file skipped, reads as
+   green (py≤3.11). mypy 2.3.1: `Invalid syntax` on current idiom unless run on py≥3.14. radon:
+   skips a file and still exits 0. semgrep: a clean ledger is unmatchable *by construction* — its
+   null result carried no information. The gate that matters is verifying the gate. **[re-verified]**
+8. **The compile-cycle tax is noise beside model latency.** ~1.5× on a ~1.4-second warm cycle; the
+   earlier ~10× claim was an invocation artifact and is retracted in §3. **[re-verified]**
+9. **Enforced style and lean dependencies bought speed and insurance, not correctness.** The
+   functional arm cost +42% lines for zero prevented defects; 2 of 10 candidate dependencies
+   survived (pydantic for a derived boundary, beartype for the `Any`-float gap); "just use pandas"
+   is disqualified by representation — it cannot emit the canonical decimal string at any
+   tolerance. **[verified]**
+10. **What still limits every number here: n=1 per arm, one agent each, and self-reported
+    wall-clocks for the extension phase.** §22's unmeasured list stands. This conclusion set is
+    what five arms on one real module can honestly support — no more. **[stated]**
+
+**The one-line verdict:** for agent-written code, spend the constraint budget on the *gates and the
+boundary* — enforced static checking, a derived codec, a scoped dead-code gate, an exhaustiveness
+convention, and tests for wiring — and choose the language for ecosystem and domain, not for
+safety. Where an invariant must be *structural* rather than *conventional*, that is a per-property
+decision to be earned explicitly, not a per-language default.

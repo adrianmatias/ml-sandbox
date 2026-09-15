@@ -20,6 +20,20 @@ scala-cli test .
 //> using options -deprecation -feature
 ```
 
+## The 24 tests that need the private input
+
+`ReferenceFileSuite` (12 tests) plus the `AccountsSuite`/`CliSuite` cases that run the full
+statement pin facts of the **original private bank export** (`../raw/kutxa_movimientos_2026-05-25.csv`),
+which cannot be published with this repository. From a fresh clone those **24 of 92** tests fail
+loudly with `cannot locate ../raw/...` — by design, never silently — while the other **68** run
+green. Place a copy of the private CSV in `reference/raw/` (or point `TestSupport.referenceCsv`
+at your own export) to run all 92; the whole suite is verified green against the original file.
+The agent's own synthetic fixtures are committed (`fixtures/`, 31 files, and
+`../../spec/shared-fixtures/accounts.json`, byte-identical to `benchmark/data/accounts.json`), so
+nothing besides the private export is missing. The published `benchmark/data/statement.csv` is
+synthetic: same invariants (row count, final balance, inversion count) but different per-line
+content, so it cannot satisfy these tests' checksum assertions.
+
 ## Note on the unused-code flag
 
 The interesting gap in this arm is that its build **never enabled the dead-code

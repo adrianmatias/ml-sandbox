@@ -1,0 +1,7 @@
+{
+  "toleranceDays": 3,
+  "accounts": [
+    { "id": "PAYER", "currency": "EUR", "openingBalance": "1000.00", "statement": "payer.csv" },
+    { "id": "RECV",  "currency": "EUR", "openingBalance": "0.00",    "statement": "recv.csv" }
+  ]
+}

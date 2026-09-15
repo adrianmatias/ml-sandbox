@@ -144,7 +144,8 @@ reference/
   python-tooling/       Python with ty + ruff + semgrep enforced (the fair arm)
   scala/                Scala 3.9.0 LTS
 docs/
-  FINDINGS.md           the full write-up: method, results, verdict, and limitations
+  FINDINGS.md           the full write-up: method, results, verdict, and limitations,
+                        re-validated number-by-number in §26–§28 (corrections recorded there)
 ```
 
 ---
