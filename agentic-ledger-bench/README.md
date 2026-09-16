@@ -151,13 +151,38 @@ benchmark/
   run.sh                runs everything and compares
 reference/
   python-unchecked/     Python with no static analysis (the "before" arm)
-  python-tooling/       Python with ty + ruff + semgrep enforced (the fair arm)
+  python-tooling/       Python with ty + ruff + semgrep enforced (the fair arm), with the
+                        ruff.toml / ty.toml those gates were configured with
   scala/                Scala 3.9.0 LTS
+tools/
+  complexity.py         per-function cyclomatic budget, enforced (stdlib only)
+  gate-drill.sh         plants each gate's defect and checks the gate goes red
+  measure-arms.py       structure and complexity of all five arms with one yardstick (§29)
+  README.md             what each gate is for, and the silent-skip trap they share
 docs/
   FINDINGS.md           the full write-up: method, results, verdict, and limitations,
-                        re-validated number-by-number in §26–§28 (corrections recorded there)
+                        re-validated number-by-number in §26–§28, extended in §29–§30
+  CODE-STANDARD.md      the rules this repository now measures itself against, ten of them,
+                        each carrying the number that earned it
   tooling-review.md     the contributed review of Python tooling against this experiment
 ```
+
+---
+
+## The gates, and how to check them
+
+The quality gates are meant to be runnable, and a gate nobody has seen fail is not a gate:
+
+```bash
+python3 tools/complexity.py reference/python-tooling        # per-function budget: 12, tests 15
+bash tools/gate-drill.sh reference/python-tooling           # each gate: green clean, red on its defect
+```
+
+The drill plants an unused import for `ruff`, a 13-branch function for the complexity budget and a
+never-called function for `vulture`, and grades each gate on both. It also carries the control that
+matters: the same dead function at `--min-confidence 80` is **invisible**, which is how a dead-code
+gate becomes a no-op without anyone noticing. `docs/FINDINGS.md` §29 has what these gates measured
+across all five arms, and §30 what the measurement does not settle.
 
 ---
 
@@ -176,6 +201,10 @@ actually goes. The original run had to be corrected four times:
   comma-decimal rule is unreachable for an unquoted field in a comma-delimited file.
 - **The `reconciled` definition was ambiguous**, and the two implementations resolved
   it in opposite directions — which is exactly why `CLARIFICATIONS.md` exists.
+- **The fair arm's lint gate was not reproducible from a clone** (§29.3): `check.sh`
+  referenced `../ruff.toml` and `../ty.toml`, which had never been published. Both are now
+  in `reference/python-tooling/`, and the re-run found one over-long line the gate would have
+  caught — fixed.
 
 ## Limitations
 

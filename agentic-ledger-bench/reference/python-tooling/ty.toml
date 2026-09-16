@@ -1,0 +1,4 @@
+# Enforced type checking for the fair-comparison arm.
+# Warnings are errors: a warning must not be able to hide in a green build.
+[terminal]
+error-on-warning = true

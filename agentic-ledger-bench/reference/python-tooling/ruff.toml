@@ -1,0 +1,29 @@
+# Curated lint set for the fair-comparison arm: real-bug and anti-pattern rules,
+# not documentation/style noise. Enforced, non-negotiable (see EXPERIMENT.md).
+line-length = 100
+
+[lint]
+select = [
+  "F",    # pyflakes: undefined names, unused imports
+  "E", "W",
+  "I",    # import sorting
+  "N",    # naming
+  "UP",   # pyupgrade
+  "B",    # bugbear: real bug patterns
+  "A",    # builtins shadowing
+  "C4",   # comprehensions
+  "DTZ",  # naive datetime
+  "T20",  # print left in library code
+  "SIM",  # simplifiable logic
+  "PTH",  # pathlib over os.path
+  "RUF",
+  "S",    # bandit security
+  "TRY",  # exception anti-patterns
+  "BLE",  # blind except
+  "ARG",  # unused arguments
+  "RET",  # return anti-patterns
+  "PIE",
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["S101"]   # asserts are the point in tests

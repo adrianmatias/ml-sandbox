@@ -104,7 +104,8 @@ REGISTRY_B_CSV: Final[str] = (
     "\n".join(
         [
             HEADER,
-            "06/01/2026,06/01/2026,250.00,250.00",  # the matching transfer in, gap 4 days -> too far
+            # the matching transfer in, gap 4 days -> too far
+            "06/01/2026,06/01/2026,250.00,250.00",
             "13/01/2026,13/01/2026,100.00,350.00",  # unrelated credit
         ]
     )

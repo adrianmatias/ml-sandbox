@@ -19,14 +19,23 @@ PYTHONPATH=. python3 -m unittest discover -s tests -t . -p "test_*.py"
 
 ```bash
 ty check --output-format concise .     # strict: warnings are errors (./ty.toml)
-ruff check --no-cache .                # curated real-bug set (../ruff.toml at the bench root)
+ruff check --no-cache .                # curated real-bug set (./ruff.toml)
 semgrep --metrics=off --config=p/python .
 ```
 
-`check.sh` runs all three. The `ruff.toml` / `ty.toml` used during the experiment were
-verified byte-identical to the ones supplied to the agent, and there are **zero
-suppressions in production code**: no `# type: ignore`, no `# noqa` outside two
-justified ones in test helpers.
+`check.sh` runs all three. Both `ruff.toml` and `ty.toml` are **in this directory** and are
+byte-identical to the ones the agent was gated with — they were missing from the published tree until
+§29.3, which meant the lint gate could not be reproduced from a clone. Re-run with them restored,
+this arm is **clean**: `ruff check .` reports nothing, and the same rule set over
+`../python-unchecked` reports **138 findings**. There are **zero suppressions in production code**:
+no `# type: ignore`, no `# noqa` outside two justified ones in test helpers.
+
+`check.sh` runs all three gates from this directory and works on any machine: tools come from `PATH`
+or are installed on the fly with `uvx`, on the running interpreter — `uvx ty` under Python 3.11
+reports `Cannot use 'type' alias statement on Python 3.11` for a file this arm is entitled to write,
+which is an interpreter artefact and not a defect in the arm. `semgrep` writes settings derived from
+`$HOME/.semgrep` on startup, so `check.sh` redirects every path it touches under `.semgrep-home/`
+(ignored by git) rather than failing on a read-only `$HOME`.
 
 ## What the gates caught, and what they missed
 

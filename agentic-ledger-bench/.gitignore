@@ -3,3 +3,4 @@ __pycache__/
 .scala-build/
 .bsp/
 .metals/
+.semgrep-home/

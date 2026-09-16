@@ -724,3 +724,91 @@ actually looking at your code*), the boundary derived from the type rather than 
 covered by tests plus a **scoped** dead-code gate, exhaustiveness structural or written down, and the
 line cost of enforcement stated out loud. None of that adds a claim: every rule traces to a numbered
 conclusion above.
+
+---
+
+# Round 7 — object orientation, lint and the complexity budget: what the arms already say
+
+*Added 2026-09-16. Two questions the earlier rounds left open, both answerable from code that already
+exists rather than from a new arm: does the **object-oriented / domain-model** part of the enforced
+style carry any of the benefit, and what do **ruff** and a **complexity budget** add when they are
+gates instead of advice? Everything below was measured with one tool over the same five arms
+(`tools/complexity.py`, `--json`), and the arms' own gates were re-run to check the published trees
+are still green.*
+
+## 29. Structure, complexity and lint across all five arms
+
+Production code only — tests are excluded from every column, and the basis is stated because the
+earlier rounds' counts each had their own.
+
+| arm | files | LOC | classes | entities (frozen) | exception classes | semantic types | methods | free fns | unannotated fns | mean CC | max CC | CC > 10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| stdlib Python | 11 | 1413 | 8 | 5 (5) | 3 | 0 | 13 | 46 | 2 | 3.66 | **28** | 6 |
+| **Python + tooling** | 13 | 2230 | **45** | **20 (20)** | **25** | **3** | 46 | 68 | **0** | **2.08** | **12** | **2** |
+| Scala 3.9.0 | 11 | 1301 | 29 | 20 case classes | — | 0 | — | — | — | — | — | — |
+| functional | 10 | 1932 | 32 | 32 (31) | 0 | 2 | 11 | 94 | 0 | 2.31 | 15 | 1 |
+| pydantic + beartype | 19 | 2400 | 40 | 28 (12) | 12 | 0 | 21 | 71 | 0 | 2.37 | 13 | 1 |
+
+Two rows carry the round:
+
+**29.1 The difference between the enforced arm and the unstructured one is a domain model, and it is
+visible in the counts.** The enforced arm concentrates **20 frozen entities, 25 exception classes
+under one base, and 3 semantic types** (`NewType` wrappers for money, balance and line number) in a
+single `domain` module; the stdlib arm has **4 entities, 3 exception classes and no semantic types**,
+with logic spread across free functions. That structure is the mechanism behind the complexity
+numbers: mean cyclomatic complexity per function **3.66 → 2.08**, worst function **CC 28 → 12**,
+functions over CC 10 **6 → 2**, and functions over the stated budget **4 → 0**. `[re-verified]`
+
+**29.2 The functional arm settles the style question by not winning it.** The enforced-functional arm
+has *more* frozen dataclasses than the object-oriented one (31 vs 20) and lands in the same complexity
+band (mean 2.31, max 15) — so purity is not what buys the structure. What separates it is where
+behaviour lives: it keeps **94 free functions against 11 methods** and a thin entity model, and Round
+5 already measured its price (**+42% lines over stdlib, zero prevented defects**). The conclusion is
+not "functions bad, classes good"; it is that **a concentrated, typed domain model is the part of the
+enforced style that shows up in the measurements**, and the two arms both have it in different
+clothes. `[verified]`
+
+**29.3 Ruff, restored to the arms as a real gate.** The published `python-tooling` arm shipped
+`check.sh` referencing `../ruff.toml` and `../ty.toml`, which were never published — so the arm's
+lint gate could not be reproduced from a clone. Both configs are now in
+`reference/python-tooling/` (byte-identical to the ones the agent was gated with). Re-run with them:
+the enforced arm is **clean** (one over-long line in a test fixture, fixed in place, and now zero),
+and the same rule set over the stdlib arm reports **138 findings** — FURB, SIM, UP, F401, RUF, B905,
+PLW1510 across the package. The stated rule set (F, E, W, I, N, UP, B, A, C4, DTZ, T20, SIM, PTH, RUF,
+S, TRY, BLE, ARG, RET, PIE) is published at `reference/python-tooling/ruff.toml` and is the one the
+code standard adopts. `[re-verified]`
+
+**29.4 A complexity budget is what makes "keep functions small" enforceable.** `tools/complexity.py`
+is the stdlib-only gate (per-function McCabe, budget 12 production / 15 tests, `--json` for tables).
+Its verdict on the two Python arms is the cleanest single-gate result in this round: **4 over-budget
+functions in the stdlib arm** (`parse_amount_token` at CC 28, `_load_registry` 14, `detect_transfers`
+13, `tokenize_line` 13), **0 in the enforced arm**, whose worst is CC 12. Advice would have produced
+the same code as no advice; a budget that exits non-zero produced the difference. `[re-verified]`
+
+**29.5 Every gate in this round was drilled, and the drill found a real bug in a tool.**
+`tools/gate-drill.sh` plants, per gate, the defect it exists to catch: an unused import for ruff, a
+13-branch function for the complexity budget, a never-called function for vulture. Its first run
+failed three of six rows — two path bugs in the drill itself, and one **live instance of the
+silent-skip class**: `vulture` run through `uvx` under an interpreter older than the code's syntax
+prints one `invalid syntax` line for a PEP 695 `type X = ...` alias, skips the file, and reads as a
+clean scan. The drill now resolves tools against the running interpreter and reports `SKIP` instead
+of grading a tool that never parsed the tree. Six of six rows behave correctly on the fixed run,
+including the control that shows `--min-confidence 80` silencing the dead-code gate entirely.
+`[re-verified]`
+
+## 30. What this round does not settle
+
+- **n=1 per arm, one agent each, and the object-oriented and functional arms were written by different
+  agents.** 29.1 is a difference between two arms, not an experiment with a style variable isolated:
+  the enforced arm also had `ty` and `ruff` on, so "domain model" and "static enforcement" arrive
+  together in this dataset. What the round shows is that the *structure* is measurable and large; it
+  does not separate it from the gates that permitted it.
+- **The complexity budget's threshold (12) is a convention, not a derived number.** It is the value a
+  live project in this workstream uses, and it produces a clean split here (4 vs 0); a different
+  threshold would move both arms together.
+- **Scala's row in §29 is structural only.** `radon`, `ruff` and the complexity tool are Python tools;
+  the Scala arm's entities were counted by hand (20 case classes) and its complexity is not comparable
+  in this table — §14's radon figures do not apply to it.
+
+**Adopting it:** `docs/CODE-STANDARD.md` is this round compressed into ten pasteable rules with the
+number that earned each one.
